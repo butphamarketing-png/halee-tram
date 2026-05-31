@@ -93,7 +93,7 @@ export function CtaContactSection({
             initial={{ y: 10, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="inline-block min-w-full font-serif text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap px-1"
+            className="inline-block min-w-full px-1 font-['Noto_Serif','Cormorant_Garamond',serif] text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap"
           >
             {title}
           </motion.h2>
