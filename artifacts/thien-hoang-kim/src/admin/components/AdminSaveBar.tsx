@@ -28,15 +28,8 @@ export function AdminSaveBar() {
   };
 
   return (
-    <div className="sticky top-0 z-20 -mx-6 mb-6 flex flex-wrap items-center gap-2 border-b border-border bg-[#f4f6f5] px-6 py-3">
-      <span
-        className={cn(
-          "mr-2 rounded-full px-2.5 py-0.5 text-xs font-semibold",
-          isDirty ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800",
-        )}
-      >
-        {isDirty ? "Chưa lưu" : "Đã lưu"}
-      </span>
+    <div className="sticky top-0 z-20 -mx-6 mb-6 flex flex-wrap items-center justify-between gap-2 border-b border-border bg-[#f4f6f5] px-6 py-3">
+      <div className="flex flex-wrap items-center gap-2">
       <Button
         type="button"
         onClick={() => {
@@ -72,18 +65,29 @@ export function AdminSaveBar() {
       <Button type="button" variant="outline" onClick={importJson}>
         Nhập JSON
       </Button>
-      <Button
-        type="button"
-        variant="ghost"
-        onClick={() => {
-          if (confirm("Khôi phục nội dung mặc định?")) {
-            resetContent();
-            toast({ title: "Đã khôi phục mặc định" });
-          }
-        }}
-      >
-        Mặc định
-      </Button>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={() => {
+            if (confirm("Khôi phục nội dung mặc định?")) {
+              resetContent();
+              toast({ title: "Đã khôi phục mặc định" });
+            }
+          }}
+        >
+          Mặc định
+        </Button>
+        <span
+          className={cn(
+            "rounded-full px-2.5 py-0.5 text-xs font-semibold",
+            isDirty ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800",
+          )}
+        >
+          {isDirty ? "Chưa lưu" : "Đã lưu"}
+        </span>
+      </div>
     </div>
   );
 }
