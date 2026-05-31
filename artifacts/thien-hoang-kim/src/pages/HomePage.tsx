@@ -1,5 +1,5 @@
-import { MapPin, Clock, Phone, Menu, X, Facebook, Youtube, Calendar, ArrowRight, MessageCircle, Crown, Navigation, Globe, Shield, Stethoscope, Sparkles, Heart } from "lucide-react";
-import { SiTiktok, SiZalo } from "react-icons/si";
+import { MapPin, Clock, Phone, Menu, X, Facebook, Youtube, Calendar, ArrowRight, MessageCircle, Globe, Shield, Stethoscope, Sparkles, Heart } from "lucide-react";
+import { SiTiktok } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { HeaderBrand } from "@/components/HeaderBrand";
 import { DesktopNav } from "@/components/header/DesktopNav";
@@ -11,6 +11,7 @@ import { DoctorTeamSection } from "@/components/DoctorTeamSection";
 import { ExamProcessSection } from "@/components/ExamProcessSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { BeautyHandbookSection } from "@/components/BeautyHandbookSection";
+import { CtaContactSection } from "@/components/CtaContactSection";
 import { QuickContactActions } from "@/components/QuickContactActions";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { COMMITMENT_ICONS } from "@/lib/commitment-icons";
@@ -448,84 +449,14 @@ export default function HomePage() {
 
       <BeautyHandbookSection articles={content.articles} />
 
-      {/* SẴN SÀNG NÂNG TẦM NHAN SẮC? (CTA Section) */}
-      <section className="py-24 bg-background relative overflow-hidden">
-        {/* Soft elegant background shapes */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/50 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div 
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-md border border-border"
-            >
-               <Crown className="w-10 h-10 text-primary" />
-            </motion.div>
-            
-            <motion.h2 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              className="font-serif text-4xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-tight"
-            >
-              {home.ctaTitle}
-            </motion.h2>
-            
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto"
-            >
-              {home.ctaDescription}
-            </motion.p>
-            
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="mb-16 grid grid-cols-4 gap-2 sm:gap-4 md:gap-6"
-            >
-              <div className="group min-w-0 cursor-pointer rounded-2xl border border-border bg-white p-2.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-4 md:p-6">
-                <Facebook className="mx-auto mb-2 h-7 w-7 text-[#1877F2] transition-transform group-hover:scale-110 sm:mb-4 sm:h-10 sm:w-10" />
-                <h4 className="mb-0.5 text-[9px] font-bold tracking-wide sm:mb-1 sm:text-sm sm:tracking-wider">FACEBOOK</h4>
-                <p className="text-[8px] leading-tight text-muted-foreground sm:text-xs">Theo dõi ưu đãi mới nhất</p>
-              </div>
-              <div className="group min-w-0 cursor-pointer rounded-2xl border border-border bg-white p-2.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-4 md:p-6">
-                <MessageCircle className="mx-auto mb-2 h-7 w-7 text-[#00B2FF] transition-transform group-hover:scale-110 sm:mb-4 sm:h-10 sm:w-10" />
-                <h4 className="mb-0.5 text-[9px] font-bold tracking-wide sm:mb-1 sm:text-sm sm:tracking-wider">MESSENGER</h4>
-                <p className="text-[8px] leading-tight text-muted-foreground sm:text-xs">Nhắn tin tư vấn trực tiếp</p>
-              </div>
-              <div className="group min-w-0 cursor-pointer rounded-2xl border border-border bg-white p-2.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-4 md:p-6">
-                <SiZalo className="mx-auto mb-2 h-7 w-7 text-[#0068FF] transition-transform group-hover:scale-110 sm:mb-4 sm:h-10 sm:w-10" />
-                <h4 className="mb-0.5 text-[9px] font-bold tracking-wide sm:mb-1 sm:text-sm sm:tracking-wider">ZALO</h4>
-                <p className="text-[8px] leading-tight text-muted-foreground sm:text-xs">Tư vấn nhanh trong 1 phút</p>
-              </div>
-              <div className="group min-w-0 cursor-pointer rounded-2xl border border-border bg-white p-2.5 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-4 md:p-6">
-                <MapPin className="mx-auto mb-2 h-7 w-7 text-[#EA4335] transition-transform group-hover:scale-110 sm:mb-4 sm:h-10 sm:w-10" />
-                <h4 className="mb-0.5 text-[9px] font-bold tracking-wide sm:mb-1 sm:text-sm sm:tracking-wider">GOOGLE MAPS</h4>
-                <p className="text-[8px] leading-tight text-muted-foreground sm:text-xs">Xem địa chỉ và chỉ đường</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <Button size="lg" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-8 text-lg font-bold shadow-2xl hover:shadow-[0_20px_40px_-15px_rgba(11,76,47,0.5)] transition-all hover:-translate-y-1 group">
-                ĐẶT LỊCH TƯ VẤN NGAY <Navigation className="w-5 h-5 ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <CtaContactSection
+        title={home.ctaTitle}
+        description={home.ctaDescription}
+        facebookUrl={settings.facebookUrl}
+        messengerSlug={settings.messengerSlug}
+        phone={settings.phone}
+        onBook={scrollToBooking}
+      />
 
       {/* FOOTER */}
       <footer className="bg-[#0f2e1f] pb-10 pt-24 text-white/80 md:pb-8">

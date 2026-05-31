@@ -52,7 +52,7 @@ function ActionLink({
   const desktopBtn = (
     <span
       className={cn(
-        "contact-shake flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-110",
+        "contact-shake flex h-11 w-11 items-center justify-center rounded-full border border-primary/15 bg-white text-primary shadow-md transition-all hover:scale-105 hover:bg-primary hover:text-primary-foreground hover:shadow-lg",
         action.shakeDelay,
       )}
     >
@@ -152,7 +152,7 @@ export function QuickContactActions({ onBook }: QuickContactActionsProps) {
       </nav>
 
       <div
-        className="fixed bottom-8 right-4 z-50 hidden flex-col items-center gap-3 md:flex"
+        className="fixed bottom-6 right-4 z-40 hidden flex-col items-center gap-2.5 rounded-full border border-primary/10 bg-white/80 p-2 shadow-lg backdrop-blur-md md:flex"
         aria-label="Liên hệ nhanh"
       >
         {desktopOrder.map((action) => (
