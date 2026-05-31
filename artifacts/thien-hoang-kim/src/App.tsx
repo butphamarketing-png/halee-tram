@@ -1,13 +1,15 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { SiteContentProvider } from "@/context/SiteContentContext";
+import { AdminApp } from "@/admin/AdminApp";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 
 const queryClient = new QueryClient();
 
-function Router() {
+function PublicRouter() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
@@ -16,14 +18,24 @@ function Router() {
   );
 }
 
+function AppRouter() {
+  const [location] = useLocation();
+  if (location === "/admin" || location.startsWith("/admin/")) {
+    return <AdminApp />;
+  }
+  return <PublicRouter />;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
+        <SiteContentProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <AppRouter />
+          </WouterRouter>
+          <Toaster />
+        </SiteContentProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

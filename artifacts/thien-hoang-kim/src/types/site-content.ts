@@ -1,0 +1,130 @@
+export type CommitmentIconKey =
+  | "Shield"
+  | "Stethoscope"
+  | "TestTube"
+  | "Heart"
+  | "Sparkles"
+  | "FileText";
+
+export type SiteCommitment = {
+  id: string;
+  icon: CommitmentIconKey;
+  title: string;
+  desc: string;
+};
+
+export type SiteStat = {
+  value: string;
+  title: string;
+  sub: string;
+};
+
+export type SiteHeroSlide = {
+  id: string;
+  src: string;
+  alt: string;
+};
+
+export type SiteDoctor = {
+  id: string;
+  img: string;
+  name: string;
+  spec: string;
+  exp: string;
+  bio: string;
+};
+
+export type SiteArticle = {
+  id: string;
+  image: string;
+  title: string;
+  date: string;
+  description: string;
+};
+
+export type SiteTestimonial = {
+  id: string;
+  name: string;
+  initials: string;
+  avatar: string;
+  text: string;
+};
+
+export type SiteCustomerCase = {
+  id: string;
+  label: string;
+  before: string;
+  after: string;
+};
+
+export type SiteProcessStep = {
+  id: string;
+  title: string;
+  desc: string;
+  image: string;
+};
+
+export type SiteSeo = {
+  title: string;
+  description: string;
+  keywords: string;
+  ogImage: string;
+};
+
+export type SiteSettings = {
+  clinicName: string;
+  clinicSubtitle: string;
+  slogan: string;
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  messengerSlug: string;
+  topbarAddress: string;
+  topbarHours: string;
+  facebookUrl: string;
+  tiktokUrl: string;
+  youtubeUrl: string;
+  seo: SiteSeo;
+};
+
+export type SiteHomeSections = {
+  heroSlides: SiteHeroSlide[];
+  commitmentsTitle: string;
+  commitmentsSubtitle: string;
+  commitments: SiteCommitment[];
+  aboutEyebrow: string;
+  aboutTitle: string;
+  aboutSubtitle: string;
+  aboutParagraphs: string[];
+  aboutStats: SiteStat[];
+  aboutImage: string;
+  featuredServiceImages: [string, string];
+  bookingImage: string;
+  testimonialsBackground: string;
+  ctaTitle: string;
+  ctaDescription: string;
+  footerDescription: string;
+};
+
+export type SiteContent = {
+  version: number;
+  settings: SiteSettings;
+  home: SiteHomeSections;
+  doctors: SiteDoctor[];
+  articles: SiteArticle[];
+  testimonials: SiteTestimonial[];
+  customerCases: SiteCustomerCase[];
+  processSteps: SiteProcessStep[];
+};
+
+export type BookingSubmission = {
+  id: string;
+  name: string;
+  phone: string;
+  service: string;
+  date: string;
+  notes?: string;
+  createdAt: string;
+  status: "new" | "contacted" | "done";
+};

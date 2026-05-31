@@ -3,32 +3,17 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { thkAdminApiPlugin } from "./vite-plugin-thk-admin";
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
+const port = Number(process.env.PORT ?? "5173");
+const basePath = process.env.BASE_PATH ?? "/";
+const appRoot = path.resolve(import.meta.dirname);
+const isVercel = Boolean(process.env.VERCEL);
 
 export default defineConfig({
   base: basePath,
   plugins: [
+    ...(!isVercel ? [thkAdminApiPlugin(appRoot)] : []),
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
@@ -49,7 +34,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+      "@assets": path.resolve(import.meta.dirname, "public"),
     },
     dedupe: ["react", "react-dom"],
   },
@@ -60,11 +45,17 @@ export default defineConfig({
   },
   server: {
     port,
-    strictPort: true,
+    strictPort: false,
     host: "0.0.0.0",
     allowedHosts: true,
     fs: {
       strict: true,
+    },
+    proxy: {
+      "/api": {
+        target: process.env.API_PROXY_TARGET ?? "http://127.0.0.1:3001",
+        changeOrigin: true,
+      },
     },
   },
   preview: {

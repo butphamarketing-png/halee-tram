@@ -1,0 +1,104 @@
+{
+  "sourceSize": {
+    "W": 1024,
+    "H": 682
+  },
+  "crops": [
+    {
+      "name": "01-logo-header",
+      "file": "design-crops/01-logo-header.png",
+      "width": 205,
+      "height": 44,
+      "left": 20,
+      "top": 31
+    },
+    {
+      "name": "02-hero-full-banner",
+      "file": "design-crops/02-hero-full-banner.png",
+      "width": 1024,
+      "height": 286,
+      "left": 0,
+      "top": 78
+    },
+    {
+      "name": "03-hero-visual-right",
+      "file": "design-crops/03-hero-visual-right.png",
+      "width": 532,
+      "height": 273,
+      "left": 492,
+      "top": 82
+    },
+    {
+      "name": "04-hero-banner-right",
+      "file": "design-crops/04-hero-banner-right.png",
+      "width": 696,
+      "height": 286,
+      "left": 328,
+      "top": 78
+    },
+    {
+      "name": "04b-hero-banner-center",
+      "file": "design-crops/04b-hero-banner-center.png",
+      "width": 870,
+      "height": 286,
+      "left": 154,
+      "top": 78
+    },
+    {
+      "name": "05-commitments-section",
+      "file": "design-crops/05-commitments-section.png",
+      "width": 1024,
+      "height": 327,
+      "left": 0,
+      "top": 355
+    },
+    {
+      "name": "06-commitment-icon-1",
+      "file": "design-crops/06-commitment-icon-1.png",
+      "width": 143,
+      "height": 82,
+      "left": 41,
+      "top": 464
+    },
+    {
+      "name": "07-commitment-icon-2",
+      "file": "design-crops/07-commitment-icon-2.png",
+      "width": 143,
+      "height": 82,
+      "left": 205,
+      "top": 464
+    },
+    {
+      "name": "08-commitment-icon-3",
+      "file": "design-crops/08-commitment-icon-3.png",
+      "width": 143,
+      "height": 82,
+      "left": 369,
+      "top": 464
+    },
+    {
+      "name": "09-commitment-icon-4",
+      "file": "design-crops/09-commitment-icon-4.png",
+      "width": 143,
+      "height": 82,
+      "left": 532,
+      "top": 464
+    },
+    {
+      "name": "10-commitment-icon-5",
+      "file": "design-crops/10-commitment-icon-5.png",
+      "width": 143,
+      "height": 82,
+      "left": 696,
+      "top": 464
+    },
+    {
+      "name": "11-commitment-icon-6",
+      "file": "design-crops/11-commitment-icon-6.png",
+      "width": 143,
+      "height": 82,
+      "left": 860,
+      "top": 464
+    }
+  ]
+}

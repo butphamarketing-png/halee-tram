@@ -1,0 +1,6 @@
+{
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @workspace/thien-hoang-kim build",
+  "outputDirectory": "artifacts/thien-hoang-kim/dist/public",
+  "framework": null
+}
