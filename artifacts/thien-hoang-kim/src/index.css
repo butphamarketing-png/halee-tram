@@ -557,4 +557,45 @@
   .group:hover .commitment-icon {
     transform: rotate(360deg);
   }
+
+  .cta-channel-card {
+    transition:
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.32s ease,
+      border-color 0.32s ease,
+      background 0.32s ease;
+  }
+
+  .cta-channel-card:hover {
+    transform: translateX(4px);
+    border-color: hsl(158 60% 25% / 0.28);
+    background: linear-gradient(90deg, #ffffff 0%, hsl(158 30% 96%) 55%, hsl(158 35% 93%) 100%);
+    box-shadow:
+      0 10px 28px rgba(15, 48, 36, 0.09),
+      inset 0 0 0 1px hsl(43 72% 47% / 0.12);
+  }
+
+  .cta-channel-card:hover .cta-channel-icon {
+    background: hsl(158 60% 25%);
+    color: hsl(0 0% 100%);
+    box-shadow: 0 4px 14px hsl(158 60% 25% / 0.28);
+    transform: scale(1.06);
+  }
+
+  .cta-channel-icon {
+    transition:
+      transform 0.32s ease,
+      background 0.32s ease,
+      color 0.32s ease,
+      box-shadow 0.32s ease;
+  }
+
+  .cta-channel-card:hover .cta-channel-arrow {
+    color: hsl(158 60% 25%);
+    transform: translateX(3px);
+  }
+
+  .cta-channel-arrow {
+    transition: transform 0.32s ease, color 0.32s ease;
+  }
 }

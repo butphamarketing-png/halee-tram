@@ -38,10 +38,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div
-            className="grid w-full gap-3 md:gap-5 lg:gap-6"
-            style={{ gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}
-          >
+          <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:gap-6">
             {home.commitments.map((item, i) => {
               const Icon = COMMITMENT_ICONS[item.icon];
               return (
@@ -98,21 +95,21 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-8 md:mt-10">
-                  <div className="grid grid-cols-3 divide-x divide-border border-y border-border py-5 md:py-6">
+                  <div className="grid grid-cols-1 divide-y divide-border border-y border-border py-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:py-5 md:py-6">
                     {home.aboutStats.map((stat) => (
                       <div
                         key={stat.title}
-                        className="flex min-w-0 flex-col items-center px-1 text-center first:pl-0 last:pr-0 sm:px-3"
+                        className="flex min-w-0 flex-col items-center px-2 py-3 text-center first:pt-0 last:pb-0 sm:px-3 sm:py-0"
                       >
                         <CountUpValue
                           value={stat.value}
                           className="font-serif text-2xl font-bold text-primary sm:text-3xl md:text-4xl"
                           durationMs={stat.value.includes("5000") ? 2200 : 1600}
                         />
-                        <div className="mt-1.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-wide text-foreground sm:text-xs md:text-sm">
+                        <div className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-foreground sm:whitespace-nowrap sm:text-xs md:text-sm">
                           {stat.title}
                         </div>
-                        <div className="mt-1 whitespace-nowrap text-[10px] text-muted-foreground sm:text-[11px] md:text-xs">
+                        <div className="mt-1 text-[10px] text-muted-foreground sm:whitespace-nowrap sm:text-[11px] md:text-xs">
                           {stat.sub}
                         </div>
                       </div>

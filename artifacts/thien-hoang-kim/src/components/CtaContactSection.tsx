@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 function ZaloIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={cn("h-5 w-5", className)} aria-hidden>
-      <rect width="24" height="24" rx="6" fill="currentColor" className="text-primary" />
+    <svg viewBox="0 0 24 24" className={cn("h-[18px] w-[18px]", className)} aria-hidden>
+      <rect width="24" height="24" rx="6" fill="currentColor" />
       <path
         fill="#fff"
         d="M6.5 8.2c0-.66.54-1.2 1.2-1.2h8.6c.66 0 1.2.54 1.2 1.2v4.1c0 .66-.54 1.2-1.2 1.2H11.2l-2.4 1.7c-.25.18-.6 0-.38-.3l.65-1.4H7.7c-.66 0-1.2-.54-1.2-1.2V8.2z"
@@ -86,14 +86,14 @@ export function CtaContactSection({
   ];
 
   return (
-    <section className="relative bg-gradient-to-b from-[#f4f8f5] via-background to-[#eef4f0] py-12 md:py-16">
-      <div className="container relative z-10 mx-auto px-4 md:px-8">
-        <div className="mx-auto mb-6 max-w-3xl text-center md:mb-8">
+    <section className="relative bg-gradient-to-b from-[#f4f8f5] via-background to-[#eef4f0] py-10 md:py-14">
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <div className="mb-5 overflow-x-auto text-center [-ms-overflow-style:none] [scrollbar-width:none] md:mb-7 [&::-webkit-scrollbar]:hidden">
           <motion.h2
             initial={{ y: 10, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="font-serif text-[30px] font-semibold leading-tight text-primary sm:text-[32px] md:text-[42px] lg:text-[52px] lg:leading-[1.15]"
+            className="inline-block min-w-full font-serif text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap px-1"
           >
             {title}
           </motion.h2>
@@ -103,7 +103,7 @@ export function CtaContactSection({
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.05 }}
-              className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+              className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base"
             >
               {description}
             </motion.p>
@@ -115,49 +115,55 @@ export function CtaContactSection({
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.06 }}
-          className="mx-auto max-w-5xl rounded-[1.75rem] border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(15,48,36,0.12)]"
+          className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(15,48,36,0.12)] md:rounded-[1.75rem]"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 md:items-stretch">
-            <div className="relative min-h-[240px] bg-muted sm:min-h-[280px] md:min-h-0">
+          <div className="flex flex-col md:min-h-[300px] md:flex-row lg:min-h-[320px]">
+            <div className="relative aspect-[16/10] w-full shrink-0 bg-muted sm:aspect-[16/9] md:aspect-auto md:w-[54%] lg:w-[56%]">
               {image ? (
                 <img
                   src={image}
                   alt="Thiên Hoàng Kim Aesthetic Clinic"
-                  className="h-full min-h-[240px] w-full object-cover object-top sm:min-h-[280px] md:absolute md:inset-0 md:min-h-0"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
                 />
               ) : (
-                <div className="flex min-h-[240px] items-center justify-center text-sm text-muted-foreground sm:min-h-[280px] md:min-h-[320px]">
+                <div className="flex h-full min-h-[200px] items-center justify-center text-sm text-muted-foreground">
                   Hình ảnh
                 </div>
               )}
               <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-white/20"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-white/25"
                 aria-hidden
               />
             </div>
 
-            <div className="flex flex-col justify-center gap-2.5 p-4 md:gap-3 md:p-6 lg:p-7">
-              {channels.map((ch) => {
+            <div className="flex w-full flex-col justify-center gap-2 p-3 sm:gap-2.5 sm:p-4 md:w-[46%] md:py-4 md:pl-3 md:pr-4 lg:w-[44%] lg:gap-2.5 lg:p-5">
+              {channels.map((ch, i) => {
                 const Icon = ch.icon;
                 const external = ch.id !== "website";
                 return (
-                  <a
+                  <motion.a
                     key={ch.id}
                     href={ch.href}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="card-hover-lift group flex items-center gap-3 rounded-2xl border border-border/80 bg-white p-3.5 shadow-[0_4px_20px_-8px_rgba(15,48,36,0.1)] md:gap-4 md:p-4"
+                    initial={{ opacity: 0, x: 12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.08 + i * 0.05 }}
+                    className="cta-channel-card group flex h-11 items-center gap-2.5 rounded-xl border border-primary/10 bg-gradient-to-r from-white to-[#f8fbf9] px-2.5 sm:h-12 sm:gap-3 sm:px-3 md:px-3.5"
                   >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/[0.08] text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
-                      <Icon className="h-5 w-5" />
+                    <span className="cta-channel-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/[0.07] text-primary sm:h-10 sm:w-10">
+                      <Icon className={ch.id === "zalo" ? "h-[18px] w-[18px]" : "h-[18px] w-[18px] sm:h-5 sm:w-5"} />
                     </span>
-                    <span className="min-w-0 flex-1 text-left">
-                      <span className="block text-sm font-bold text-foreground">{ch.title}</span>
-                      <span className="mt-0.5 block text-xs leading-snug text-muted-foreground md:text-sm">
-                        {ch.description}
+                    <span className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden sm:gap-2">
+                      <span className="shrink-0 whitespace-nowrap text-[11px] font-bold text-foreground sm:text-xs md:text-sm">
+                        {ch.title}
+                      </span>
+                      <span className="hidden min-w-0 truncate text-[10px] text-muted-foreground sm:inline sm:text-[11px] md:text-xs">
+                        · {ch.description}
                       </span>
                     </span>
-                    <ChevronRight className="h-5 w-5 shrink-0 text-primary/40 transition group-hover:translate-x-0.5 group-hover:text-primary" />
-                  </a>
+                    <ChevronRight className="cta-channel-arrow h-4 w-4 shrink-0 text-primary/35 sm:h-[18px] sm:w-[18px]" />
+                  </motion.a>
                 );
               })}
             </div>

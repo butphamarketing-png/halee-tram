@@ -52,11 +52,12 @@ function ActionLink({
   const desktopBtn = (
     <span
       className={cn(
-        "contact-shake flex h-11 w-11 items-center justify-center rounded-full border border-primary/15 bg-white text-primary shadow-md transition-all hover:scale-105 hover:bg-primary hover:text-primary-foreground hover:shadow-lg",
+        "contact-shake flex h-10 w-10 items-center justify-center rounded-xl border border-primary/12 bg-gradient-to-b from-white to-[#f4f8f5] text-primary shadow-sm transition-all duration-300",
+        "hover:scale-105 hover:border-primary/30 hover:bg-primary hover:text-primary-foreground hover:shadow-[0_8px_20px_hsl(158_60%_25%_/_0.25)]",
         action.shakeDelay,
       )}
     >
-      <Icon className="h-5 w-5" />
+      <Icon className="h-[18px] w-[18px]" />
     </span>
   );
 
@@ -152,7 +153,7 @@ export function QuickContactActions({ onBook }: QuickContactActionsProps) {
       </nav>
 
       <div
-        className="fixed bottom-6 right-4 z-40 hidden flex-col items-center gap-2.5 rounded-full border border-primary/10 bg-white/80 p-2 shadow-lg backdrop-blur-md md:flex"
+        className="fixed bottom-6 right-3 z-40 hidden flex-col items-center gap-2 rounded-2xl border border-primary/10 bg-white/90 p-1.5 shadow-lg backdrop-blur-md sm:right-4 md:flex"
         aria-label="Liên hệ nhanh"
       >
         {desktopOrder.map((action) => (
