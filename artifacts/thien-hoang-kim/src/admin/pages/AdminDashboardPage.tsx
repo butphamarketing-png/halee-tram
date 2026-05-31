@@ -35,6 +35,7 @@ const VISIT_MOCK = [
 
 const CARDS = [
   { href: adminPath("settings"), title: "Cấu hình website", desc: "Liên hệ & mạng xã hội", color: "bg-blue-600", icon: Settings },
+  { href: adminPath("footer"), title: "Footer & đặt lịch", desc: "Liên kết & dịch vụ form", color: "bg-indigo-600", icon: Settings },
   { href: adminPath("media"), title: "Thư viện ảnh", desc: "Upload & copy URL", color: "bg-violet-600", icon: Image },
   { href: adminPath("seo"), title: "SEO trang", desc: "Title, mô tả, OG", color: "bg-rose-600", icon: Search },
   { href: adminPath("bookings"), title: "Đơn đặt lịch", desc: "Yêu cầu tư vấn", color: "bg-teal-600", icon: CalendarCheck },

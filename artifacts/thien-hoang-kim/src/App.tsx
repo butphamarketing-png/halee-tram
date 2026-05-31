@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteContentProvider } from "@/context/SiteContentContext";
 import { AdminApp } from "@/admin/AdminApp";
 import { isAdminLocation } from "@/config/admin";
+import ArticlePage from "@/pages/ArticlePage";
+import ArticlesListPage from "@/pages/ArticlesListPage";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 
@@ -14,6 +16,8 @@ function PublicRouter() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
+      <Route path="/tin-tuc" component={ArticlesListPage} />
+      <Route path="/tin-tuc/:slug" component={ArticlePage} />
       <Route component={NotFound} />
     </Switch>
   );

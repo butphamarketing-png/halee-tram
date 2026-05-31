@@ -15,6 +15,7 @@ import { AdminBookingsPage } from "@/admin/pages/AdminBookingsPage";
 import { AdminMediaPage } from "@/admin/pages/AdminMediaPage";
 import { AdminSeoPage } from "@/admin/pages/AdminSeoPage";
 import { AdminAccountPage } from "@/admin/pages/AdminAccountPage";
+import { AdminFooterPage } from "@/admin/pages/AdminFooterPage";
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
   if (!isAdminLoggedIn()) {
@@ -75,6 +76,11 @@ export function AdminApp() {
       <Route path={adminPath("media")}>
         <AdminGuard>
           <AdminMediaPage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("footer")}>
+        <AdminGuard>
+          <AdminFooterPage />
         </AdminGuard>
       </Route>
       <Route path={adminPath("seo")}>

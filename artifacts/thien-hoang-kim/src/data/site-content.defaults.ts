@@ -1,3 +1,4 @@
+import { DEFAULT_ARTICLES } from "@/data/articles.defaults";
 import type { SiteContent } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
@@ -7,7 +8,7 @@ const slide = publicAsset("slideshow.1.png");
 const intro = publicAsset("gioithieu.1.png");
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  version: 1,
+  version: 2,
   settings: {
     clinicName: "THIÊN HOÀNG KIM",
     clinicSubtitle: "Aesthetic Clinic",
@@ -98,9 +99,42 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     ctaTitle: "SẴN SÀNG NÂNG TẦM NHAN SẮC?",
     ctaDescription:
       "Liên hệ ngay để được đội ngũ chuyên gia tư vấn miễn phí và đặt lịch nhanh chóng.",
+    ctaImage: intro,
     footerDescription:
       "Phòng khám chuyên khoa thẩm mỹ uy tín, chất lượng với đội ngũ bác sĩ chuyên gia hàng đầu. Kiến tạo vẻ đẹp tự nhiên, an toàn và bền vững.",
   },
+  footer: {
+    featuredTitle: "DỊCH VỤ NỔI BẬT",
+    featuredServices: [
+      { label: "Nâng mũi cấu trúc", href: "/#dat-lich" },
+      { label: "Cắt mí tự nhiên", href: "/#dat-lich" },
+      { label: "Tiêm filler - Botox", href: "/#dat-lich" },
+      { label: "Điều trị da chuyên sâu", href: "/#dat-lich" },
+      { label: "Trẻ hóa công nghệ cao", href: "/#dat-lich" },
+    ],
+    quickLinksTitle: "LIÊN KẾT NHANH",
+    quickLinks: [
+      { label: "Trang chủ", href: "/" },
+      { label: "Giới thiệu", href: "/#gioi-thieu" },
+      { label: "Khách hàng thực tế", href: "/#khach-hang" },
+      { label: "Đặt lịch tư vấn", href: "/#dat-lich" },
+      { label: "Cẩm nang làm đẹp", href: "/#cam-nang" },
+    ],
+    copyright: "© 2026 Thiên Hoàng Kim Aesthetic Clinic. All Rights Reserved.",
+  },
+  handbook: {
+    title: "CẨM NANG LÀM ĐẸP",
+    viewAllLabel: "XEM TẤT CẢ BÀI VIẾT",
+    viewAllHref: "/tin-tuc",
+  },
+  bookingServices: [
+    { value: "nangmui", label: "Nâng mũi cấu trúc" },
+    { value: "catmi", label: "Cắt mí tự nhiên" },
+    { value: "filler", label: "Tiêm Filler/Botox" },
+    { value: "trehoa", label: "Trẻ hóa da công nghệ cao" },
+    { value: "spa", label: "Chăm sóc da (Spa)" },
+    { value: "khac", label: "Khác" },
+  ],
   doctors: [
     {
       id: "d1",
@@ -127,32 +161,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       bio: "Luôn cập nhật những xu hướng và công nghệ điều trị da tiên tiến nhất trên thế giới.",
     },
   ],
-  articles: [
-    {
-      id: "a1",
-      image: slide,
-      title: "Nâng mũi bao lâu thì đẹp tự nhiên?",
-      date: "20/05/2024",
-      description:
-        "Tìm hiểu thời gian hồi phục và các yếu tố giúp dáng mũi vào form chuẩn đẹp, tự nhiên nhất.",
-    },
-    {
-      id: "a2",
-      image: intro,
-      title: "Cắt mí có để lại sẹo không?",
-      date: "18/05/2024",
-      description:
-        "Giải đáp chi tiết về kỹ thuật cắt mí hiện đại và cách lưu ý để giúp mí đẹp tự nhiên.",
-    },
-    {
-      id: "a3",
-      image: slide,
-      title: "Tiêm filler giữ được bao lâu?",
-      date: "15/05/2024",
-      description:
-        "Filler duy trì được bao lâu còn phụ thuộc vào loại filler, vị trí tiêm và cách chăm sóc sau tiêm.",
-    },
-  ],
+  articles: DEFAULT_ARTICLES,
   testimonials: [
     {
       id: "t1",

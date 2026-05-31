@@ -1,22 +1,6 @@
-import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
+import { mergeSiteContent } from "@/lib/normalize-content";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 import type { BookingSubmission, SiteContent } from "@/types/site-content";
-
-function mergeContent(partial: Partial<SiteContent>): SiteContent {
-  return {
-    ...DEFAULT_SITE_CONTENT,
-    ...partial,
-    settings: {
-      ...DEFAULT_SITE_CONTENT.settings,
-      ...partial.settings,
-      seo: {
-        ...DEFAULT_SITE_CONTENT.settings.seo,
-        ...partial.settings?.seo,
-      },
-    },
-    home: { ...DEFAULT_SITE_CONTENT.home, ...partial.home },
-  };
-}
 
 export async function fetchContentFromSupabase(): Promise<SiteContent | null> {
   if (!isSupabaseConfigured) return null;
@@ -30,7 +14,7 @@ export async function fetchContentFromSupabase(): Promise<SiteContent | null> {
     .maybeSingle();
 
   if (error || !data?.payload) return null;
-  return mergeContent(data.payload as Partial<SiteContent>);
+  return mergeSiteContent(data.payload as Partial<SiteContent>);
 }
 
 export async function insertBookingToSupabase(

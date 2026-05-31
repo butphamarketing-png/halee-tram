@@ -36,10 +36,38 @@ export type SiteDoctor = {
 
 export type SiteArticle = {
   id: string;
+  slug: string;
+  category: string;
   image: string;
   title: string;
   date: string;
   description: string;
+  body: string;
+  published: boolean;
+};
+
+export type SiteLink = {
+  label: string;
+  href: string;
+};
+
+export type SiteBookingService = {
+  value: string;
+  label: string;
+};
+
+export type SiteFooter = {
+  featuredTitle: string;
+  featuredServices: SiteLink[];
+  quickLinksTitle: string;
+  quickLinks: SiteLink[];
+  copyright: string;
+};
+
+export type SiteHandbook = {
+  title: string;
+  viewAllLabel: string;
+  viewAllHref: string;
 };
 
 export type SiteTestimonial = {
@@ -104,6 +132,7 @@ export type SiteHomeSections = {
   testimonialsBackground: string;
   ctaTitle: string;
   ctaDescription: string;
+  ctaImage: string;
   footerDescription: string;
 };
 
@@ -111,6 +140,9 @@ export type SiteContent = {
   version: number;
   settings: SiteSettings;
   home: SiteHomeSections;
+  footer: SiteFooter;
+  handbook: SiteHandbook;
+  bookingServices: SiteBookingService[];
   doctors: SiteDoctor[];
   articles: SiteArticle[];
   testimonials: SiteTestimonial[];

@@ -163,6 +163,7 @@ export function AdminHomePage() {
         <div className="grid gap-3">
           <AdminField label="CTA tiêu đề" value={h.ctaTitle} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, ctaTitle: v } }))} />
           <AdminField label="CTA mô tả" value={h.ctaDescription} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, ctaDescription: v } }))} multiline />
+          <AdminImageField label="CTA ảnh (cột trái)" value={h.ctaImage} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, ctaImage: v } }))} />
           <AdminField label="Footer mô tả" value={h.footerDescription} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, footerDescription: v } }))} multiline />
           <AdminImageField label="Ảnh đặt lịch" value={h.bookingImage} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, bookingImage: v } }))} />
         </div>

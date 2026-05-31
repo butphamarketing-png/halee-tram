@@ -1,4 +1,4 @@
-import { MapPin, Clock, Phone, Menu, X, Facebook, Youtube, Calendar, ArrowRight, MessageCircle, Globe, Shield, Stethoscope, Sparkles, Heart } from "lucide-react";
+import { MapPin, Clock, Phone, Menu, X, Facebook, Youtube, Calendar, ArrowRight, MessageCircle, Shield, Stethoscope, Sparkles, Heart } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { HeaderBrand } from "@/components/HeaderBrand";
@@ -50,7 +50,8 @@ function formatPhoneDisplay(phone: string) {
 export default function HomePage() {
   const { content, loading } = useSiteContent();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { settings, home } = content;
+  const { settings, home, footer } = content;
+  const publishedArticles = content.articles.filter((a) => a.published);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -115,10 +116,16 @@ export default function HomePage() {
             <span>{settings.topbarHours}</span>
           </div>
           <div className="flex items-center gap-2">
-            {[Facebook, SiTiktok, Youtube, Globe].map((Icon, i) => (
+            {[
+              { Icon: Facebook, href: settings.facebookUrl },
+              { Icon: SiTiktok, href: settings.tiktokUrl },
+              { Icon: Youtube, href: settings.youtubeUrl },
+            ].map(({ Icon, href }, i) => (
               <a
                 key={i}
-                href="#"
+                href={href || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-7 w-7 items-center justify-center rounded-full border border-white/25 text-primary-foreground transition hover:bg-white/15"
                 aria-label="Mạng xã hội"
               >
@@ -359,12 +366,11 @@ export default function HomePage() {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="nangmui">Nâng mũi cấu trúc</SelectItem>
-                              <SelectItem value="catmi">Cắt mí tự nhiên</SelectItem>
-                              <SelectItem value="filler">Tiêm Filler/Botox</SelectItem>
-                              <SelectItem value="trehoa">Trẻ hóa da công nghệ cao</SelectItem>
-                              <SelectItem value="spa">Chăm sóc da (Spa)</SelectItem>
-                              <SelectItem value="khac">Khác</SelectItem>
+                              {content.bookingServices.map((s) => (
+                                <SelectItem key={s.value} value={s.value}>
+                                  {s.label}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -447,11 +453,17 @@ export default function HomePage() {
         items={content.testimonials}
       />
 
-      <BeautyHandbookSection articles={content.articles} />
+      <BeautyHandbookSection
+        articles={publishedArticles}
+        title={content.handbook.title}
+        viewAllLabel={content.handbook.viewAllLabel}
+        viewAllHref={content.handbook.viewAllHref}
+      />
 
       <CtaContactSection
         title={home.ctaTitle}
         description={home.ctaDescription}
+        image={home.ctaImage}
         facebookUrl={settings.facebookUrl}
         messengerSlug={settings.messengerSlug}
         phone={settings.phone}
@@ -475,24 +487,28 @@ export default function HomePage() {
             </div>
 
             <div className="lg:pl-8">
-              <h4 className="text-white font-bold mb-8 tracking-widest text-sm uppercase">DỊCH VỤ NỔI BẬT</h4>
+              <h4 className="mb-8 text-sm font-bold uppercase tracking-widest text-white">{footer.featuredTitle}</h4>
               <ul className="space-y-4 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Nâng mũi cấu trúc</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Cắt mí tự nhiên</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Tiêm filler - Botox</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Điều trị da chuyên sâu</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Trẻ hóa công nghệ cao</a></li>
+                {footer.featuredServices.map((link) => (
+                  <li key={link.label}>
+                    <a href={link.href} className="inline-block transition-all hover:translate-x-1 hover:text-white">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className="lg:pl-8">
-              <h4 className="text-white font-bold mb-8 tracking-widest text-sm uppercase">LIÊN KẾT NHANH</h4>
+              <h4 className="mb-8 text-sm font-bold uppercase tracking-widest text-white">{footer.quickLinksTitle}</h4>
               <ul className="space-y-4 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Trang chủ</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Giới thiệu</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Khách hàng thực tế</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Bảng giá tham khảo</a></li>
-                <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Tin tức & Cẩm nang</a></li>
+                {footer.quickLinks.map((link) => (
+                  <li key={link.label}>
+                    <a href={link.href} className="inline-block transition-all hover:translate-x-1 hover:text-white">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -520,11 +536,11 @@ export default function HomePage() {
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-white/50">
-            <p>© 2026 Thiên Hoàng Kim Aesthetic Clinic. All Rights Reserved.</p>
+            <p>{footer.copyright}</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white hover:-translate-y-1 transition-all"><Facebook className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-white hover:-translate-y-1 transition-all"><SiTiktok className="w-4 h-4 mt-0.5" /></a>
-              <a href="#" className="hover:text-white hover:-translate-y-1 transition-all"><Youtube className="w-5 h-5" /></a>
+              <a href={settings.facebookUrl || "#"} target="_blank" rel="noopener noreferrer" className="transition-all hover:-translate-y-1 hover:text-white"><Facebook className="h-5 w-5" /></a>
+              <a href={settings.tiktokUrl || "#"} target="_blank" rel="noopener noreferrer" className="transition-all hover:-translate-y-1 hover:text-white"><SiTiktok className="mt-0.5 h-4 w-4" /></a>
+              <a href={settings.youtubeUrl || "#"} target="_blank" rel="noopener noreferrer" className="transition-all hover:-translate-y-1 hover:text-white"><Youtube className="h-5 w-5" /></a>
             </div>
           </div>
         </div>

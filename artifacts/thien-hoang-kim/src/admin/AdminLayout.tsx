@@ -13,6 +13,7 @@ import {
   Stethoscope,
   Star,
   Workflow,
+  PanelBottom,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { href: adminPath(), label: "Bảng điều khiển", icon: LayoutDashboard },
   { href: adminPath("settings"), label: "Thiết lập thông tin", icon: Settings },
+  { href: adminPath("footer"), label: "Footer & đặt lịch", icon: PanelBottom },
   { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
   { href: adminPath("media"), label: "Thư viện ảnh", icon: Image },
   { href: adminPath("home"), label: "Trang chủ", icon: Home },

@@ -1,30 +1,15 @@
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
+import { mergeSiteContent } from "@/lib/normalize-content";
 import { fetchContentFromSupabase } from "@/lib/supabase-content";
 import type { SiteContent } from "@/types/site-content";
 
-const STORAGE_KEY = "thk_site_content_v1";
-
-function mergeContent(partial: Partial<SiteContent>): SiteContent {
-  return {
-    ...DEFAULT_SITE_CONTENT,
-    ...partial,
-    settings: {
-      ...DEFAULT_SITE_CONTENT.settings,
-      ...partial.settings,
-      seo: {
-        ...DEFAULT_SITE_CONTENT.settings.seo,
-        ...partial.settings?.seo,
-      },
-    },
-    home: { ...DEFAULT_SITE_CONTENT.home, ...partial.home },
-  };
-}
+const STORAGE_KEY = "thk_site_content_v2";
 
 export function loadContentFromStorage(): SiteContent | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    return mergeContent(JSON.parse(raw) as Partial<SiteContent>);
+    return mergeSiteContent(JSON.parse(raw) as Partial<SiteContent>);
   } catch {
     return null;
   }
@@ -45,7 +30,7 @@ export async function fetchPublishedContent(): Promise<SiteContent | null> {
     if (!res.ok) return null;
     const data = (await res.json()) as Partial<SiteContent> | null;
     if (!data || !data.version) return null;
-    return mergeContent(data);
+    return mergeSiteContent(data);
   } catch {
     return null;
   }
@@ -68,7 +53,7 @@ export async function loadSiteContent(options?: { preferLocal?: boolean }): Prom
     const res = await fetch(`${base}/data/site-content.json`, { cache: "no-store" });
     if (res.ok) {
       const data = (await res.json()) as Partial<SiteContent>;
-      if (data.version && data.settings) return mergeContent(data);
+      if (data.version && data.settings) return mergeSiteContent(data);
     }
   } catch {
     /* ignore */
