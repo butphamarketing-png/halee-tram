@@ -108,11 +108,11 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   footer: {
     featuredTitle: "DỊCH VỤ NỔI BẬT",
     featuredServices: [
-      { label: "Nâng mũi cấu trúc", href: "/dich-vu/nang-mui" },
-      { label: "Cắt mí tự nhiên", href: "/dich-vu/cat-mi" },
-      { label: "Tiêm filler - Botox", href: "/dich-vu/filler" },
-      { label: "Điều trị da chuyên sâu", href: "/dich-vu/dieu-tri-mun" },
-      { label: "Trẻ hóa công nghệ cao", href: "/dich-vu/tre-hoa-da" },
+      { label: "Nâng mũi cấu trúc", href: "/tham-my/nang-mui" },
+      { label: "Cắt mí tự nhiên", href: "/tham-my/cat-mi" },
+      { label: "Tiêm filler - Botox", href: "/tham-my/filler" },
+      { label: "Điều trị da chuyên sâu", href: "/tham-my/dieu-tri-mun" },
+      { label: "Trẻ hóa công nghệ cao", href: "/tham-my/tre-hoa-da" },
     ],
     quickLinksTitle: "LIÊN KẾT NHANH",
     quickLinks: [

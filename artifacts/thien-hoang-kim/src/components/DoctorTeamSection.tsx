@@ -75,10 +75,8 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
   const go = (delta: number) => {
     if (!canSlide) return;
     setIndex((i) => {
-      const next = i + delta;
-      if (next < 0) return maxIndex;
-      if (next > maxIndex) return 0;
-      return next;
+      const pages = maxIndex + 1;
+      return (i + delta + pages) % pages;
     });
   };
 

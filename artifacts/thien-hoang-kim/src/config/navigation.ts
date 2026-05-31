@@ -1,3 +1,5 @@
+import { buildNavServiceItems } from "@/data/services-catalog";
+
 export type NavLinkItem = {
   label: string;
   href: string;
@@ -35,29 +37,11 @@ export const MAIN_NAV: NavItem[] = [
     columns: [
       {
         title: "THẨM MỸ Y KHOA",
-        items: [
-          { label: "Nâng Mũi", href: "/dich-vu/nang-mui" },
-          { label: "Cắt Mí", href: "/dich-vu/cat-mi" },
-          { label: "Filler", href: "/dich-vu/filler" },
-          { label: "Botox", href: "/dich-vu/botox" },
-          { label: "Căng Chỉ", href: "/dich-vu/cang-chi" },
-          { label: "Điều Trị Mụn", href: "/dich-vu/dieu-tri-mun" },
-          { label: "Điều Trị Nám", href: "/dich-vu/dieu-tri-nam" },
-          { label: "Trẻ Hóa Da", href: "/dich-vu/tre-hoa-da" },
-        ],
+        items: buildNavServiceItems("tham-my"),
       },
       {
         title: "SPA & CHĂM SÓC DA",
-        items: [
-          { label: "Chăm Sóc Da", href: "/dich-vu/cham-soc-da" },
-          { label: "Facial", href: "/dich-vu/facial" },
-          { label: "Peel Da", href: "/dich-vu/peel-da" },
-          { label: "Điện Di", href: "/dich-vu/dien-di" },
-          { label: "Phục Hồi Da", href: "/dich-vu/phuc-hoi-da" },
-          { label: "Gội Đầu Dưỡng Sinh", href: "/dich-vu/goi-dau-duong-sinh" },
-          { label: "Massage", href: "/dich-vu/massage" },
-          { label: "Chăm Sóc Cơ Thể", href: "/dich-vu/cham-soc-co-the" },
-        ],
+        items: buildNavServiceItems("spa"),
       },
     ],
   },

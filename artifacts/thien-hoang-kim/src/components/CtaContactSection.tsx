@@ -87,7 +87,7 @@ export function CtaContactSection({
 
   return (
     <section className="relative bg-gradient-to-b from-[#f4f8f5] via-background to-[#eef4f0] py-10 md:py-14">
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+      <div className="container relative z-10 mx-auto w-full max-w-[92rem] px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="mb-5 overflow-x-auto text-center [-ms-overflow-style:none] [scrollbar-width:none] md:mb-7 [&::-webkit-scrollbar]:hidden">
           <motion.h2
             initial={{ y: 10, opacity: 0 }}
@@ -115,10 +115,10 @@ export function CtaContactSection({
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.06 }}
-          className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(15,48,36,0.12)] md:rounded-[1.75rem]"
+          className="w-full overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(15,48,36,0.12)] md:rounded-[1.75rem]"
         >
-          <div className="flex flex-col md:min-h-[300px] md:flex-row lg:min-h-[320px]">
-            <div className="relative aspect-[16/10] w-full shrink-0 bg-muted sm:aspect-[16/9] md:aspect-auto md:w-[54%] lg:w-[56%]">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:items-stretch md:min-h-[300px] lg:min-h-[320px]">
+            <div className="relative aspect-[16/10] w-full min-w-0 bg-muted sm:aspect-[16/9] md:aspect-auto md:min-h-[300px] lg:min-h-[320px]">
               {image ? (
                 <img
                   src={image}
@@ -126,17 +126,17 @@ export function CtaContactSection({
                   className="absolute inset-0 h-full w-full object-cover object-top"
                 />
               ) : (
-                <div className="flex h-full min-h-[200px] items-center justify-center text-sm text-muted-foreground">
+                <div className="flex h-full min-h-[200px] items-center justify-center text-sm text-muted-foreground md:min-h-[300px]">
                   Hình ảnh
                 </div>
               )}
               <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-white/25"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-white/20"
                 aria-hidden
               />
             </div>
 
-            <div className="flex w-full flex-col justify-center gap-2 p-3 sm:gap-2.5 sm:p-4 md:w-[46%] md:py-4 md:pl-3 md:pr-4 lg:w-[44%] lg:gap-2.5 lg:p-5">
+            <div className="flex w-full min-w-0 flex-col justify-center gap-2 p-3 sm:gap-2.5 sm:p-4 md:gap-2.5 md:p-5 lg:p-6">
               {channels.map((ch, i) => {
                 const Icon = ch.icon;
                 const external = ch.id !== "website";

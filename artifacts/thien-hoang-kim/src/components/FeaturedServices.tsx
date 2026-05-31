@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { MAIN_NAV } from "@/config/navigation";
 import type { NavMegaColumn, NavLinkItem } from "@/config/navigation";
+import { SERVICE_CATEGORIES } from "@/data/services-catalog";
 
 type FeaturedServicesProps = {
   images: [string, string];
@@ -62,17 +63,23 @@ function ServiceHoverCard({
       {/* Idle */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.35)_100%)] transition-opacity duration-500 group-hover/card:opacity-0" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#071a14]/90 via-[#071a14]/25 to-transparent transition-opacity duration-500 group-hover/card:opacity-0" />
-      <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center pb-7 transition-all duration-500 group-hover/card:translate-y-2 group-hover/card:opacity-0">
+      <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center pb-7 transition-all duration-500 group-hover/card:translate-y-2 group-hover/card:opacity-0 md:group-hover/card:opacity-0">
         <h3 className="font-serif text-[1.65rem] font-bold tracking-[0.1em] text-white sm:text-3xl">{title}</h3>
         <div className="mt-3 flex items-center gap-2">
           <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#d4b86a]/70" />
           <span className="text-[#d4b86a]/80">◆</span>
           <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#d4b86a]/70" />
         </div>
+        <Link
+          href={href}
+          className="mt-4 rounded-full bg-gold-gradient px-6 py-2 text-[11px] font-bold tracking-wide text-[#0f3024] shadow-md md:hidden"
+        >
+          XEM DỊCH VỤ
+        </Link>
       </div>
 
       {/* Hover */}
-      <div className="absolute inset-0 z-20 flex items-center justify-center bg-gradient-to-b from-[#0a261c]/98 via-[#124830]/98 to-[#061810]/98 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100 group-focus-within/card:opacity-100">
+      <div className="absolute inset-0 z-20 hidden items-center justify-center bg-gradient-to-b from-[#0a261c]/98 via-[#124830]/98 to-[#061810]/98 opacity-0 transition-opacity duration-500 md:flex group-hover/card:opacity-100 group-focus-within/card:opacity-100">
         <div
           className="pointer-events-none absolute inset-0 opacity-80 bg-[radial-gradient(ellipse_75%_60%_at_50%_35%,rgba(212,184,106,0.2)_0%,transparent_68%)]"
           aria-hidden
@@ -126,7 +133,7 @@ function ServiceHoverCard({
 
 export function FeaturedServices({ images }: FeaturedServicesProps) {
   const columns = getServiceColumns();
-  const servicesHref = MAIN_NAV.find((item) => item.href === "/dich-vu")?.href ?? "/dich-vu";
+  const categoryHrefs = [SERVICE_CATEGORIES["tham-my"].path, SERVICE_CATEGORIES.spa.path];
 
   if (columns.length < 2) return null;
 
@@ -146,8 +153,8 @@ export function FeaturedServices({ images }: FeaturedServicesProps) {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 md:gap-7">
-          <ServiceHoverCard column={columns[0]} imageSrc={images[0]} href={servicesHref} delay={0} />
-          <ServiceHoverCard column={columns[1]} imageSrc={images[1]} href={servicesHref} delay={0.08} />
+          <ServiceHoverCard column={columns[0]} imageSrc={images[0]} href={categoryHrefs[0]} delay={0} />
+          <ServiceHoverCard column={columns[1]} imageSrc={images[1]} href={categoryHrefs[1]} delay={0.08} />
         </div>
       </div>
     </section>

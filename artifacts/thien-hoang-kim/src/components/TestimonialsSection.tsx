@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { scrollCarouselLoop } from "@/lib/infinite-scroll";
 import { cn } from "@/lib/utils";
 
 export type Testimonial = {
@@ -49,14 +50,14 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
     const el = trackRef.current;
     if (!el) return;
     const isWide = window.matchMedia("(min-width: 1024px)").matches;
-    if (isWide) {
-      const card = el.querySelector<HTMLElement>("[data-testimonial-card]");
-      const step = card ? card.offsetWidth + 16 : el.clientWidth / 4;
-      el.scrollBy({ left: direction * step, behavior: "smooth" });
-      return;
-    }
-    el.scrollBy({ left: direction * el.clientWidth, behavior: "smooth" });
-  }, []);
+    const card = el.querySelector<HTMLElement>("[data-testimonial-card]");
+    const step = isWide
+      ? card
+        ? card.offsetWidth + 16
+        : el.clientWidth / Math.max(1, Math.min(4, items.length))
+      : el.clientWidth;
+    scrollCarouselLoop(el, direction, step);
+  }, [items.length]);
 
   return (
     <section className="relative overflow-hidden bg-primary/5 py-16 pb-12 md:py-20 md:pb-16">
@@ -93,7 +94,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
             className={cn(
               "flex min-w-0 flex-1 gap-3 overflow-x-auto scroll-smooth",
               "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-              "snap-x snap-mandatory lg:gap-4 lg:snap-none lg:overflow-visible",
+              "snap-x snap-mandatory lg:gap-4 lg:snap-proximity",
             )}
           >
             {items.map((t, i) => (
@@ -106,7 +107,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
                 transition={{ delay: i * 0.06 }}
                 className={cn(
                   "w-[calc((100%-0.75rem)/2)] shrink-0 snap-start",
-                  "lg:min-w-0 lg:w-auto lg:flex-1 lg:shrink",
+                  "lg:w-[calc((100%-3rem)/4)] lg:max-w-none lg:flex-none",
                 )}
               >
                 <TestimonialCard t={t} />

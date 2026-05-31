@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Calendar,
   Clock,
@@ -22,6 +23,7 @@ import { MobileNavMenu } from "@/components/header/MobileNavMenu";
 import { QuickContactActions } from "@/components/QuickContactActions";
 import { TopbarMarquee } from "@/components/TopbarMarquee";
 import { BookingDialog } from "@/components/BookingDialog";
+import { LogoLoadingScreen } from "@/components/LogoLoadingScreen";
 import { Button } from "@/components/ui/button";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useBookingDialog } from "@/context/BookingDialogContext";
@@ -30,25 +32,35 @@ import { formatPhoneDisplay } from "@/lib/format-phone";
 export function SiteLayout({ children }: { children: ReactNode }) {
   const { content, loading } = useSiteContent();
   const { openBookingDialog } = useBookingDialog();
-  const [location] = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showContent, setShowContent] = useState(false);
   const { settings, home, footer } = content;
 
   useEffect(() => {
-    if (location.includes("#dat-lich")) {
-      setTimeout(() => document.getElementById("dat-lich")?.scrollIntoView({ behavior: "smooth" }), 100);
+    if (loading) {
+      setShowContent(false);
+      return;
     }
-  }, [location]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-background">
-        <p className="text-sm text-muted-foreground">Đang tải...</p>
-      </div>
-    );
-  }
+    const timer = setTimeout(() => setShowContent(true), 350);
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   return (
+    <>
+      <AnimatePresence mode="wait">
+        {(loading || !showContent) && (
+          <motion.div
+            key="logo-loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: "easeInOut" }}
+          >
+            <LogoLoadingScreen />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {showContent && !loading && (
     <div className="min-h-[100dvh] w-full bg-background pb-[5.25rem] font-sans text-foreground md:pb-0">
       <div className="sticky top-0 z-[100] w-full shadow-sm">
         <TopbarMarquee
@@ -197,5 +209,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <QuickContactActions onBook={openBookingDialog} />
       <BookingDialog />
     </div>
+      )}
+    </>
   );
 }

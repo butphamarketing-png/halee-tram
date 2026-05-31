@@ -602,4 +602,56 @@
   .cta-channel-arrow {
     transition: transform 0.32s ease, color 0.32s ease;
   }
+
+  @keyframes logo-loading-float {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+      filter: brightness(1) drop-shadow(0 4px 14px rgba(15, 48, 36, 0.12));
+    }
+    50% {
+      transform: translateY(-8px) scale(1.04);
+      filter: brightness(1.12) drop-shadow(0 10px 24px rgba(201, 162, 39, 0.28));
+    }
+  }
+
+  .logo-loading-float {
+    animation: logo-loading-float 2.4s ease-in-out infinite;
+  }
+
+  @keyframes logo-loading-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .logo-loading-ring {
+    border: 2px solid transparent;
+    border-top-color: hsl(158 60% 25% / 0.55);
+    border-right-color: hsl(43 72% 47% / 0.35);
+    animation: logo-loading-spin 1.35s linear infinite;
+  }
+
+  .logo-loading-ring-delay {
+    animation-duration: 1.85s;
+    animation-direction: reverse;
+    border-top-color: hsl(43 72% 47% / 0.45);
+    border-right-color: hsl(158 60% 25% / 0.25);
+  }
+
+  @keyframes logo-loading-bar {
+    0% {
+      transform: translateX(-120%);
+    }
+    100% {
+      transform: translateX(320%);
+    }
+  }
+
+  .logo-loading-bar-fill {
+    animation: logo-loading-bar 1.15s ease-in-out infinite;
+  }
 }

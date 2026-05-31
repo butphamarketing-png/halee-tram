@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +7,7 @@ import { BookingDialogProvider } from "@/context/BookingDialogContext";
 import { AdminApp } from "@/admin/AdminApp";
 import { isAdminLocation } from "@/config/admin";
 import { getPageContent } from "@/data/pages.defaults";
+import { resolveLegacyServicePath } from "@/data/services-catalog";
 import ArticlePage from "@/pages/ArticlePage";
 import ArticlesListPage from "@/pages/ArticlesListPage";
 import ContactPage from "@/pages/ContactPage";
@@ -16,6 +17,9 @@ import DoctorsPage from "@/pages/DoctorsPage";
 import HomePage from "@/pages/HomePage";
 import NotFound from "@/pages/not-found";
 import ServicesPage from "@/pages/ServicesPage";
+import ServiceCategoryPage from "@/pages/ServiceCategoryPage";
+import ServiceDetailPage from "@/pages/ServiceDetailPage";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +30,30 @@ function DynamicContentPage() {
   return <ContentPage />;
 }
 
+function LegacyServiceRedirect() {
+  const [location] = useLocation();
+  const path = location.split("#")[0];
+  const target = resolveLegacyServicePath(path);
+  if (target) return <Redirect to={target} />;
+  return <DynamicContentPage />;
+}
+
+function ThamMyCategoryPage() {
+  return <ServiceCategoryPage categoryId="tham-my" />;
+}
+
+function SpaCategoryPage() {
+  return <ServiceCategoryPage categoryId="spa" />;
+}
+
+function ThamMyDetailPage() {
+  return <ServiceDetailPage categoryId="tham-my" />;
+}
+
+function SpaDetailPage() {
+  return <ServiceDetailPage categoryId="spa" />;
+}
+
 function PublicRouter() {
   return (
     <Switch>
@@ -33,6 +61,10 @@ function PublicRouter() {
       <Route path="/lien-he" component={ContactPage} />
       <Route path="/khach-hang" component={CustomersPage} />
       <Route path="/dich-vu" component={ServicesPage} />
+      <Route path="/tham-my" component={ThamMyCategoryPage} />
+      <Route path="/tham-my/:slug" component={ThamMyDetailPage} />
+      <Route path="/spa" component={SpaCategoryPage} />
+      <Route path="/spa/:slug" component={SpaDetailPage} />
       <Route path="/gioi-thieu/doi-ngu-bac-si" component={DoctorsPage} />
       <Route path="/tin-tuc/kien-thuc" component={ArticlesListPage} />
       <Route path="/tin-tuc/tin-tuc" component={ArticlesListPage} />
@@ -40,7 +72,7 @@ function PublicRouter() {
       <Route path="/tin-tuc" component={ArticlesListPage} />
       <Route path="/gioi-thieu/:rest*" component={DynamicContentPage} />
       <Route path="/gioi-thieu" component={DynamicContentPage} />
-      <Route path="/dich-vu/:slug" component={DynamicContentPage} />
+      <Route path="/dich-vu/:slug" component={LegacyServiceRedirect} />
       <Route path="/bang-gia" component={DynamicContentPage} />
       <Route component={NotFound} />
     </Switch>
@@ -62,6 +94,7 @@ function App() {
         <SiteContentProvider>
           <BookingDialogProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <ScrollToTop />
               <AppRouter />
             </WouterRouter>
             <Toaster />
