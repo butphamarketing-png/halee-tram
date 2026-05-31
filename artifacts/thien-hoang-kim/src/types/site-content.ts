@@ -62,6 +62,8 @@ export type SiteFooter = {
   quickLinksTitle: string;
   quickLinks: SiteLink[];
   copyright: string;
+  designCreditLabel: string;
+  designCreditUrl: string;
 };
 
 export type SiteHandbook = {

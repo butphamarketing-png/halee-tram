@@ -36,10 +36,14 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
             {steps.map((step, i) => (
               <li key={step.title} className="relative list-none">
                 <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06 }}
+                  initial={{ opacity: 0, y: 24, scale: 0.92 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{
+                    delay: i * 0.22,
+                    duration: 0.55,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className="card-hover-lift group flex flex-col items-center px-0.5 text-center sm:px-1"
                 >
                   <div className="relative mb-3 sm:mb-4">
@@ -56,7 +60,11 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <span
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.22 + 0.12, duration: 0.4 }}
                       className={cn(
                         "absolute -bottom-1.5 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full font-bold text-white shadow-md",
                         "h-7 w-7 text-[11px] sm:h-8 sm:w-8 sm:text-xs",
@@ -64,7 +72,7 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
                       )}
                     >
                       {String(i + 1).padStart(2, "0")}
-                    </span>
+                    </motion.span>
                   </div>
 
                   <h3 className="mb-1.5 text-[9px] font-bold leading-tight text-foreground transition-colors group-hover:text-primary sm:mb-2 sm:text-[11px] md:text-xs lg:text-sm">

@@ -49,18 +49,20 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-[100dvh] w-full overflow-x-hidden bg-background pb-[5.25rem] font-sans text-foreground md:pb-0">
-      <TopbarMarquee
-        address={settings.topbarAddress}
-        hours={settings.topbarHours}
-        facebookUrl={settings.facebookUrl}
-        tiktokUrl={settings.tiktokUrl}
-        youtubeUrl={settings.youtubeUrl}
-      />
+    <div className="min-h-[100dvh] w-full bg-background pb-[5.25rem] font-sans text-foreground md:pb-0">
+      <div className="sticky top-0 z-[100] w-full shadow-sm">
+        <TopbarMarquee
+          address={settings.topbarAddress}
+          hours={settings.topbarHours}
+          phone={settings.phone}
+          facebookUrl={settings.facebookUrl}
+          tiktokUrl={settings.tiktokUrl}
+          youtubeUrl={settings.youtubeUrl}
+        />
 
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-white shadow-sm">
-        <div className="container mx-auto max-w-[1440px] px-3 sm:px-4 md:px-6 xl:px-8">
-          <div className="flex min-h-[76px] flex-nowrap items-center gap-2 py-2 md:min-h-[84px] md:gap-3 xl:gap-4">
+        <header className="relative w-full border-b border-border bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
+          <div className="container mx-auto max-w-[1440px] px-3 sm:px-4 md:px-6 xl:px-8">
+            <div className="flex min-h-[76px] flex-nowrap items-center gap-2 py-2 md:min-h-[84px] md:gap-3 xl:gap-4">
             <Link href="/" className="flex shrink-0 items-center" aria-label="Trang chủ">
               <HeaderBrand variant="header" />
             </Link>
@@ -95,9 +97,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         {isMenuOpen && (
           <MobileNavMenu onClose={() => setIsMenuOpen(false)} onBook={openBookingDialog} />
         )}
-      </header>
+        </header>
+      </div>
 
-      <main>{children}</main>
+      <main className="overflow-x-clip">{children}</main>
 
       <footer className="bg-[#0f2e1f] pb-10 pt-24 text-white/80 md:pb-8">
         <div className="container mx-auto px-4 md:px-8">
@@ -160,7 +163,22 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 text-sm text-white/50 md:flex-row">
-            <p>{footer.copyright}</p>
+            <p>
+              {footer.copyright}
+              {footer.designCreditLabel ? (
+                <>
+                  {" Design by "}
+                  <a
+                    href={footer.designCreditUrl || "https://butphamarketing.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline-offset-2 transition-colors hover:text-white hover:underline"
+                  >
+                    {footer.designCreditLabel}
+                  </a>
+                </>
+              ) : null}
+            </p>
             <div className="flex gap-6">
               <a href={settings.facebookUrl || "#"} target="_blank" rel="noopener noreferrer" className="transition-all hover:-translate-y-1 hover:text-white">
                 <Facebook className="h-5 w-5" />

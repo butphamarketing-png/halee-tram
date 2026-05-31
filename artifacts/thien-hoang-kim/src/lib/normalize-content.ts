@@ -45,6 +45,12 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
       ...partial.footer,
       featuredServices: partial.footer?.featuredServices ?? base.footer.featuredServices,
       quickLinks: partial.footer?.quickLinks ?? base.footer.quickLinks,
+      designCreditLabel: partial.footer?.designCreditLabel ?? base.footer.designCreditLabel,
+      designCreditUrl: partial.footer?.designCreditUrl ?? base.footer.designCreditUrl,
+      copyright: (partial.footer?.copyright ?? base.footer.copyright).replace(
+        /\s*Design by Butphamarketing\.com\s*$/i,
+        "",
+      ),
     },
     handbook: { ...base.handbook, ...partial.handbook },
     bookingServices: partial.bookingServices ?? base.bookingServices,

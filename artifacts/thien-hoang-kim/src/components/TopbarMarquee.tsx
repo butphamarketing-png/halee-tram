@@ -1,42 +1,66 @@
-import { Clock, MapPin } from "lucide-react";
+import type { ReactNode } from "react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import { Facebook, Youtube } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
+import { formatPhoneDisplay } from "@/lib/format-phone";
 
 type TopbarMarqueeProps = {
   address: string;
   hours: string;
+  phone: string;
   facebookUrl?: string;
   tiktokUrl?: string;
   youtubeUrl?: string;
 };
 
-export function TopbarMarquee({ address, hours, facebookUrl, tiktokUrl, youtubeUrl }: TopbarMarqueeProps) {
-  const ticker = `${address}   •   ${hours}`;
+function MarqueeItem({
+  icon: Icon,
+  children,
+  href,
+}: {
+  icon: typeof MapPin;
+  children: ReactNode;
+  href?: string;
+}) {
+  const inner = (
+    <>
+      <Icon className="h-3.5 w-3.5 shrink-0" />
+      {children}
+    </>
+  );
+  const className = "flex shrink-0 items-center gap-1.5 whitespace-nowrap";
+  if (href) {
+    return (
+      <a href={href} className={`${className} transition hover:text-white`}>
+        {inner}
+      </a>
+    );
+  }
+  return <span className={className}>{inner}</span>;
+}
+
+export function TopbarMarquee({ address, hours, phone, facebookUrl, tiktokUrl, youtubeUrl }: TopbarMarqueeProps) {
+  const phoneDisplay = formatPhoneDisplay(phone);
+  const ticker = `${address}   •   ${hours}   •   ${phoneDisplay}`;
+
+  const items = (
+    <>
+      <MarqueeItem icon={MapPin}>{address}</MarqueeItem>
+      <MarqueeItem icon={Clock}>{hours}</MarqueeItem>
+      <MarqueeItem icon={Phone} href={`tel:${phone}`}>
+        {phoneDisplay}
+      </MarqueeItem>
+    </>
+  );
 
   return (
     <div className="w-full overflow-hidden bg-primary py-2.5 text-[11px] font-medium text-primary-foreground md:text-xs">
       <div className="container mx-auto flex items-center gap-3 px-4 md:px-8">
         <div className="relative min-w-0 flex-1 overflow-hidden">
           <div className="topbar-marquee-track flex w-max items-center gap-8">
-            <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
-              <MapPin className="h-3.5 w-3.5 shrink-0" />
-              {address}
-            </span>
-            <span className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap md:flex">
-              <Clock className="h-3.5 w-3.5 shrink-0" />
-              {hours}
-            </span>
-            <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap md:hidden">
-              <Clock className="h-3.5 w-3.5 shrink-0" />
-              {hours}
-            </span>
-            <span aria-hidden className="flex shrink-0 items-center gap-1.5 whitespace-nowrap opacity-90">
-              <MapPin className="h-3.5 w-3.5 shrink-0" />
-              {address}
-            </span>
-            <span aria-hidden className="flex shrink-0 items-center gap-1.5 whitespace-nowrap opacity-90">
-              <Clock className="h-3.5 w-3.5 shrink-0" />
-              {hours}
+            {items}
+            <span aria-hidden className="flex items-center gap-8 opacity-90">
+              {items}
             </span>
           </div>
           <span className="sr-only">{ticker}</span>

@@ -78,6 +78,18 @@ export function AdminFooterPage() {
           value={f.copyright}
           onChange={(v) => updateContent((p) => ({ ...p, footer: { ...p.footer, copyright: v } }))}
         />
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <AdminField
+            label="Credit design — tên hiển thị"
+            value={f.designCreditLabel}
+            onChange={(v) => updateContent((p) => ({ ...p, footer: { ...p.footer, designCreditLabel: v } }))}
+          />
+          <AdminField
+            label="Credit design — URL"
+            value={f.designCreditUrl}
+            onChange={(v) => updateContent((p) => ({ ...p, footer: { ...p.footer, designCreditUrl: v } }))}
+          />
+        </div>
       </section>
 
       <section className="rounded-xl border bg-white p-5 shadow-sm">

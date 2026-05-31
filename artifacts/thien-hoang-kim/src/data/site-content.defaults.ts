@@ -124,7 +124,9 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       { label: "Tin tức", href: "/tin-tuc" },
       { label: "Liên hệ", href: "/lien-he" },
     ],
-    copyright: "© 2026 Thiên Hoàng Kim Aesthetic Clinic. All Rights Reserved. Design by Butphamarketing.com",
+    copyright: "© 2026 Thiên Hoàng Kim Aesthetic Clinic. All Rights Reserved.",
+    designCreditLabel: "Butphamarketing.com",
+    designCreditUrl: "https://butphamarketing.com",
   },
   handbook: {
     title: "CẨM NANG LÀM ĐẸP",

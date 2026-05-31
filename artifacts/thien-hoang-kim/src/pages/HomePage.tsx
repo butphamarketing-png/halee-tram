@@ -11,6 +11,7 @@ import { ExamProcessSection } from "@/components/ExamProcessSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { BeautyHandbookSection } from "@/components/BeautyHandbookSection";
 import { CtaContactSection } from "@/components/CtaContactSection";
+import { CountUpValue } from "@/components/CountUpValue";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { COMMITMENT_ICONS } from "@/lib/commitment-icons";
 import { motion } from "framer-motion";
@@ -50,10 +51,10 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
-                  className="card-hover-lift flex min-w-0 flex-col items-center rounded-xl border border-border bg-white p-3 text-center shadow-sm sm:p-4 md:p-5"
+                  className="card-hover-lift group flex min-w-0 flex-col items-center rounded-xl border border-border bg-white p-3 text-center shadow-sm sm:p-4 md:p-5"
                 >
-                  <div className="mb-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-primary/15 bg-secondary/40 text-primary sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
-                    <Icon className="h-5 w-5 stroke-[1.5] sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                  <div className="commitment-icon-wrap mb-3 flex h-11 w-11 shrink-0 cursor-default items-center justify-center rounded-full border-2 border-primary/15 bg-secondary/40 text-primary sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
+                    <Icon className="commitment-icon h-5 w-5 stroke-[1.5] sm:h-6 sm:w-6 md:h-7 md:w-7" />
                   </div>
                   <h3 className="mb-1.5 w-full text-[10px] font-bold leading-tight text-primary sm:mb-2 sm:text-xs md:text-sm">
                     {item.title}
@@ -99,12 +100,21 @@ export default function HomePage() {
                 <div className="mt-8 md:mt-10">
                   <div className="grid grid-cols-3 divide-x divide-border border-y border-border py-5 md:py-6">
                     {home.aboutStats.map((stat) => (
-                      <div key={stat.title} className="flex min-w-0 flex-col px-3 first:pl-0 last:pr-0 sm:px-5">
-                        <div className="font-serif text-2xl font-bold text-primary sm:text-3xl md:text-4xl">{stat.value}</div>
-                        <div className="mt-1.5 text-xs font-bold uppercase tracking-wide text-foreground sm:text-sm">
+                      <div
+                        key={stat.title}
+                        className="flex min-w-0 flex-col items-center px-1 text-center first:pl-0 last:pr-0 sm:px-3"
+                      >
+                        <CountUpValue
+                          value={stat.value}
+                          className="font-serif text-2xl font-bold text-primary sm:text-3xl md:text-4xl"
+                          durationMs={stat.value.includes("5000") ? 2200 : 1600}
+                        />
+                        <div className="mt-1.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-wide text-foreground sm:text-xs md:text-sm">
                           {stat.title}
                         </div>
-                        <div className="mt-1 text-[11px] leading-snug text-muted-foreground md:text-xs">{stat.sub}</div>
+                        <div className="mt-1 whitespace-nowrap text-[10px] text-muted-foreground sm:text-[11px] md:text-xs">
+                          {stat.sub}
+                        </div>
                       </div>
                     ))}
                   </div>
