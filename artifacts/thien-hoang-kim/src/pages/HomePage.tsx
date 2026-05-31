@@ -469,7 +469,6 @@ export default function HomePage() {
         facebookUrl={settings.facebookUrl}
         messengerSlug={settings.messengerSlug}
         phone={settings.phone}
-        onBook={scrollToBooking}
       />
 
       {/* FOOTER */}

@@ -1,7 +1,6 @@
 import type { ComponentType } from "react";
-import { ArrowRight, ChevronRight, Facebook, Globe, MapPin, MessageCircle } from "lucide-react";
+import { ChevronRight, Facebook, Globe, MapPin, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { MAPS_URL, ZALO_URL } from "@/config/contact";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +34,6 @@ type CtaContactSectionProps = {
   facebookUrl: string;
   messengerSlug: string;
   phone: string;
-  onBook: () => void;
 };
 
 export function CtaContactSection({
@@ -47,7 +45,6 @@ export function CtaContactSection({
   facebookUrl,
   messengerSlug,
   phone,
-  onBook,
 }: CtaContactSectionProps) {
   const zaloHref = ZALO_URL.includes(phone.replace(/\D/g, "")) ? ZALO_URL : `https://zalo.me/${phone.replace(/\D/g, "")}`;
 
@@ -176,19 +173,6 @@ export function CtaContactSection({
               })}
             </div>
           </motion.div>
-
-          {/* Nút đặt lịch */}
-          <div className="border-t border-border/60 bg-[#fafcfb] px-6 py-8 text-center md:px-10 md:py-10">
-            <Button
-              type="button"
-              size="lg"
-              onClick={onBook}
-              className="h-12 w-full max-w-md rounded-full bg-primary text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-lg hover:bg-primary/90 sm:h-14 sm:text-base"
-            >
-              Đặt lịch tư vấn ngay
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
         </div>
       </div>
     </section>
