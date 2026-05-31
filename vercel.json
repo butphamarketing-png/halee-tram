@@ -2,5 +2,9 @@
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @workspace/thien-hoang-kim build",
   "outputDirectory": "artifacts/thien-hoang-kim/dist/public",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
