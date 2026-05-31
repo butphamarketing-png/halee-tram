@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteContentProvider } from "@/context/SiteContentContext";
 import { AdminApp } from "@/admin/AdminApp";
+import { isAdminLocation } from "@/config/admin";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 
@@ -20,7 +21,7 @@ function PublicRouter() {
 
 function AppRouter() {
   const [location] = useLocation();
-  if (location === "/admin" || location.startsWith("/admin/")) {
+  if (isAdminLocation(location)) {
     return <AdminApp />;
   }
   return <PublicRouter />;

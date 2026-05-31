@@ -2,7 +2,8 @@ import type { Plugin } from "vite";
 import { mkdir, readFile, writeFile, readdir } from "fs/promises";
 import path from "path";
 
-const ADMIN_TOKEN = process.env.VITE_ADMIN_PASSWORD ?? "admin123";
+const ADMIN_USER = process.env.VITE_ADMIN_USERNAME ?? "admin";
+const ADMIN_PASS = process.env.VITE_ADMIN_PASSWORD ?? "admin123";
 
 function readBody(req: import("http").IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -16,8 +17,12 @@ function readBody(req: import("http").IncomingMessage): Promise<string> {
 }
 
 function isAuthed(req: import("http").IncomingMessage): boolean {
-  const auth = req.headers.authorization;
-  return auth === `Bearer ${ADMIN_TOKEN}`;
+  const raw = req.headers.authorization?.replace(/^Bearer\s+/i, "").trim() ?? "";
+  if (raw.includes(":")) {
+    const colon = raw.indexOf(":");
+    return raw.slice(0, colon) === ADMIN_USER && raw.slice(colon + 1) === ADMIN_PASS;
+  }
+  return raw === ADMIN_PASS;
 }
 
 function sendJson(res: import("http").ServerResponse, status: number, body: unknown) {

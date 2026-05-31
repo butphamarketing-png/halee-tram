@@ -15,6 +15,7 @@ import {
   publishContentToApi,
   saveContentToStorage,
 } from "@/lib/site-content-storage";
+import { isAdminLocation } from "@/config/admin";
 import { getAdminToken } from "@/lib/admin-auth";
 import type { SiteContent } from "@/types/site-content";
 
@@ -76,7 +77,7 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
   }, [isAdmin]);
 
   useEffect(() => {
-    if (location.startsWith("/admin")) return;
+    if (isAdminLocation(location)) return;
     if (!loading) applySeoMeta(content.settings.seo);
   }, [content.settings.seo, location, loading]);
 

@@ -35,9 +35,12 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 |------|--------|
 | `VITE_SUPABASE_URL` | Supabase Project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
+| `VITE_ADMIN_BASE_PATH` | Đường dẫn admin (mặc định `/adminbp`) |
+| `VITE_ADMIN_USERNAME` | Tài khoản đăng nhập admin |
 | `VITE_ADMIN_PASSWORD` | Mật khẩu admin panel |
 | `SUPABASE_URL` | Giống Project URL (cho API serverless) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key |
+| `ADMIN_USERNAME` | Cùng tài khoản admin (cho API serverless) |
 | `ADMIN_TOKEN` | Cùng mật khẩu admin (cho API PUT) |
 | `BASE_PATH` | `/` |
 | `PORT` | `5173` (cho build script) |
@@ -45,7 +48,7 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 ## 4. Sau khi deploy
 
 - Website: `https://your-app.vercel.app`
-- Admin: `https://your-app.vercel.app/admin`
+- Admin: `https://your-app.vercel.app/adminbp` (đăng nhập: `/adminbp/login`)
 - Form đặt lịch → bảng `bookings` trên Supabase
 - Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel
 

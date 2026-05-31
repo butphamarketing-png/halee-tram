@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { isAdminAuthed } from "./verify-auth";
 
 function getAdminClient() {
   const url = process.env.SUPABASE_URL;
@@ -8,13 +9,8 @@ function getAdminClient() {
   return createClient(url, key);
 }
 
-function isAuthed(req: VercelRequest): boolean {
-  const token = process.env.ADMIN_TOKEN ?? process.env.VITE_ADMIN_PASSWORD ?? "admin123";
-  return req.headers.authorization === `Bearer ${token}`;
-}
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (!isAuthed(req)) {
+  if (!isAdminAuthed(req)) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }

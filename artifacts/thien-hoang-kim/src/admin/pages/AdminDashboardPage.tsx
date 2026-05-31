@@ -18,6 +18,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { adminPath } from "@/config/admin";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { loadBookings } from "@/lib/booking-storage";
 import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
@@ -33,13 +34,13 @@ const VISIT_MOCK = [
 ];
 
 const CARDS = [
-  { href: "/admin/settings", title: "Cấu hình website", desc: "Liên hệ & mạng xã hội", color: "bg-blue-600", icon: Settings },
-  { href: "/admin/media", title: "Thư viện ảnh", desc: "Upload & copy URL", color: "bg-violet-600", icon: Image },
-  { href: "/admin/seo", title: "SEO trang", desc: "Title, mô tả, OG", color: "bg-rose-600", icon: Search },
-  { href: "/admin/bookings", title: "Đơn đặt lịch", desc: "Yêu cầu tư vấn", color: "bg-teal-600", icon: CalendarCheck },
-  { href: "/admin/articles", title: "Bài viết", desc: "Cẩm nang làm đẹp", color: "bg-emerald-700", icon: BookOpen },
-  { href: "/admin/doctors", title: "Bác sĩ", desc: "Đội ngũ", color: "bg-emerald-600", icon: Stethoscope },
-  { href: "/admin/account", title: "Đổi mật khẩu", desc: "Bảo mật admin", color: "bg-slate-600", icon: KeyRound },
+  { href: adminPath("settings"), title: "Cấu hình website", desc: "Liên hệ & mạng xã hội", color: "bg-blue-600", icon: Settings },
+  { href: adminPath("media"), title: "Thư viện ảnh", desc: "Upload & copy URL", color: "bg-violet-600", icon: Image },
+  { href: adminPath("seo"), title: "SEO trang", desc: "Title, mô tả, OG", color: "bg-rose-600", icon: Search },
+  { href: adminPath("bookings"), title: "Đơn đặt lịch", desc: "Yêu cầu tư vấn", color: "bg-teal-600", icon: CalendarCheck },
+  { href: adminPath("articles"), title: "Bài viết", desc: "Cẩm nang làm đẹp", color: "bg-emerald-700", icon: BookOpen },
+  { href: adminPath("doctors"), title: "Bác sĩ", desc: "Đội ngũ", color: "bg-emerald-600", icon: Stethoscope },
+  { href: adminPath("account"), title: "Đổi tài khoản", desc: "Bảo mật admin", color: "bg-slate-600", icon: KeyRound },
 ];
 
 export function AdminDashboardPage() {
@@ -122,7 +123,7 @@ export function AdminDashboardPage() {
               ))}
             </ul>
           )}
-          <Link href="/admin/bookings" className="mt-4 inline-block text-sm font-semibold text-primary hover:underline">
+          <Link href={adminPath("bookings")} className="mt-4 inline-block text-sm font-semibold text-primary hover:underline">
             Xem tất cả →
           </Link>
         </div>

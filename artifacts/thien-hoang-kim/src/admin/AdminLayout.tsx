@@ -16,22 +16,23 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { adminPath } from "@/config/admin";
 import { logoutAdmin } from "@/lib/admin-auth";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/admin", label: "Bảng điều khiển", icon: LayoutDashboard },
-  { href: "/admin/settings", label: "Thiết lập thông tin", icon: Settings },
-  { href: "/admin/seo", label: "Quản lý SEO", icon: Search },
-  { href: "/admin/media", label: "Thư viện ảnh", icon: Image },
-  { href: "/admin/home", label: "Trang chủ", icon: Home },
-  { href: "/admin/articles", label: "Bài viết / Cẩm nang", icon: BookOpen },
-  { href: "/admin/doctors", label: "Đội ngũ bác sĩ", icon: Stethoscope },
-  { href: "/admin/testimonials", label: "Đánh giá KH", icon: Star },
-  { href: "/admin/customers", label: "KH thực tế", icon: Image },
-  { href: "/admin/process", label: "Quy trình thăm khám", icon: Workflow },
-  { href: "/admin/bookings", label: "Đơn đặt lịch", icon: CalendarCheck },
-  { href: "/admin/account", label: "Tài khoản", icon: KeyRound },
+  { href: adminPath(), label: "Bảng điều khiển", icon: LayoutDashboard },
+  { href: adminPath("settings"), label: "Thiết lập thông tin", icon: Settings },
+  { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
+  { href: adminPath("media"), label: "Thư viện ảnh", icon: Image },
+  { href: adminPath("home"), label: "Trang chủ", icon: Home },
+  { href: adminPath("articles"), label: "Bài viết / Cẩm nang", icon: BookOpen },
+  { href: adminPath("doctors"), label: "Đội ngũ bác sĩ", icon: Stethoscope },
+  { href: adminPath("testimonials"), label: "Đánh giá KH", icon: Star },
+  { href: adminPath("customers"), label: "KH thực tế", icon: Image },
+  { href: adminPath("process"), label: "Quy trình thăm khám", icon: Workflow },
+  { href: adminPath("bookings"), label: "Đơn đặt lịch", icon: CalendarCheck },
+  { href: adminPath("account"), label: "Tài khoản", icon: KeyRound },
 ];
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
@@ -39,7 +40,9 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
       {NAV.map((item) => {
-        const active = location === item.href || (item.href !== "/admin" && location.startsWith(item.href));
+        const active =
+          location === item.href ||
+          (item.href !== adminPath() && location.startsWith(item.href));
         const Icon = item.icon;
         return (
           <Link
@@ -82,7 +85,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             className="w-full justify-start text-white/80 hover:bg-white/10 hover:text-white"
             onClick={() => {
               logoutAdmin();
-              setLocation("/admin/login");
+              setLocation(adminPath("login"));
             }}
           >
             <LogOut className="mr-2 h-4 w-4" />

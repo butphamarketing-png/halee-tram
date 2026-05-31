@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from "wouter";
+import { adminPath } from "@/config/admin";
 import { isAdminLoggedIn } from "@/lib/admin-auth";
 import { AdminLayout } from "@/admin/AdminLayout";
 import { AdminLoginPage } from "@/admin/pages/AdminLoginPage";
@@ -17,7 +18,7 @@ import { AdminAccountPage } from "@/admin/pages/AdminAccountPage";
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
   if (!isAdminLoggedIn()) {
-    return <Redirect to="/admin/login" />;
+    return <Redirect to={adminPath("login")} />;
   }
   return <AdminLayout>{children}</AdminLayout>;
 }
@@ -25,69 +26,69 @@ function AdminGuard({ children }: { children: React.ReactNode }) {
 export function AdminApp() {
   return (
     <Switch>
-      <Route path="/admin/login" component={AdminLoginPage} />
-      <Route path="/admin">
+      <Route path={adminPath("login")} component={AdminLoginPage} />
+      <Route path={adminPath()}>
         <AdminGuard>
           <AdminDashboardPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/settings">
+      <Route path={adminPath("settings")}>
         <AdminGuard>
           <AdminSettingsPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/home">
+      <Route path={adminPath("home")}>
         <AdminGuard>
           <AdminHomePage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/articles">
+      <Route path={adminPath("articles")}>
         <AdminGuard>
           <AdminArticlesPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/doctors">
+      <Route path={adminPath("doctors")}>
         <AdminGuard>
           <AdminDoctorsPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/testimonials">
+      <Route path={adminPath("testimonials")}>
         <AdminGuard>
           <AdminTestimonialsPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/customers">
+      <Route path={adminPath("customers")}>
         <AdminGuard>
           <AdminCustomersPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/process">
+      <Route path={adminPath("process")}>
         <AdminGuard>
           <AdminProcessPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/bookings">
+      <Route path={adminPath("bookings")}>
         <AdminGuard>
           <AdminBookingsPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/media">
+      <Route path={adminPath("media")}>
         <AdminGuard>
           <AdminMediaPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/seo">
+      <Route path={adminPath("seo")}>
         <AdminGuard>
           <AdminSeoPage />
         </AdminGuard>
       </Route>
-      <Route path="/admin/account">
+      <Route path={adminPath("account")}>
         <AdminGuard>
           <AdminAccountPage />
         </AdminGuard>
       </Route>
       <Route>
-        <Redirect to="/admin" />
+        <Redirect to={adminPath()} />
       </Route>
     </Switch>
   );
