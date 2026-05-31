@@ -7,6 +7,8 @@ type BeforeAfterSliderProps = {
   beforeAlt?: string;
   afterAlt?: string;
   className?: string;
+  /** Tự chạy demo kéo qua lại khi section vào giữa màn hình */
+  demoOnScroll?: boolean;
 };
 
 export function BeforeAfterSlider({
@@ -15,11 +17,14 @@ export function BeforeAfterSlider({
   beforeAlt = "So sánh",
   afterAlt = "So sánh",
   className,
+  demoOnScroll = false,
 }: BeforeAfterSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(50);
   const [containerWidth, setContainerWidth] = useState(0);
   const dragging = useRef(false);
+  const demoRan = useRef(false);
+  const userInteracted = useRef(false);
 
   const syncWidth = useCallback(() => {
     if (containerRef.current) {
@@ -47,6 +52,7 @@ export function BeforeAfterSlider({
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       if (!dragging.current) return;
+      userInteracted.current = true;
       setFromClientX(e.clientX);
     };
     const onUp = () => {
@@ -60,6 +66,39 @@ export function BeforeAfterSlider({
     };
   }, [setFromClientX]);
 
+  useEffect(() => {
+    if (!demoOnScroll || !containerRef.current) return;
+
+    const el = containerRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || demoRan.current || userInteracted.current) return;
+        demoRan.current = true;
+
+        const duration = 3800;
+        const start = performance.now();
+
+        const tick = (now: number) => {
+          if (userInteracted.current) return;
+          const t = Math.min((now - start) / duration, 1);
+          const wave = 0.5 - 0.5 * Math.cos(t * Math.PI * 2);
+          setPosition(18 + wave * 64);
+          if (t < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            setPosition(50);
+          }
+        };
+
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.55, rootMargin: "-10% 0px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [demoOnScroll, beforeSrc, afterSrc]);
+
   return (
     <div
       ref={containerRef}
@@ -69,6 +108,7 @@ export function BeforeAfterSlider({
       )}
       onPointerDown={(e) => {
         if ((e.target as HTMLElement).closest("[data-range-track]")) return;
+        userInteracted.current = true;
         dragging.current = true;
         setFromClientX(e.clientX);
       }}
@@ -113,8 +153,14 @@ export function BeforeAfterSlider({
           min={0}
           max={100}
           value={position}
-          onChange={(e) => setPosition(Number(e.target.value))}
-          onPointerDown={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            userInteracted.current = true;
+            setPosition(Number(e.target.value));
+          }}
+          onPointerDown={(e) => {
+            userInteracted.current = true;
+            e.stopPropagation();
+          }}
           className="before-after-range h-1 w-full cursor-ew-resize appearance-none rounded-full bg-white/35"
           aria-label="Kéo ngang để xem kết quả"
         />

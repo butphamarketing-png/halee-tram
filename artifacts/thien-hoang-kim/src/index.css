@@ -466,4 +466,87 @@
   .contact-shake-delay-4 {
     animation-delay: 1.4s;
   }
+
+  @keyframes topbar-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .topbar-marquee-track {
+    animation: topbar-marquee 28s linear infinite;
+  }
+
+  @keyframes logo-shine {
+    0% {
+      filter: brightness(1);
+    }
+    40% {
+      filter: brightness(1.4) drop-shadow(0 0 10px rgba(232, 212, 139, 0.65));
+    }
+    100% {
+      filter: brightness(1);
+    }
+  }
+
+  .logo-shine {
+    animation: logo-shine 1.4s ease-in-out;
+  }
+
+  @keyframes phone-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 hsl(158 60% 25% / 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsl(158 60% 25% / 0);
+    }
+  }
+
+  .phone-btn-pulse {
+    animation: phone-pulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes gentle-shake {
+    0%,
+    72%,
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+    74% {
+      transform: translateX(-2px) rotate(-1deg);
+    }
+    76% {
+      transform: translateX(2px) rotate(1deg);
+    }
+    78% {
+      transform: translateX(-2px) rotate(-0.5deg);
+    }
+    80% {
+      transform: translateX(2px) rotate(0.5deg);
+    }
+    82% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+
+  .btn-shake-after-5s {
+    animation: gentle-shake 4s ease-in-out 5s infinite;
+  }
+
+  .card-hover-lift {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  .card-hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 42px rgba(15, 48, 36, 0.11);
+    border-color: hsl(158 60% 25% / 0.22);
+  }
 }

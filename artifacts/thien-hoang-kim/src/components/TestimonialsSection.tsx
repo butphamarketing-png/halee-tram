@@ -19,7 +19,7 @@ type TestimonialsSectionProps = {
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   return (
-    <article className="flex h-full min-w-0 flex-col rounded-2xl border border-border bg-white p-3.5 shadow-sm transition-shadow hover:shadow-xl sm:p-4 lg:rounded-[1.75rem] lg:p-6">
+    <article className="card-hover-lift flex h-full min-w-0 flex-col rounded-2xl border border-border bg-white p-3.5 shadow-sm sm:p-4 lg:rounded-[1.75rem] lg:p-6">
       <div className="mb-2 flex items-center gap-2.5 lg:mb-4 lg:gap-3">
         <Avatar className="h-9 w-9 shrink-0 ring-2 ring-primary/15 ring-offset-2 ring-offset-white sm:h-10 sm:w-10 lg:h-12 lg:w-12">
           <AvatarImage src={t.avatar} alt={t.name} className="object-cover" />
@@ -59,7 +59,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-primary/5 py-16 md:py-24">
+    <section className="relative overflow-hidden bg-primary/5 py-16 pb-12 md:py-20 md:pb-16">
       {backgroundImage && (
         <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay">
           <img src={backgroundImage} className="h-full w-full object-cover" alt="" />

@@ -182,7 +182,11 @@ export function CustomerResultsSection({ cases }: CustomerResultsSectionProps) {
                   transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute inset-0"
                 >
-                  <BeforeAfterSlider beforeSrc={current.before} afterSrc={current.after} />
+                  <BeforeAfterSlider
+                    beforeSrc={current.before}
+                    afterSrc={current.after}
+                    demoOnScroll
+                  />
                 </motion.div>
               </AnimatePresence>
 

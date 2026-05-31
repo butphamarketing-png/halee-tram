@@ -1,6 +1,7 @@
 import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useBookingDialog } from "@/context/BookingDialogContext";
 import { cn } from "@/lib/utils";
 
 export type ExamProcessStep = {
@@ -14,6 +15,8 @@ type ExamProcessSectionProps = {
 };
 
 export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
+  const { openBookingDialog } = useBookingDialog();
+
   return (
     <section className="border-t border-border bg-background py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
@@ -37,7 +40,7 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06 }}
-                  className="group flex flex-col items-center px-0.5 text-center sm:px-1"
+                  className="card-hover-lift group flex flex-col items-center px-0.5 text-center sm:px-1"
                 >
                   <div className="relative mb-3 sm:mb-4">
                     <div
@@ -78,14 +81,13 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
 
         <div className="mt-12 text-center md:mt-16">
           <Button
+            type="button"
             size="lg"
+            onClick={openBookingDialog}
             className="h-12 rounded-full bg-primary px-8 text-sm font-bold text-primary-foreground shadow-xl hover:bg-primary/90 md:h-14 md:px-10 md:text-base"
-            asChild
           >
-            <a href="#dat-lich">
-              <Calendar className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-              ĐẶT LỊCH THĂM KHÁM NGAY
-            </a>
+            <Calendar className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+            ĐẶT LỊCH THĂM KHÁM NGAY
           </Button>
         </div>
       </div>

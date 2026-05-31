@@ -120,7 +120,7 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.28, ease: "easeOut" }}
-                  className="group flex flex-col items-center rounded-3xl border border-border bg-white p-8 text-center shadow-lg transition-shadow duration-300 hover:shadow-2xl"
+                  className="card-hover-lift group flex flex-col items-center rounded-3xl border border-border bg-white p-8 text-center shadow-lg"
                 >
                   <div className="relative mb-6">
                     <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl transition-all group-hover:blur-2xl" />
