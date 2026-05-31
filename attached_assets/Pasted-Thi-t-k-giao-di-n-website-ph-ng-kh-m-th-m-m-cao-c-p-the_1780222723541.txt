@@ -1,0 +1,128 @@
+Thiết kế giao diện website phòng khám thẩm mỹ cao cấp theo phong cách hiện đại, tối giản và sang trọng.
+
+Tông màu chủ đạo:
+- Xanh Emerald đậm
+- Xanh Sage nhạt
+- Trắng tinh khiết
+- Không sử dụng màu vàng gold
+- Không dùng quá nhiều hiệu ứng
+- Không dùng các khối icon dày đặc
+
+=========================
+SECTION 1: GIỚI THIỆU
+=========================
+
+Bố cục 2 cột cân đối.
+
+Bên trái:
+
+Tiêu đề nhỏ:
+GIỚI THIỆU
+
+Tiêu đề lớn:
+THIÊN HOÀNG KIM
+AESTHETIC CLINIC
+
+Đoạn giới thiệu ngắn về phòng khám thẩm mỹ chuẩn y khoa, ứng dụng công nghệ hiện đại và đội ngũ bác sĩ chuyên môn cao.
+
+Bên dưới là 3 chỉ số nổi bật:
+
+15+
+Năm kinh nghiệm
+
+5000+
+Khách hàng
+
+98%
+Khách hàng hài lòng
+
+Nút bo tròn:
+TÌM HIỂU THÊM
+
+Bên phải:
+
+Hình ảnh không gian phòng khám cao cấp.
+
+Quầy lễ tân hiện đại.
+
+Thiết kế nội thất sang trọng.
+
+Màu trắng kết hợp xanh Emerald.
+
+Ánh sáng tự nhiên mềm mại.
+
+Không gian sạch sẽ chuẩn y khoa.
+
+=========================
+SECTION 2: DỊCH VỤ NỔI BẬT
+=========================
+
+Tiêu đề căn giữa:
+
+DỊCH VỤ NỔI BẬT
+
+Dòng mô tả:
+Giải pháp làm đẹp toàn diện chuẩn y khoa.
+
+Bên dưới là 2 banner lớn nằm ngang.
+
+--------------------------------
+
+BANNER TRÁI
+
+THẨM MỸ
+
+Hình người mẫu nữ sang trọng.
+
+Tông màu trắng và xanh nhạt.
+
+Danh sách dịch vụ:
+
+• Nâng mũi
+• Cắt mí
+• Filler – Botox
+• Trẻ hóa da
+
+Nút:
+KHÁM PHÁ NGAY
+
+--------------------------------
+
+BANNER PHẢI
+
+SPA
+
+Hình khách hàng thư giãn tại spa.
+
+Tông màu xanh Emerald đậm.
+
+Lá cây nhiệt đới.
+
+Không gian thư giãn cao cấp.
+
+Danh sách dịch vụ:
+
+• Gội đầu dưỡng sinh
+• Massage thư giãn
+• Chăm sóc da chuyên sâu
+• Liệu trình phục hồi cơ thể
+
+Nút:
+KHÁM PHÁ NGAY
+
+=========================
+
+Phong cách tổng thể:
+
+- Website phòng khám thẩm mỹ cao cấp
+- Hiện đại và tối giản
+- Nhiều khoảng trắng
+- Ảnh lớn chiếm ưu thế
+- Bố cục thoáng
+- Bo góc 24px
+- Đổ bóng nhẹ
+- Chuyên nghiệp chuẩn y khoa
+- Cảm giác tin cậy và đẳng cấp
+- Chuẩn giao diện website năm 2026
+- Chất lượng thiết kế như dự án trên Behance hoặc Dribbble
+- Hình ảnh chân thực, sắc nét, cao cấp

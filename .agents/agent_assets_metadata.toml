@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "xXjdg1Il-LpPw0G55pWH_"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/doctor-1.png"
+type = "image"
+title = "Vietnamese male doctor portrait"
+
+[[generated]]
+id = "R1IQgSYtF3FHEzlMRRoi7"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/doctor-2.png"
+type = "image"
+title = "Vietnamese female doctor portrait"
+
+[[generated]]
+id = "pMfjrp_c9bIgvdcQ-yKO4"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/doctor-3.png"
+type = "image"
+title = "Vietnamese female doctor portrait"
+
+[[generated]]
+id = "nz55wI6l0mkh7MA6oHhl3"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/blog-1.png"
+type = "image"
+title = "Aesthetic medical close-up"
+
+[[generated]]
+id = "xkJYNyh14VBOY_aYpWGZI"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/blog-2.png"
+type = "image"
+title = "Aesthetic medical close-up"
+
+[[generated]]
+id = "dcqNTFRqkK7Zbj87xqjZE"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/blog-3.png"
+type = "image"
+title = "Aesthetic medical close-up"
+
+[[generated]]
+id = "of9eqdL7zPuThEdrEYXnk"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/before-1.png"
+type = "image"
+title = "Before nose job"
+
+[[generated]]
+id = "Wxya1TknfisWO9JtxN1OG"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/after-1.png"
+type = "image"
+title = "After nose job"
+
+[[generated]]
+id = "n4I23MUfmcROhxYNJAwAk"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/before-2.png"
+type = "image"
+title = "Before eyelid surgery"
+
+[[generated]]
+id = "bGZdbWr8lpCPE0ddKlAV1"
+uri = "file://artifacts/thien-hoang-kim/src/assets/images/after-2.png"
+type = "image"
+title = "After eyelid surgery"

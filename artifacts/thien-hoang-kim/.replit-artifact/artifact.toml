@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Thiên Hoàng Kim Aesthetic Clinic"
+version = "1.0.0"
+id = "artifacts/thien-hoang-kim"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23943
+
+[services.development]
+run = "pnpm --filter @workspace/thien-hoang-kim run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/thien-hoang-kim", "run", "build" ]
+publicDir = "artifacts/thien-hoang-kim/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23943"
+BASE_PATH = "/"
