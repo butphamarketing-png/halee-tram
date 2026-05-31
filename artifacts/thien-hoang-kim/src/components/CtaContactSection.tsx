@@ -30,6 +30,8 @@ type CtaContactSectionProps = {
   title: string;
   description: string;
   image: string;
+  websiteUrl: string;
+  websiteLabel: string;
   facebookUrl: string;
   messengerSlug: string;
   phone: string;
@@ -40,6 +42,8 @@ export function CtaContactSection({
   title,
   description,
   image,
+  websiteUrl,
+  websiteLabel,
   facebookUrl,
   messengerSlug,
   phone,
@@ -79,6 +83,14 @@ export function CtaContactSection({
       href: MAPS_URL,
       icon: MapPin,
       iconBg: "bg-[#EA4335]/15 text-[#EA4335]",
+    },
+    {
+      id: "website",
+      title: "Website",
+      description: websiteLabel,
+      href: websiteUrl || "/",
+      icon: Globe,
+      iconBg: "bg-primary/15 text-primary",
     },
   ];
 
@@ -138,12 +150,12 @@ export function CtaContactSection({
             <div className="flex flex-col justify-center divide-y divide-border/70">
               {channels.map((ch) => {
                 const Icon = ch.icon;
+                const external = ch.id !== "website";
                 return (
                   <a
                     key={ch.id}
                     href={ch.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="group flex items-center gap-4 px-6 py-5 transition-colors hover:bg-primary/[0.04] md:px-8 md:py-6"
                   >
                     <span
@@ -165,12 +177,8 @@ export function CtaContactSection({
             </div>
           </motion.div>
 
-          {/* Website + nút đặt lịch */}
+          {/* Nút đặt lịch */}
           <div className="border-t border-border/60 bg-[#fafcfb] px-6 py-8 text-center md:px-10 md:py-10">
-            <p className="mb-4 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-primary/70">
-              <Globe className="h-4 w-4" />
-              Website
-            </p>
             <Button
               type="button"
               size="lg"

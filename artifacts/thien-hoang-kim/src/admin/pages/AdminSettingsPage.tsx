@@ -28,6 +28,8 @@ export function AdminSettingsPage() {
         <AdminField label="Topbar — địa chỉ" value={s.topbarAddress} onChange={(v) => set("topbarAddress", v)} />
         <AdminField label="Topbar — giờ" value={s.topbarHours} onChange={(v) => set("topbarHours", v)} />
         <AdminField label="Messenger slug (m.me/...)" value={s.messengerSlug} onChange={(v) => set("messengerSlug", v)} />
+        <AdminField label="Website URL" value={s.websiteUrl} onChange={(v) => set("websiteUrl", v)} />
+        <AdminField label="Website — dòng mô tả (CTA)" value={s.websiteLabel} onChange={(v) => set("websiteLabel", v)} />
         <AdminField label="Facebook URL" value={s.facebookUrl} onChange={(v) => set("facebookUrl", v)} />
         <AdminField label="TikTok URL" value={s.tiktokUrl} onChange={(v) => set("tiktokUrl", v)} />
         <AdminField label="YouTube URL" value={s.youtubeUrl} onChange={(v) => set("youtubeUrl", v)} />

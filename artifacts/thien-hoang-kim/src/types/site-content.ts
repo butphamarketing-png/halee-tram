@@ -110,6 +110,8 @@ export type SiteSettings = {
   messengerSlug: string;
   topbarAddress: string;
   topbarHours: string;
+  websiteUrl: string;
+  websiteLabel: string;
   facebookUrl: string;
   tiktokUrl: string;
   youtubeUrl: string;

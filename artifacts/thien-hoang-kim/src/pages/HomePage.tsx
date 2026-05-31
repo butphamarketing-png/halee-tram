@@ -464,6 +464,8 @@ export default function HomePage() {
         title={home.ctaTitle}
         description={home.ctaDescription}
         image={home.ctaImage}
+        websiteUrl={settings.websiteUrl || "/"}
+        websiteLabel={settings.websiteLabel || "thienhoangkim.vn"}
         facebookUrl={settings.facebookUrl}
         messengerSlug={settings.messengerSlug}
         phone={settings.phone}

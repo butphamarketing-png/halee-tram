@@ -20,6 +20,8 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     messengerSlug: "thienhoangkim",
     topbarAddress: "323-325 Hùng Vương, Phường An Đông, TP. Hồ Chí Minh",
     topbarHours: "Thứ 2 - Chủ nhật: 08:00 - 20:00",
+    websiteUrl: "/",
+    websiteLabel: "thienhoangkim.vn",
     facebookUrl: "#",
     tiktokUrl: "#",
     youtubeUrl: "#",
