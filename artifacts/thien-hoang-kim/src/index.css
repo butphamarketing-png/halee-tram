@@ -119,7 +119,9 @@
   --gold-foreground: 0 0% 100%;
 
   --app-font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  --app-font-serif: 'Cormorant Garamond', 'Noto Serif', 'Lora', Georgia, 'Times New Roman', serif;
+  /* Noto Serif / Lora trước — Cormorant thiếu dấu tiếng Việt (Ẵ, Ệ, …) */
+  --app-font-serif: 'Noto Serif', 'Lora', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --app-font-vietnamese-serif: 'Noto Serif', 'Lora', Georgia, 'Times New Roman', serif;
   --app-font-script: 'Great Vibes', cursive;
   --app-font-mono: Menlo, monospace;
   --radius: 0.75rem;
@@ -214,6 +216,12 @@
 
   .font-serif {
     font-family: var(--app-font-serif);
+  }
+
+  .font-vietnamese-serif {
+    font-family: var(--app-font-vietnamese-serif);
+    font-feature-settings: "locl" 1;
+    text-rendering: optimizeLegibility;
   }
 }
 

@@ -90,10 +90,11 @@ export function CtaContactSection({
       <div className="container relative z-10 mx-auto w-full max-w-[92rem] px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="mb-5 overflow-x-auto text-center [-ms-overflow-style:none] [scrollbar-width:none] md:mb-7 [&::-webkit-scrollbar]:hidden">
           <motion.h2
+            lang="vi"
             initial={{ y: 10, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="inline-block min-w-full px-1 font-['Noto_Serif','Cormorant_Garamond',serif] text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap"
+            className="font-vietnamese-serif inline-block min-w-full px-1 text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap"
           >
             {title}
           </motion.h2>
