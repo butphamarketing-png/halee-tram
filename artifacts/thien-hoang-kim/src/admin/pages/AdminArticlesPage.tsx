@@ -7,7 +7,8 @@ import { AdminField } from "@/admin/components/AdminField";
 import { AdminImageField } from "@/admin/components/AdminImageField";
 import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
 import { useSiteContent } from "@/context/SiteContentContext";
-import { AdminSeoFields } from "@/admin/components/AdminSeoFields";
+import { AdminSeoPanel } from "@/admin/components/AdminSeoPanel";
+import { getSiteBaseUrl } from "@/lib/seo-sitemap";
 import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
 import { slugify } from "@/lib/slug";
 import type { ArticleSeo, SiteArticle } from "@/types/site-content";
@@ -42,7 +43,7 @@ export function AdminArticlesPage() {
     });
   };
 
-  const updateArticleSeo = (index: number, key: keyof ArticleSeo, value: string) => {
+  const updateArticleSeo = (index: number, key: keyof ArticleSeo, value: string | boolean) => {
     updateContent((p) => {
       const list = [...p.articles];
       const current = list[index];
@@ -53,6 +54,8 @@ export function AdminArticlesPage() {
       return { ...p, articles: list };
     });
   };
+
+  const siteUrl = getSiteBaseUrl(content.settings.seo.siteUrl);
 
   return (
     <div>
@@ -197,15 +200,25 @@ export function AdminArticlesPage() {
                     </div>
 
                     <div className="md:col-span-2">
-                      <AdminSeoFields
+                      <AdminSeoPanel
                         metaTitle={a.seo?.metaTitle ?? ""}
                         metaDescription={a.seo?.metaDescription ?? ""}
+                        focusKeyphrase={a.seo?.focusKeyphrase ?? ""}
                         keywords={a.seo?.keywords ?? ""}
-                        ogImage={a.seo?.ogImage ?? ""}
+                        canonicalUrl={a.seo?.canonicalUrl ?? ""}
+                        ogImage={a.seo?.ogImage ?? a.image}
                         ogTitle={a.seo?.ogTitle ?? ""}
                         ogDescription={a.seo?.ogDescription ?? ""}
                         robots={a.seo?.robots ?? "index,follow"}
+                        noindex={a.seo?.noindex ?? false}
+                        nofollow={a.seo?.nofollow ?? false}
+                        h1={a.title}
+                        bodyText={a.body}
+                        slug={a.slug}
+                        hasImage={Boolean(a.image || a.seo?.ogImage)}
                         previewPath={`/tin-tuc/${a.slug}`}
+                        previewUrl={`${siteUrl}/tin-tuc/${a.slug}`}
+                        siteName={content.settings.seo.siteName}
                         onChange={(key, value) => updateArticleSeo(i, key as keyof ArticleSeo, value)}
                       />
                     </div>

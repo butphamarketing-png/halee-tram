@@ -8,7 +8,7 @@ const slide = publicAsset("slideshow.1.png");
 const intro = publicAsset("gioithieu.1.png");
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  version: 2,
+  version: 3,
   settings: {
     clinicName: "THIÊN HOÀNG KIM",
     clinicSubtitle: "Aesthetic Clinic",
@@ -27,7 +27,9 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     youtubeUrl: "#",
     seo: {
       siteName: "Thiên Hoàng Kim Aesthetic Clinic",
+      siteUrl: "https://thienhoangkim.vercel.app",
       title: "Thiên Hoàng Kim Aesthetic Clinic | Nâng Tầm Nhan Sắc",
+      titleSeparator: " | ",
       description:
         "Phòng khám thẩm mỹ chuẩn y khoa tại TP.HCM — nâng mũi, cắt mí, filler, botox, trẻ hóa da và spa chăm sóc da chuyên sâu.",
       keywords:
@@ -39,6 +41,15 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       twitterCard: "summary_large_image",
       robots: "index,follow",
       locale: "vi_VN",
+      googleSiteVerification: "",
+      bingSiteVerification: "",
+      facebookAppId: "",
+      schemaEnabled: true,
+      breadcrumbsEnabled: true,
+      organizationType: "MedicalBusiness",
+      organizationLogo: slide,
+      priceRange: "$$",
+      robotsTxtExtra: "",
     },
   },
   home: {

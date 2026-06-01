@@ -39,11 +39,17 @@ export type ArticleSeo = {
   metaTitle: string;
   /** Mô tả meta. Để trống = dùng mô tả ngắn bài viết */
   metaDescription: string;
+  /** Từ khóa chính — phân tích SEO (giống Yoast focus keyphrase) */
+  focusKeyphrase: string;
   keywords: string;
+  /** URL canonical tùy chỉnh (để trống = URL bài viết) */
+  canonicalUrl: string;
   ogImage: string;
   ogTitle: string;
   ogDescription: string;
   robots: string;
+  noindex: boolean;
+  nofollow: boolean;
 };
 
 export type SiteArticle = {
@@ -109,15 +115,28 @@ export type SiteProcessStep = {
 
 export type SiteSeo = {
   siteName: string;
+  /** URL gốc website (https://domain.com) — dùng canonical & sitemap */
+  siteUrl: string;
   title: string;
   description: string;
   keywords: string;
+  /** Ký tự ngăn cách title | site name */
+  titleSeparator: string;
   ogImage: string;
   ogTitle: string;
   ogDescription: string;
   twitterCard: "summary" | "summary_large_image";
   robots: string;
   locale: string;
+  googleSiteVerification: string;
+  bingSiteVerification: string;
+  facebookAppId: string;
+  schemaEnabled: boolean;
+  breadcrumbsEnabled: boolean;
+  organizationType: string;
+  organizationLogo: string;
+  priceRange: string;
+  robotsTxtExtra: string;
 };
 
 export type SiteSettings = {
