@@ -1,5 +1,6 @@
 import { DEFAULT_ARTICLES } from "@/data/articles.defaults";
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
+import { normalizeArticleSeo, normalizeSiteSeo } from "@/lib/seo";
 import { slugify } from "@/lib/slug";
 import type { SiteArticle, SiteContent } from "@/types/site-content";
 
@@ -21,6 +22,7 @@ export function normalizeArticles(articles?: SiteArticle[]): SiteArticle[] {
       description: a.description || fallback?.description || "",
       body: a.body || fallback?.body || a.description || "",
       published: a.published ?? fallback?.published ?? true,
+      seo: normalizeArticleSeo(a.seo ?? fallback?.seo),
     };
   });
 }
@@ -34,10 +36,7 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
     settings: {
       ...base.settings,
       ...partial.settings,
-      seo: {
-        ...base.settings.seo,
-        ...partial.settings?.seo,
-      },
+      seo: normalizeSiteSeo(partial.settings?.seo, base.settings.seo),
     },
     home: { ...base.home, ...partial.home },
     footer: {

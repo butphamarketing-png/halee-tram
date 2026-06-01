@@ -20,6 +20,7 @@ import ServicesPage from "@/pages/ServicesPage";
 import ServiceCategoryPage from "@/pages/ServiceCategoryPage";
 import ServiceDetailPage from "@/pages/ServiceDetailPage";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { RouteSeo } from "@/components/RouteSeo";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ function App() {
           <BookingDialogProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
               <ScrollToTop />
+              <RouteSeo />
               <AppRouter />
             </WouterRouter>
             <Toaster />

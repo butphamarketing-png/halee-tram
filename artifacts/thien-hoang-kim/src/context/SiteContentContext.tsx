@@ -15,7 +15,6 @@ import {
   publishContentToApi,
   saveContentToStorage,
 } from "@/lib/site-content-storage";
-import { isAdminLocation } from "@/config/admin";
 import { getAdminToken } from "@/lib/admin-auth";
 import type { SiteContent } from "@/types/site-content";
 
@@ -30,28 +29,6 @@ type SiteContentContextValue = {
 };
 
 const SiteContentContext = createContext<SiteContentContextValue | null>(null);
-
-function applySeoMeta(seo: SiteContent["settings"]["seo"]) {
-  document.title = seo.title;
-  const setMeta = (name: string, content: string) => {
-    let el = document.querySelector(`meta[name="${name}"]`);
-    if (!el) {
-      el = document.createElement("meta");
-      el.setAttribute("name", name);
-      document.head.appendChild(el);
-    }
-    el.setAttribute("content", content);
-  };
-  setMeta("description", seo.description);
-  setMeta("keywords", seo.keywords);
-  let og = document.querySelector('meta[property="og:image"]');
-  if (!og) {
-    og = document.createElement("meta");
-    og.setAttribute("property", "og:image");
-    document.head.appendChild(og);
-  }
-  og.setAttribute("content", seo.ogImage);
-}
 
 export function SiteContentProvider({ children }: { children: ReactNode }) {
   const [location] = useLocation();
@@ -75,11 +52,6 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
       active = false;
     };
   }, [isAdmin]);
-
-  useEffect(() => {
-    if (isAdminLocation(location)) return;
-    if (!loading) applySeoMeta(content.settings.seo);
-  }, [content.settings.seo, location, loading]);
 
   const updateContent = useCallback((updater: (prev: SiteContent) => SiteContent) => {
     setContent((prev) => {

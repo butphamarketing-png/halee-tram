@@ -34,6 +34,18 @@ export type SiteDoctor = {
   bio: string;
 };
 
+export type ArticleSeo = {
+  /** Tiêu đề SEO (tab trình duyệt / Google). Để trống = dùng tiêu đề bài viết */
+  metaTitle: string;
+  /** Mô tả meta. Để trống = dùng mô tả ngắn bài viết */
+  metaDescription: string;
+  keywords: string;
+  ogImage: string;
+  ogTitle: string;
+  ogDescription: string;
+  robots: string;
+};
+
 export type SiteArticle = {
   id: string;
   slug: string;
@@ -44,6 +56,7 @@ export type SiteArticle = {
   description: string;
   body: string;
   published: boolean;
+  seo: ArticleSeo;
 };
 
 export type SiteLink = {
@@ -95,10 +108,16 @@ export type SiteProcessStep = {
 };
 
 export type SiteSeo = {
+  siteName: string;
   title: string;
   description: string;
   keywords: string;
   ogImage: string;
+  ogTitle: string;
+  ogDescription: string;
+  twitterCard: "summary" | "summary_large_image";
+  robots: string;
+  locale: string;
 };
 
 export type SiteSettings = {

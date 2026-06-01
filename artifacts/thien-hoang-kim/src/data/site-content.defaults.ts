@@ -26,11 +26,19 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     tiktokUrl: "#",
     youtubeUrl: "#",
     seo: {
+      siteName: "Thiên Hoàng Kim Aesthetic Clinic",
       title: "Thiên Hoàng Kim Aesthetic Clinic | Nâng Tầm Nhan Sắc",
       description:
         "Phòng khám thẩm mỹ chuẩn y khoa tại TP.HCM — nâng mũi, cắt mí, filler, botox, trẻ hóa da và spa chăm sóc da chuyên sâu.",
-      keywords: "thẩm mỹ, phòng khám thẩm mỹ, nâng mũi, cắt mí, filler, Thiên Hoàng Kim",
+      keywords:
+        "thẩm mỹ, phòng khám thẩm mỹ, nâng mũi, cắt mí, filler, botox, spa, Thiên Hoàng Kim, TP.HCM",
       ogImage: slide,
+      ogTitle: "Thiên Hoàng Kim Aesthetic Clinic | Nâng Tầm Nhan Sắc",
+      ogDescription:
+        "Phòng khám thẩm mỹ chuẩn y khoa tại TP.HCM — tư vấn miễn phí, bác sĩ chuyên gia, công nghệ hiện đại.",
+      twitterCard: "summary_large_image",
+      robots: "index,follow",
+      locale: "vi_VN",
     },
   },
   home: {

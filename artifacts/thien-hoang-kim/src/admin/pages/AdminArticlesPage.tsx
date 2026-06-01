@@ -7,8 +7,10 @@ import { AdminField } from "@/admin/components/AdminField";
 import { AdminImageField } from "@/admin/components/AdminImageField";
 import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { AdminSeoFields } from "@/admin/components/AdminSeoFields";
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
 import { slugify } from "@/lib/slug";
-import type { SiteArticle } from "@/types/site-content";
+import type { ArticleSeo, SiteArticle } from "@/types/site-content";
 
 const CATEGORIES = ["Kiến thức", "Tin tức", "Dịch vụ", "Công nghệ", "Spa"];
 
@@ -24,6 +26,7 @@ function newArticle(): SiteArticle {
     description: "",
     body: "",
     published: true,
+    seo: { ...DEFAULT_ARTICLE_SEO },
   };
 }
 
@@ -35,6 +38,18 @@ export function AdminArticlesPage() {
     updateContent((p) => {
       const list = [...p.articles];
       list[index] = { ...list[index], ...patch };
+      return { ...p, articles: list };
+    });
+  };
+
+  const updateArticleSeo = (index: number, key: keyof ArticleSeo, value: string) => {
+    updateContent((p) => {
+      const list = [...p.articles];
+      const current = list[index];
+      list[index] = {
+        ...current,
+        seo: { ...current.seo, [key]: value },
+      };
       return { ...p, articles: list };
     });
   };
@@ -178,6 +193,20 @@ export function AdminArticlesPage() {
                         value={a.description}
                         onChange={(v) => updateArticle(i, { description: v })}
                         multiline
+                      />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <AdminSeoFields
+                        metaTitle={a.seo?.metaTitle ?? ""}
+                        metaDescription={a.seo?.metaDescription ?? ""}
+                        keywords={a.seo?.keywords ?? ""}
+                        ogImage={a.seo?.ogImage ?? ""}
+                        ogTitle={a.seo?.ogTitle ?? ""}
+                        ogDescription={a.seo?.ogDescription ?? ""}
+                        robots={a.seo?.robots ?? "index,follow"}
+                        previewPath={`/tin-tuc/${a.slug}`}
+                        onChange={(key, value) => updateArticleSeo(i, key as keyof ArticleSeo, value)}
                       />
                     </div>
                     <div className="md:col-span-2">

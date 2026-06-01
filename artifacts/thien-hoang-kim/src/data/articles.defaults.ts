@@ -1,3 +1,4 @@
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
 import type { SiteArticle } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
@@ -26,6 +27,7 @@ function article(
     description,
     body,
     published: true,
+    seo: { ...DEFAULT_ARTICLE_SEO },
   };
 }
 
