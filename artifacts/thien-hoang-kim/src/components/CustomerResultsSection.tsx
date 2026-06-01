@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { Button } from "@/components/ui/button";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { cn } from "@/lib/utils";
 
 export type CustomerResultCase = {
@@ -136,22 +137,12 @@ export function CustomerResultsSection({ cases }: CustomerResultsSectionProps) {
       />
 
       <div className="container relative mx-auto px-4 md:px-6 lg:px-8">
-        <div className="mb-10 text-center md:mb-12">
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.38em] text-primary/55">
-            Thực tế
-          </p>
-          <h2 className="font-serif text-3xl font-semibold tracking-tight text-primary md:text-[2.5rem] md:leading-tight">
-            KHÁCH HÀNG THỰC TẾ
-          </h2>
-          <div className="mx-auto mt-4 flex items-center justify-center gap-3" aria-hidden>
-            <span className="h-px w-10 bg-gradient-to-r from-transparent to-gold/50" />
-            <span className="h-1 w-1 rounded-full bg-gold/70" />
-            <span className="h-px w-10 bg-gradient-to-l from-transparent to-gold/50" />
-          </div>
-          <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-[15px]">
-            Hàng nghìn khách hàng đã thay đổi diện mạo và tự tin hơn cùng Thiên Hoàng Kim.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Thực tế"
+          title="KHÁCH HÀNG THỰC TẾ"
+          subtitle="Hàng nghìn khách hàng đã thay đổi diện mạo và tự tin hơn cùng Thiên Hoàng Kim."
+          className="mb-10 md:mb-12"
+        />
 
         <div className="mx-auto flex w-full max-w-6xl items-center justify-center gap-3 md:justify-between md:gap-6 lg:max-w-7xl lg:gap-10">
           <SideColumn item={prev} direction="prev" onClick={() => go(-1)} />

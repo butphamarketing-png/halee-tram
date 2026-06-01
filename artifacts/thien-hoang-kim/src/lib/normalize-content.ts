@@ -38,7 +38,12 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
       ...partial.settings,
       seo: normalizeSiteSeo(partial.settings?.seo, base.settings.seo),
     },
-    home: { ...base.home, ...partial.home },
+    home: {
+      ...base.home,
+      ...partial.home,
+      featuredServiceImages: partial.home?.featuredServiceImages ?? base.home.featuredServiceImages,
+      heroSlides: partial.home?.heroSlides ?? base.home.heroSlides,
+    },
     footer: {
       ...base.footer,
       ...partial.footer,

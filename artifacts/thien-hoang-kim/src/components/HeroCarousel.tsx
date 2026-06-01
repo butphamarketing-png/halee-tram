@@ -40,19 +40,33 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   return (
     <section className="relative w-full overflow-hidden bg-white" aria-label="Banner slideshow">
       <div className="relative w-full">
-        {slides.map((slide, i) => (
-          <img
-            key={slide.id}
-            src={slide.src}
-            alt={slide.alt}
-            className={`block w-full h-auto transition-opacity duration-700 ${
-              i === index
-                ? "relative z-[1] opacity-100"
-                : "absolute inset-x-0 top-0 z-0 opacity-0 pointer-events-none"
-            }`}
-            fetchPriority={i === 0 ? "high" : "low"}
-          />
-        ))}
+        {slides.map((slide, i) => {
+          const isVideo = /\.(mp4|webm|mov|ogg)(\?|$)/i.test(slide.src);
+          const slideClass = `block w-full h-auto transition-opacity duration-700 ${
+            i === index
+              ? "relative z-[1] opacity-100"
+              : "absolute inset-x-0 top-0 z-0 opacity-0 pointer-events-none"
+          }`;
+          return isVideo ? (
+            <video
+              key={slide.id}
+              src={slide.src}
+              className={slideClass}
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <img
+              key={slide.id}
+              src={slide.src}
+              alt={slide.alt}
+              className={slideClass}
+              fetchPriority={i === 0 ? "high" : "low"}
+            />
+          );
+        })}
 
         {showControls && (
           <>

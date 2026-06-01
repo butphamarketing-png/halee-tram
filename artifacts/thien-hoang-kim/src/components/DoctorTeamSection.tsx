@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { cn } from "@/lib/utils";
 
 export type DoctorProfile = {
@@ -83,14 +84,14 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
   const visible = doctors.slice(index, index + perView);
 
   return (
-    <section className="border-t border-border bg-background py-20 md:py-24">
+    <section className="section-surface-alt border-t border-border/60 py-20 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-12 text-center md:mb-14">
-          <h2 className="mb-4 font-serif text-4xl font-semibold text-primary md:text-5xl">ĐỘI NGŨ BÁC SĨ</h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Đội ngũ bác sĩ giàu kinh nghiệm, chuyên môn cao và tận tâm với khách hàng.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Đội ngũ"
+          title="ĐỘI NGŨ BÁC SĨ"
+          subtitle="Đội ngũ bác sĩ giàu kinh nghiệm, chuyên môn cao và tận tâm với khách hàng."
+          className="mb-12 md:mb-14"
+        />
 
         <div
           className={cn(

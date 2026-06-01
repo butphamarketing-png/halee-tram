@@ -11,6 +11,7 @@ import { ExamProcessSection } from "@/components/ExamProcessSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { BeautyHandbookSection } from "@/components/BeautyHandbookSection";
 import { CtaContactSection } from "@/components/CtaContactSection";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { CountUpValue } from "@/components/CountUpValue";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { COMMITMENT_ICONS } from "@/lib/commitment-icons";
@@ -27,16 +28,13 @@ export default function HomePage() {
       <HeroCarousel slides={home.heroSlides} />
 
       {/* COMMITMENTS */}
-      <section className="border-b border-border bg-white pt-12 md:pt-14 pb-0">
-        <div className="container mx-auto px-4 pb-4 md:px-8 md:pb-6">
-          <div className="mb-8 text-center md:mb-10">
-            <h2 className="font-serif text-3xl font-semibold text-primary md:text-4xl">
-              {home.commitmentsTitle}
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              {home.commitmentsSubtitle}
-            </p>
-          </div>
+      <section className="section-surface border-b border-border/60 pt-14 pb-0 md:pt-16">
+        <div className="container mx-auto px-4 pb-6 md:px-8 md:pb-8">
+          <SectionHeading
+            title={home.commitmentsTitle}
+            subtitle={home.commitmentsSubtitle}
+            className="mb-10 md:mb-12"
+          />
 
           <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:gap-6">
             {home.commitments.map((item, i) => {
@@ -48,9 +46,9 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
-                  className="card-hover-lift group flex min-w-0 flex-col items-center rounded-xl border border-border bg-white p-3 text-center shadow-sm sm:p-4 md:p-5"
+                  className="luxury-card card-hover-lift group flex min-w-0 flex-col items-center rounded-2xl p-3 text-center sm:p-4 md:p-5"
                 >
-                  <div className="commitment-icon-wrap mb-3 flex h-11 w-11 shrink-0 cursor-default items-center justify-center rounded-full border-2 border-primary/15 bg-secondary/40 text-primary sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
+                  <div className="commitment-icon-wrap mb-3 flex h-11 w-11 shrink-0 cursor-default items-center justify-center rounded-full border border-[#d4b86a]/25 bg-gradient-to-br from-[#faf8f2] to-[#f0ebe0] text-primary shadow-inner sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
                     <Icon className="commitment-icon h-5 w-5 stroke-[1.5] sm:h-6 sm:w-6 md:h-7 md:w-7" />
                   </div>
                   <h3 className="mb-1.5 w-full text-[10px] font-bold leading-tight text-primary sm:mb-2 sm:text-xs md:text-sm">
@@ -67,13 +65,13 @@ export default function HomePage() {
       </section>
 
       {/* ABOUT — desktop: trái chữ | phải ảnh; mobile: ảnh trên, chữ full width */}
-      <section id="gioi-thieu" className="scroll-mt-24 border-t border-border/40 bg-white pb-12 pt-8 md:pb-16 md:pt-10">
+      <section id="gioi-thieu" className="section-surface-alt scroll-mt-24 border-t border-border/40 pb-12 pt-10 md:pb-16 md:pt-12">
         <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="grid grid-cols-1 overflow-hidden md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:items-stretch"
+            className="grid grid-cols-1 overflow-hidden rounded-2xl border border-border/50 bg-white shadow-[0_20px_60px_-24px_rgba(15,48,36,0.12)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:items-stretch"
           >
               <div className="order-2 flex min-w-0 flex-col justify-start px-0 py-8 md:order-1 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 <div className="mb-5 flex items-center gap-4 md:mb-6">
@@ -81,7 +79,7 @@ export default function HomePage() {
                   <span className="text-sm font-semibold uppercase tracking-wider text-primary">{home.aboutEyebrow}</span>
                 </div>
 
-                <h2 className="font-serif text-3xl font-semibold leading-tight text-primary md:text-4xl lg:text-[2.75rem]">
+                <h2 className="font-vietnamese-serif text-3xl font-semibold leading-tight text-primary md:text-4xl lg:text-[2.75rem]">
                   {home.aboutTitle}
                 </h2>
                 <p className="mt-2 font-sans text-base uppercase tracking-[0.22em] text-muted-foreground md:text-lg">
@@ -95,11 +93,11 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-8 md:mt-10">
-                  <div className="grid grid-cols-1 divide-y divide-border border-y border-border py-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:py-5 md:py-6">
+                  <div className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-3 sm:gap-4 sm:py-5 md:py-6">
                     {home.aboutStats.map((stat) => (
                       <div
                         key={stat.title}
-                        className="flex min-w-0 flex-col items-center px-2 py-3 text-center first:pt-0 last:pb-0 sm:px-3 sm:py-0"
+                        className="stat-pill flex min-w-0 flex-col items-center rounded-xl px-3 py-4 text-center"
                       >
                         <CountUpValue
                           value={stat.value}

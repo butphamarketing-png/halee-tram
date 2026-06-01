@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { scrollCarouselLoop } from "@/lib/infinite-scroll";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { cn } from "@/lib/utils";
 
 export type Testimonial = {
@@ -68,14 +69,12 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
       )}
 
       <div className="container relative z-10 mx-auto px-4 md:px-8">
-        <div className="mb-8 text-center md:mb-12">
-          <h2 className="mb-3 font-serif text-3xl font-semibold md:mb-4 md:text-5xl">
-            KHÁCH HÀNG NÓI GÌ VỀ THIÊN HOÀNG KIM
-          </h2>
-          <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
-            Hơn 10.000 khách hàng đã tin tưởng và lựa chọn
-          </p>
-        </div>
+        <SectionHeading
+          title="KHÁCH HÀNG NÓI GÌ VỀ THIÊN HOÀNG KIM"
+          subtitle="Hơn 10.000 khách hàng đã tin tưởng và lựa chọn"
+          light
+          className="mb-8 md:mb-12"
+        />
 
         <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-4">
           <Button

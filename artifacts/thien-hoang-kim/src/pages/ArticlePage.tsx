@@ -17,6 +17,7 @@ export default function ArticlePage() {
   }
 
   const paragraphs = article.body.split(/\n\n+/).filter(Boolean);
+  const imgLine = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
 
   return (
     <SiteLayout>
@@ -32,9 +33,23 @@ export default function ArticlePage() {
         )}
         <p className="mt-8 text-lg font-medium leading-relaxed text-foreground/90">{article.description}</p>
         <div className="mt-8 space-y-4 text-base leading-relaxed text-foreground/85">
-          {paragraphs.map((para) => (
-            <p key={para.slice(0, 40)}>{para}</p>
-          ))}
+          {paragraphs.map((para, idx) => {
+            const m = para.match(imgLine);
+            if (m) {
+              return (
+                <figure key={`img-${idx}`} className="my-6">
+                  <img
+                    src={m[2]}
+                    alt={m[1] || article.title}
+                    className="w-full rounded-2xl object-cover shadow-md"
+                  />
+                </figure>
+              );
+            }
+            return (
+              <p key={`p-${idx}-${para.slice(0, 24)}`}>{para}</p>
+            );
+          })}
         </div>
         <div className="mt-12 flex flex-wrap gap-3">
           <Link href="/lien-he#dat-lich">

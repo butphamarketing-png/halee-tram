@@ -2,6 +2,7 @@ import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useBookingDialog } from "@/context/BookingDialogContext";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { cn } from "@/lib/utils";
 
 export type ExamProcessStep = {
@@ -18,16 +19,14 @@ export function ExamProcessSection({ steps }: ExamProcessSectionProps) {
   const { openBookingDialog } = useBookingDialog();
 
   return (
-    <section className="border-t border-border bg-background py-16 md:py-24">
+    <section className="section-surface border-t border-border/60 py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-10 text-center md:mb-14">
-          <h2 className="mb-3 font-serif text-3xl font-semibold text-primary md:mb-4 md:text-5xl">
-            QUY TRÌNH THĂM KHÁM
-          </h2>
-          <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
-            Chuẩn Y Khoa – An Toàn – Cá Nhân Hóa – Hiệu Quả
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Quy trình"
+          title="QUY TRÌNH THĂM KHÁM"
+          subtitle="Chuẩn Y Khoa – An Toàn – Cá Nhân Hóa – Hiệu Quả"
+          className="mb-10 md:mb-14"
+        />
 
         <div className="relative mt-10 md:mt-16">
           <div className="pointer-events-none absolute left-[8%] right-[8%] top-[52px] hidden h-px bg-border lg:block" />

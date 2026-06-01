@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { useRef, useState } from "react";
+import { ExternalLink, ImagePlus } from "lucide-react";
+import { AdminMediaPicker } from "@/admin/components/AdminMediaPicker";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -34,6 +35,8 @@ function newArticle(): SiteArticle {
 export function AdminArticlesPage() {
   const { content, updateContent } = useSiteContent();
   const [expanded, setExpanded] = useState<string | null>(content.articles[0]?.id ?? null);
+  const [mediaPickerFor, setMediaPickerFor] = useState<string | null>(null);
+  const bodyRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
 
   const updateArticle = (index: number, patch: Partial<SiteArticle>) => {
     updateContent((p) => {
@@ -223,11 +226,51 @@ export function AdminArticlesPage() {
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <AdminField
-                        label="Nội dung chi tiết (mỗi đoạn cách nhau 1 dòng trống)"
+                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                          Nội dung chi tiết
+                        </span>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setMediaPickerFor(a.id)}
+                        >
+                          <ImagePlus className="mr-1 h-4 w-4" />
+                          Chèn ảnh từ kho
+                        </Button>
+                      </div>
+                      <p className="mb-2 text-xs text-muted-foreground">
+                        Mỗi đoạn cách nhau 1 dòng trống. Ảnh trong bài: dòng riêng dạng{" "}
+                        <code className="rounded bg-muted px-1">![mô tả](url)</code>
+                      </p>
+                      <textarea
+                        ref={(el) => {
+                          bodyRefs.current[a.id] = el;
+                        }}
+                        className="flex min-h-[200px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         value={a.body}
-                        onChange={(v) => updateArticle(i, { body: v })}
-                        multiline
+                        onChange={(e) => updateArticle(i, { body: e.target.value })}
+                      />
+                      <AdminMediaPicker
+                        open={mediaPickerFor === a.id}
+                        onOpenChange={(v) => !v && setMediaPickerFor(null)}
+                        title="Chèn ảnh vào nội dung bài"
+                        filter="image"
+                        onSelect={(url) => {
+                          const snippet = `\n\n![${a.title || "Ảnh"}](${url})\n\n`;
+                          const el = bodyRefs.current[a.id];
+                          if (el) {
+                            const start = el.selectionStart;
+                            const end = el.selectionEnd;
+                            const next =
+                              a.body.slice(0, start) + snippet + a.body.slice(end);
+                            updateArticle(i, { body: next });
+                          } else {
+                            updateArticle(i, { body: (a.body ? `${a.body}\n\n` : "") + snippet.trim() });
+                          }
+                          setMediaPickerFor(null);
+                        }}
                       />
                     </div>
                   </div>

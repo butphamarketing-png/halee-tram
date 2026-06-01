@@ -1,5 +1,5 @@
 import type { Plugin } from "vite";
-import { mkdir, readFile, writeFile, readdir } from "fs/promises";
+import { mkdir, readFile, writeFile, readdir, unlink } from "fs/promises";
 import path from "path";
 
 const ADMIN_USER = process.env.VITE_ADMIN_USERNAME ?? "admin";
@@ -93,6 +93,26 @@ export function thkAdminApiPlugin(rootDir: string): Plugin {
             return;
           }
 
+          if (url === "/api/admin/media" && req.method === "DELETE") {
+            if (!isAuthed(req)) {
+              sendJson(res, 401, { error: "Unauthorized" });
+              return;
+            }
+            const q = new URL(req.url ?? "", "http://local").searchParams;
+            const name = q.get("name")?.replace(/[^a-zA-Z0-9._-]/g, "_") ?? "";
+            if (!name) {
+              sendJson(res, 400, { error: "Invalid filename" });
+              return;
+            }
+            try {
+              await unlink(path.join(uploadsDir, name));
+              sendJson(res, 200, { ok: true });
+            } catch {
+              sendJson(res, 404, { error: "Not found" });
+            }
+            return;
+          }
+
           if (url === "/api/admin/media" && req.method === "GET") {
             if (!isAuthed(req)) {
               sendJson(res, 401, { error: "Unauthorized" });
@@ -101,9 +121,14 @@ export function thkAdminApiPlugin(rootDir: string): Plugin {
             await mkdir(uploadsDir, { recursive: true });
             const files = await readdir(uploadsDir);
             const base = "/uploads/";
+            const mediaExt = /\.(png|jpe?g|webp|gif|svg|avif|mp4|webm|mov|ogg)$/i;
             const items = files
-              .filter((f) => /\.(png|jpe?g|webp|gif|svg)$/i.test(f))
-              .map((f) => ({ name: f, url: `${base}${f}` }));
+              .filter((f) => mediaExt.test(f))
+              .map((f) => ({
+                name: f,
+                url: `${base}${f}`,
+                type: /\.(mp4|webm|mov|ogg)$/i.test(f) ? "video" : "image",
+              }));
             sendJson(res, 200, items);
             return;
           }
@@ -118,15 +143,20 @@ export function thkAdminApiPlugin(rootDir: string): Plugin {
               data: string;
             };
             const safeName = body.filename.replace(/[^a-zA-Z0-9._-]/g, "_");
-            const match = body.data.match(/^data:image\/[\w+]+;base64,(.+)$/);
+            const match = body.data.match(/^data:(image|video)\/[\w+.-]+;base64,(.+)$/);
             if (!match) {
-              sendJson(res, 400, { error: "Invalid image data" });
+              sendJson(res, 400, { error: "Invalid media data" });
               return;
             }
             await mkdir(uploadsDir, { recursive: true });
             const filePath = path.join(uploadsDir, safeName);
-            await writeFile(filePath, Buffer.from(match[1], "base64"));
-            sendJson(res, 200, { url: `/uploads/${safeName}` });
+            await writeFile(filePath, Buffer.from(match[2], "base64"));
+            const isVideo = /\.(mp4|webm|mov|ogg)$/i.test(safeName);
+            sendJson(res, 200, {
+              url: `/uploads/${safeName}`,
+              name: safeName,
+              type: isVideo ? "video" : "image",
+            });
             return;
           }
         } catch (err) {

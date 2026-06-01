@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { MAIN_NAV } from "@/config/navigation";
 import type { NavMegaColumn, NavLinkItem } from "@/config/navigation";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import { SERVICE_CATEGORIES } from "@/data/services-catalog";
 
 type FeaturedServicesProps = {
@@ -138,19 +139,14 @@ export function FeaturedServices({ images }: FeaturedServicesProps) {
   if (columns.length < 2) return null;
 
   return (
-    <section id="dich-vu" className="scroll-mt-24 bg-gradient-to-b from-secondary/25 via-secondary/15 to-background py-16 md:py-20">
+    <section id="dich-vu" className="section-surface-cream scroll-mt-24 py-16 md:py-20">
       <div className="container mx-auto max-w-5xl px-4 md:px-8">
-        <div className="mb-10 text-center md:mb-12">
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span className="hidden h-px w-16 bg-gradient-to-r from-transparent to-primary/25 sm:block" />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-primary/70">Dịch vụ</span>
-            <span className="hidden h-px w-16 bg-gradient-to-l from-transparent to-primary/25 sm:block" />
-          </div>
-          <h2 className="font-serif text-3xl font-semibold text-primary md:text-4xl">DỊCH VỤ NỔI BẬT</h2>
-          <p className="mx-auto mt-3 max-w-md text-base text-muted-foreground">
-            Giải pháp làm đẹp toàn diện chuẩn y khoa
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Dịch vụ"
+          title="DỊCH VỤ NỔI BẬT"
+          subtitle="Giải pháp làm đẹp toàn diện chuẩn y khoa"
+          className="mb-10 md:mb-12"
+        />
 
         <div className="grid gap-6 md:grid-cols-2 md:gap-7">
           <ServiceHoverCard column={columns[0]} imageSrc={images[0]} href={categoryHrefs[0]} delay={0} />

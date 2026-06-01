@@ -9,7 +9,11 @@
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
   "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8"
+  },
   "devDependencies": {
+    "@vercel/node": "^5.3.0",
     "@rollup/rollup-win32-x64-msvc": "^4.60.4",
     "@tailwindcss/oxide-win32-x64-msvc": "^4.3.0",
     "lightningcss-win32-x64-msvc": "^1.32.0",

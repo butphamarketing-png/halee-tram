@@ -51,12 +51,17 @@ export default defineConfig({
     fs: {
       strict: true,
     },
-    proxy: {
-      "/api": {
-        target: process.env.API_PROXY_TARGET ?? "http://127.0.0.1:3001",
-        changeOrigin: true,
-      },
-    },
+    // Chỉ proxy khi chạy API riêng; mặc định dùng thkAdminApiPlugin (upload/media local)
+    ...(process.env.API_PROXY_TARGET
+      ? {
+          proxy: {
+            "/api": {
+              target: process.env.API_PROXY_TARGET,
+              changeOrigin: true,
+            },
+          },
+        }
+      : {}),
   },
   preview: {
     port,

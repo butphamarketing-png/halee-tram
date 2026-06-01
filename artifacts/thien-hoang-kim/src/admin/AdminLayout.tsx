@@ -26,7 +26,7 @@ const NAV = [
   { href: adminPath("settings"), label: "Thiết lập thông tin", icon: Settings },
   { href: adminPath("footer"), label: "Footer & đặt lịch", icon: PanelBottom },
   { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
-  { href: adminPath("media"), label: "Thư viện ảnh", icon: Image },
+  { href: adminPath("media"), label: "Kho ảnh & video", icon: Image },
   { href: adminPath("home"), label: "Trang chủ", icon: Home },
   { href: adminPath("articles"), label: "Bài viết / Cẩm nang", icon: BookOpen },
   { href: adminPath("doctors"), label: "Đội ngũ bác sĩ", icon: Stethoscope },

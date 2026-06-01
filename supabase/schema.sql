@@ -39,3 +39,6 @@ drop policy if exists "media_public_read" on storage.objects;
 create policy "media_public_read"
   on storage.objects for select
   using (bucket_id = 'media');
+
+-- Upload qua API Vercel dùng service_role (bỏ qua RLS). Nếu dùng anon key sau này, bật policy insert:
+-- create policy "media_authenticated_insert" on storage.objects for insert to authenticated with check (bucket_id = 'media');

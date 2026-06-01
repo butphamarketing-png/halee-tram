@@ -29,13 +29,13 @@ export default function ServiceCategoryPage({ categoryId }: ServiceCategoryPageP
           { label: category.title },
         ]}
       />
-      <div className="container mx-auto px-4 py-10 md:px-8 md:py-14">
+      <div className="section-surface-alt container mx-auto px-4 py-12 md:px-8 md:py-16">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 md:gap-5 lg:gap-6">
           {items.map((item) => (
             <Link
               key={item.slug}
               href={getServiceHref(categoryId, item.slug)}
-              className="group overflow-hidden rounded-2xl border border-primary/15 bg-white shadow-sm transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
+              className="service-card-luxury group block"
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-primary/5">
                 <img
@@ -43,10 +43,10 @@ export default function ServiceCategoryPage({ categoryId }: ServiceCategoryPageP
                   alt={item.label}
                   className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a261c]/75 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a261c]/80 via-[#0a261c]/10 to-transparent" />
               </div>
-              <div className="bg-primary px-3 py-3 text-center sm:px-4 sm:py-3.5">
-                <p className="text-[11px] font-bold uppercase tracking-wide text-white sm:text-xs md:text-sm">
+              <div className="bg-gradient-to-r from-primary to-[#124830] px-3 py-3.5 text-center sm:px-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white sm:text-xs md:text-sm">
                   {item.label}
                 </p>
               </div>

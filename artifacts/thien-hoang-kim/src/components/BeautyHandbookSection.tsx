@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { ArrowRight, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { SectionHeading } from "@/components/layout/SectionHeading";
 import type { SiteArticle } from "@/types/site-content";
 
 type BeautyHandbookSectionProps = {
@@ -15,8 +16,8 @@ function ArticleCard({ article }: { article: SiteArticle }) {
   const href = `/tin-tuc/${article.slug}`;
 
   return (
-    <Link href={href} className="group flex h-full min-w-0 flex-col">
-      <div className="relative mb-3 overflow-hidden rounded-2xl shadow-md md:mb-4">
+    <Link href={href} className="luxury-card group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl p-2 sm:p-3">
+      <div className="relative mb-3 overflow-hidden rounded-xl md:mb-4">
         <img
           src={article.image}
           alt={article.title}
@@ -66,13 +67,11 @@ export function BeautyHandbookSection({
   if (!visible.length) return null;
 
   return (
-    <section id="cam-nang" className="scroll-mt-24 border-y border-border bg-white py-10 md:py-16">
+    <section id="cam-nang" className="section-surface-alt scroll-mt-24 border-y border-border/50 py-12 md:py-16">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="mb-8 flex flex-col items-center gap-4 md:mb-10 md:flex-row md:items-center md:justify-between">
-          <h2 className="text-center font-serif text-2xl font-semibold text-primary md:text-left md:text-4xl lg:text-5xl">
-            {title}
-          </h2>
-          <div className="hidden md:block">{viewAllButton}</div>
+        <div className="mb-8 flex flex-col items-center gap-6 md:mb-10 md:flex-row md:items-end md:justify-between">
+          <SectionHeading title={title} align="left" className="md:mb-0" />
+          <div className="hidden shrink-0 md:block">{viewAllButton}</div>
         </div>
 
         <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:gap-6 lg:gap-8">

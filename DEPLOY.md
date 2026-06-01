@@ -51,6 +51,8 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 - Admin: `https://your-app.vercel.app/adminbp` (đăng nhập: `/adminbp/login`)
 - Form đặt lịch → bảng `bookings` trên Supabase
 - Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel
+- **Thư viện ảnh** → upload vào Supabase Storage bucket `media` (chạy `supabase/schema.sql` để tạo bucket)
+- API serverless nằm ở thư mục `api/` **gốc repo** (cùng cấp `vercel.json`) — bắt buộc để upload ảnh hoạt động trên Vercel
 
 ## 5. Local dev
 

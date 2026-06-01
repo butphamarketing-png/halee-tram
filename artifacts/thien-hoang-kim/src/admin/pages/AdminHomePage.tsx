@@ -27,9 +27,10 @@ export function AdminHomePage() {
         <h3 className="mb-4 font-semibold">Banner (Hero)</h3>
         {h.heroSlides.map((slide, i) => (
           <div key={slide.id} className="mb-4 grid gap-3 border-b pb-4 last:border-0">
-            <AdminField
-              label={`Slide ${i + 1} — URL ảnh`}
+            <AdminImageField
+              label={`Slide ${i + 1} — ảnh / video banner`}
               value={slide.src}
+              allowVideo
               onChange={(v) =>
                 updateContent((prev) => {
                   const slides = [...prev.home.heroSlides];
@@ -51,6 +52,37 @@ export function AdminHomePage() {
             />
           </div>
         ))}
+      </section>
+
+      <section className="rounded-xl border bg-white p-6 shadow-sm">
+        <h3 className="mb-4 font-semibold">Dịch vụ nổi bật (2 thẻ ảnh)</h3>
+        <p className="mb-4 text-sm text-muted-foreground">
+          Ảnh nền hai cột Thẩm mỹ / Spa trên trang chủ — chọn từ kho hoặc tải mới.
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <AdminImageField
+            label="Ảnh cột Thẩm mỹ"
+            value={h.featuredServiceImages[0]}
+            onChange={(v) =>
+              updateContent((p) => {
+                const imgs = [...p.home.featuredServiceImages] as [string, string];
+                imgs[0] = v;
+                return { ...p, home: { ...p.home, featuredServiceImages: imgs } };
+              })
+            }
+          />
+          <AdminImageField
+            label="Ảnh cột Spa"
+            value={h.featuredServiceImages[1]}
+            onChange={(v) =>
+              updateContent((p) => {
+                const imgs = [...p.home.featuredServiceImages] as [string, string];
+                imgs[1] = v;
+                return { ...p, home: { ...p.home, featuredServiceImages: imgs } };
+              })
+            }
+          />
+        </div>
       </section>
 
       <section className="rounded-xl border bg-white p-6 shadow-sm">
@@ -156,6 +188,15 @@ export function AdminHomePage() {
             />
           ))}
         </div>
+      </section>
+
+      <section className="rounded-xl border bg-white p-6 shadow-sm">
+        <h3 className="mb-4 font-semibold">Đánh giá khách hàng</h3>
+        <AdminImageField
+          label="Ảnh nền khối đánh giá"
+          value={h.testimonialsBackground}
+          onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, testimonialsBackground: v } }))}
+        />
       </section>
 
       <section className="rounded-xl border bg-white p-6 shadow-sm">

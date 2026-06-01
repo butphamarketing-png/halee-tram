@@ -72,7 +72,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           youtubeUrl={settings.youtubeUrl}
         />
 
-        <header className="relative w-full border-b border-border bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
+        <header className="header-glass relative w-full border-b border-border/80 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
           <div className="container mx-auto max-w-[1440px] px-3 sm:px-4 md:px-6 xl:px-8">
             <div className="flex min-h-[76px] flex-nowrap items-center gap-2 py-2 md:min-h-[84px] md:gap-3 xl:gap-4">
             <Link href="/" className="flex shrink-0 items-center" aria-label="Trang chủ">
@@ -112,9 +112,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </header>
       </div>
 
-      <main className="overflow-x-clip">{children}</main>
+      <main className="site-main-bg overflow-x-clip">{children}</main>
 
-      <footer className="bg-[#0f2e1f] pb-10 pt-24 text-white/80 md:pb-8">
+      <footer className="footer-luxury pb-10 pt-24 text-white/80 md:pb-8">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             <div className="space-y-6">
