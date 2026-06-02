@@ -2,12 +2,21 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, Sparkles, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { BookingForm } from "@/components/BookingForm";
 import { useSiteContent } from "@/context/SiteContentContext";
 import type { LuckyWheelSegment } from "@/types/site-content";
+import { toast } from "@/hooks/use-toast";
 
 const SESSION_KEY = "lw_shown";
 const SPIN_DURATION = 4000;
+const SPUN_KEY_PREFIX = "lw_spun_phone:";
+
+function normalizePhone(raw: string): string {
+  const digits = raw.replace(/[^\d]/g, "");
+  if (digits.startsWith("84") && digits.length >= 10) return "0" + digits.slice(2);
+  return digits;
+}
 
 function getWinner(segments: LuckyWheelSegment[]): number {
   const total = segments.reduce((s, seg) => s + seg.weight, 0);
@@ -94,6 +103,8 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<LuckyWheelSegment | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rotRef = useRef(0);
@@ -124,6 +135,25 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
   const handleSpin = useCallback(() => {
     if (spinning || !cfg?.segments?.length) return;
 
+    const name = leadName.trim();
+    const phoneNorm = normalizePhone(leadPhone);
+    if (name.length < 2 || phoneNorm.length < 9) {
+      toast({
+        title: "Vui lòng nhập thông tin",
+        description: "Nhập họ tên và số điện thoại trước khi quay.",
+      });
+      return;
+    }
+
+    const spunKey = `${SPUN_KEY_PREFIX}${phoneNorm}`;
+    if (localStorage.getItem(spunKey)) {
+      toast({
+        title: "Số điện thoại đã quay",
+        description: "Mỗi số điện thoại chỉ được quay 1 lần.",
+      });
+      return;
+    }
+
     const winnerIdx = getWinner(cfg.segments);
     const n = cfg.segments.length;
     const arc = (2 * Math.PI) / n;
@@ -151,10 +181,11 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
       } else {
         setSpinning(false);
         setResult(cfg.segments[winnerIdx]);
+        localStorage.setItem(spunKey, JSON.stringify({ at: new Date().toISOString(), name }));
       }
     }
     rafRef.current = requestAnimationFrame(animate);
-  }, [spinning, cfg?.segments]);
+  }, [spinning, cfg?.segments, leadName, leadPhone]);
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
@@ -259,6 +290,34 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     />
                   </div>
 
+                  {/* Lead capture (required before spin) */}
+                  {!result && (
+                    <div className="w-full space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3">
+                      <div className="grid grid-cols-1 gap-2">
+                        <div>
+                          <p className="mb-1 text-[11px] font-semibold text-white/80">Họ và tên *</p>
+                          <Input
+                            value={leadName}
+                            onChange={(e) => setLeadName(e.target.value)}
+                            placeholder="Nhập họ tên"
+                            className="h-10 border-white/10 bg-white/10 text-white placeholder:text-white/40"
+                          />
+                        </div>
+                        <div>
+                          <p className="mb-1 text-[11px] font-semibold text-white/80">Số điện thoại *</p>
+                          <Input
+                            value={leadPhone}
+                            onChange={(e) => setLeadPhone(e.target.value)}
+                            placeholder="Nhập SĐT"
+                            inputMode="tel"
+                            className="h-10 border-white/10 bg-white/10 text-white placeholder:text-white/40"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-white/55">Mỗi số điện thoại chỉ được quay 1 lần.</p>
+                    </div>
+                  )}
+
                   {/* Result banner */}
                   {result && !spinning && (
                     <motion.div
@@ -308,7 +367,12 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     <p className="mt-0.5 text-[11px] text-white/60">Điền thông tin để đặt lịch & nhận ưu đãi</p>
                   </div>
                   <div className="rounded-2xl bg-white p-4">
-                    <BookingForm compact onSuccess={handleFormSuccess} />
+                    <BookingForm
+                      compact
+                      prefill={{ name: leadName.trim(), phone: normalizePhone(leadPhone) }}
+                      lockPrefill
+                      onSuccess={handleFormSuccess}
+                    />
                   </div>
                 </motion.div>
               )}

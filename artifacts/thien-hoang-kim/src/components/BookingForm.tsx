@@ -24,17 +24,26 @@ const formSchema = z.object({
 
 type BookingFormProps = {
   compact?: boolean;
+  prefill?: Partial<Pick<z.infer<typeof formSchema>, "name" | "phone">>;
+  lockPrefill?: boolean;
   onSuccess?: () => void;
   className?: string;
 };
 
-export function BookingForm({ compact, onSuccess, className }: BookingFormProps) {
+export function BookingForm({ compact, prefill, lockPrefill, onSuccess, className }: BookingFormProps) {
   const { content } = useSiteContent();
   const { bookingServices } = content;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", phone: "", service: "", date: "", notes: "", agree: false },
+    defaultValues: {
+      name: prefill?.name ?? "",
+      phone: prefill?.phone ?? "",
+      service: "",
+      date: "",
+      notes: "",
+      agree: false,
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -66,7 +75,12 @@ export function BookingForm({ compact, onSuccess, className }: BookingFormProps)
               <FormItem>
                 <FormLabel className="text-xs font-semibold sm:text-sm">Họ và tên *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nhập họ tên" className={inputClass} {...field} />
+                  <Input
+                    placeholder="Nhập họ tên"
+                    className={inputClass}
+                    disabled={lockPrefill && Boolean(prefill?.name)}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -79,7 +93,12 @@ export function BookingForm({ compact, onSuccess, className }: BookingFormProps)
               <FormItem>
                 <FormLabel className="text-xs font-semibold sm:text-sm">Số điện thoại *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nhập SĐT" className={inputClass} {...field} />
+                  <Input
+                    placeholder="Nhập SĐT"
+                    className={inputClass}
+                    disabled={lockPrefill && Boolean(prefill?.phone)}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
