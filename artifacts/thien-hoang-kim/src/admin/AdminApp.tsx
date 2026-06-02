@@ -16,6 +16,7 @@ import { AdminMediaPage } from "@/admin/pages/AdminMediaPage";
 import { AdminSeoPage } from "@/admin/pages/AdminSeoPage";
 import { AdminAccountPage } from "@/admin/pages/AdminAccountPage";
 import { AdminFooterPage } from "@/admin/pages/AdminFooterPage";
+import { AdminLuckyWheelPage } from "@/admin/pages/AdminLuckyWheelPage";
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
   if (!isAdminLoggedIn()) {
@@ -91,6 +92,11 @@ export function AdminApp() {
       <Route path={adminPath("account")}>
         <AdminGuard>
           <AdminAccountPage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("lucky-wheel")}>
+        <AdminGuard>
+          <AdminLuckyWheelPage />
         </AdminGuard>
       </Route>
       <Route>

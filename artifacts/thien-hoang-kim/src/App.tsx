@@ -21,6 +21,7 @@ import ServiceCategoryPage from "@/pages/ServiceCategoryPage";
 import ServiceDetailPage from "@/pages/ServiceDetailPage";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { RouteSeo } from "@/components/RouteSeo";
+import { LuckyWheelController } from "@/components/LuckyWheelController";
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,7 @@ function App() {
               <RouteSeo />
               <AppRouter />
             </WouterRouter>
+            <LuckyWheelController />
             <Toaster />
           </BookingDialogProvider>
         </SiteContentProvider>

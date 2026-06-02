@@ -222,6 +222,23 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     { id: "cr2", label: "Cắt Mí Tự Nhiên", before: intro, after: slide },
     { id: "cr3", label: "Filler – Trẻ Hóa", before: slide, after: intro },
   ],
+  luckyWheel: {
+    enabled: true,
+    title: "Vòng Quay May Mắn",
+    subtitle: "Quay để nhận ưu đãi đặc biệt hôm nay!",
+    autoShowDelay: 5,
+    spinButtonLabel: "QUAY NGAY",
+    resultHeading: "Chúc mừng! Bạn đã trúng:",
+    resultDescription: "Điền thông tin để nhận ưu đãi và đặt lịch tư vấn miễn phí.",
+    segments: [
+      { id: "w1", label: "Giảm 20%", color: "#c8a96e", weight: 20 },
+      { id: "w2", label: "Tư vấn miễn phí", color: "#1a3328", weight: 25 },
+      { id: "w3", label: "Giảm 10%", color: "#e8d48b", weight: 25 },
+      { id: "w4", label: "Quà tặng bí ẩn", color: "#2d6b4f", weight: 15 },
+      { id: "w5", label: "Giảm 30%", color: "#a67c52", weight: 10 },
+      { id: "w6", label: "Combo chăm sóc da", color: "#4a9c6f", weight: 5 },
+    ],
+  },
   processSteps: [
     {
       id: "s1",

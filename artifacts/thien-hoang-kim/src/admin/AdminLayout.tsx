@@ -14,6 +14,7 @@ import {
   Star,
   Workflow,
   PanelBottom,
+  Sparkles,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ const NAV = [
   { href: adminPath(), label: "Bảng điều khiển", icon: LayoutDashboard },
   { href: adminPath("settings"), label: "Thiết lập thông tin", icon: Settings },
   { href: adminPath("footer"), label: "Footer & đặt lịch", icon: PanelBottom },
+  { href: adminPath("lucky-wheel"), label: "Vòng quay may mắn", icon: Sparkles },
   { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
   { href: adminPath("media"), label: "Kho ảnh & video", icon: Image },
   { href: adminPath("home"), label: "Trang chủ", icon: Home },

@@ -190,6 +190,30 @@ export type SiteContent = {
   testimonials: SiteTestimonial[];
   customerCases: SiteCustomerCase[];
   processSteps: SiteProcessStep[];
+  luckyWheel: LuckyWheelConfig;
+};
+
+export type LuckyWheelSegment = {
+  id: string;
+  label: string;
+  color: string;
+  /** Tỷ lệ trúng (0–100, tổng các segment = 100) */
+  weight: number;
+};
+
+export type LuckyWheelConfig = {
+  enabled: boolean;
+  /** Tiêu đề hiển thị trên popup */
+  title: string;
+  subtitle: string;
+  /** Tự động hiện popup sau X giây (0 = không tự hiện) */
+  autoShowDelay: number;
+  segments: LuckyWheelSegment[];
+  /** Văn bản nút quay */
+  spinButtonLabel: string;
+  /** Văn bản sau khi quay xong trước khi hiện form */
+  resultHeading: string;
+  resultDescription: string;
 };
 
 export type BookingSubmission = {
