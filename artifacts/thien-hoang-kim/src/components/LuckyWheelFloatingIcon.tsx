@@ -13,7 +13,7 @@ export function LuckyWheelFloatingIcon({ onClick }: Props) {
     <motion.button
       type="button"
       onClick={onClick}
-      className="fixed bottom-24 right-4 z-[9998] flex h-14 w-14 flex-col items-center justify-center rounded-full shadow-2xl focus:outline-none md:right-6"
+      className="fixed bottom-6 right-20 z-[9998] flex h-14 w-14 flex-col items-center justify-center rounded-full shadow-2xl focus:outline-none sm:bottom-8 sm:right-24 md:bottom-10 md:right-28"
       style={{ background: "linear-gradient(135deg, #c8a96e 0%, #e8d48b 50%, #c8a96e 100%)" }}
       animate={{ y: [0, -8, 0] }}
       transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
@@ -43,7 +43,9 @@ export function LuckyWheelFloatingIcon({ onClick }: Props) {
         <circle cx="20" cy="20" r="5" fill="#e8d48b" />
         <text x="20" y="24" textAnchor="middle" fontSize="6" fill="#1a3328" fontWeight="bold">★</text>
       </svg>
-      <span className="text-[8px] font-bold leading-none text-[#1a3328]">QUAY</span>
+      <span className="mt-0.5 rounded-full bg-white/70 px-1.5 py-0.5 text-[9px] font-extrabold leading-[1.15] text-[#1a3328] shadow-sm">
+        Vòng quay
+      </span>
     </motion.button>
   );
 }
