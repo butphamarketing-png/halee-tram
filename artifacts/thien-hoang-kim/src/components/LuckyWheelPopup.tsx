@@ -213,37 +213,37 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-[6px]"
+            className="absolute inset-0 bg-primary/25 backdrop-blur-[4px]"
             onClick={handleClose}
           />
 
-          {/* Popup */}
+          {/* Popup — tone mint/xanh ngọc + gold như banner Thiên Hoàng Kim */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 40 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="relative z-10 w-full max-w-sm overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-b from-[#143127] via-[#0f231c] to-[#09130f] shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+            className="relative z-10 w-full max-w-sm overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-br from-[#e8f7f0] via-[#d4efe6] to-[#b8e4d4] shadow-[0_24px_60px_rgba(26,80,60,0.22)]"
           >
             {/* Decorative glow */}
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-52 w-[520px] -translate-x-1/2 rounded-full bg-[#e8d48b]/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-28 left-1/2 h-56 w-[560px] -translate-x-1/2 rounded-full bg-[#2d6b4f]/35 blur-3xl" />
+            <div className="pointer-events-none absolute -top-20 right-0 h-40 w-40 rounded-full bg-white/50 blur-2xl" />
+            <div className="pointer-events-none absolute -bottom-16 left-0 h-44 w-44 rounded-full bg-[#c9a227]/15 blur-3xl" />
 
             {/* Sticky header (always visible) */}
-            <div className="sticky top-0 z-20 flex items-center justify-between gap-2 border-b border-white/10 bg-[#0c1914]/70 px-3 py-2 backdrop-blur">
+            <div className="sticky top-0 z-20 flex items-center justify-between gap-2 border-b border-primary/10 bg-white/50 px-3 py-2.5 backdrop-blur-sm">
               <div className="min-w-0">
                 {showForm ? (
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
-                    className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-white/85 transition hover:bg-white/10"
+                    className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-white/80 px-2.5 py-1 text-xs font-semibold text-primary transition hover:bg-white"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     Quay lại
                   </button>
                 ) : (
-                  <span className="text-[11px] font-semibold uppercase tracking-widest text-[#e8d48b] drop-shadow-[0_1px_0_rgba(0,0,0,0.6)]">
-                    <Sparkles className="mb-0.5 mr-1 inline h-3 w-3" />
+                  <span className="text-[11px] font-semibold uppercase tracking-widest text-[#9a7b2e]">
+                    <Sparkles className="mb-0.5 mr-1 inline h-3 w-3 text-[#c9a227]" />
                     Thiên Hoàng Kim
                   </span>
                 )}
@@ -252,7 +252,7 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
               <button
                 type="button"
                 onClick={handleClose}
-                className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:bg-white/10"
+                className="inline-flex shrink-0 items-center justify-center rounded-full border border-primary/15 bg-white/90 p-2 text-primary shadow-sm transition hover:bg-white"
                 aria-label="Đóng"
                 title="Đóng"
               >
@@ -273,24 +273,24 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                 >
                   {/* Header */}
                   <div className="text-center">
-                    <h2 className="mt-1 font-serif text-[22px] font-semibold tracking-tight text-white">
+                    <h2 className="mt-1 font-serif text-[22px] font-semibold tracking-tight text-primary">
                       {cfg.title}
                     </h2>
-                    <p className="mt-1 text-[12px] text-white/65">{cfg.subtitle}</p>
+                    <p className="mt-1 text-[12px] text-primary/70">{cfg.subtitle}</p>
                   </div>
 
                   {/* Wheel */}
-                  <div className="relative rounded-[26px] border border-white/10 bg-white/[0.04] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
+                  <div className="relative rounded-[26px] border border-white/80 bg-white/70 p-4 shadow-[0_12px_40px_rgba(26,80,60,0.12)]">
                     {/* Pointer */}
                     <div
                       className="absolute left-1/2 top-2 z-10 -translate-x-1/2"
-                      style={{ width: 0, height: 0, borderLeft: "10px solid transparent", borderRight: "10px solid transparent", borderTop: "22px solid #e8d48b", filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.55))" }}
+                      style={{ width: 0, height: 0, borderLeft: "10px solid transparent", borderRight: "10px solid transparent", borderTop: "22px solid #c9a227", filter: "drop-shadow(0 4px 8px rgba(154,123,46,0.35))" }}
                     />
                     <canvas
                       ref={canvasRef}
                       width={260}
                       height={260}
-                      className="rounded-full bg-black/10 shadow-[0_18px_40px_rgba(0,0,0,0.55)]"
+                      className="rounded-full shadow-[0_8px_24px_rgba(26,80,60,0.15)]"
                     />
                   </div>
 
@@ -329,11 +329,11 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="w-full rounded-[22px] border border-[#e8d48b]/35 bg-gradient-to-b from-[#e8d48b]/15 to-transparent p-4 text-center"
+                      className="w-full rounded-[22px] border border-[#c9a227]/30 bg-white/90 p-4 text-center shadow-sm"
                     >
-                      <p className="text-[11px] font-semibold tracking-wide text-[#e8d48b]">{cfg.resultHeading}</p>
-                      <p className="mt-1 text-[20px] font-bold tracking-tight text-white">{result.label}</p>
-                      <p className="mt-1 text-[12px] text-white/65">{cfg.resultDescription}</p>
+                      <p className="text-[11px] font-semibold tracking-wide text-[#9a7b2e]">{cfg.resultHeading}</p>
+                      <p className="mt-1 text-[20px] font-bold tracking-tight text-primary">{result.label}</p>
+                      <p className="mt-1 text-[12px] text-primary/70">{cfg.resultDescription}</p>
                     </motion.div>
                   )}
 
@@ -342,14 +342,14 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     <Button
                       onClick={handleSpin}
                       disabled={spinning}
-                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c8a96e] via-[#f1dfa0] to-[#c8a96e] font-bold text-[#13261d] shadow-[0_16px_40px_rgba(200,169,110,0.28)] hover:brightness-[1.02] disabled:opacity-60"
+                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c9a227] via-[#e8d48b] to-[#c9a227] font-bold text-primary shadow-[0_12px_32px_rgba(201,162,39,0.35)] hover:brightness-[1.03] disabled:opacity-60"
                     >
                       {spinning ? "Đang quay..." : cfg.spinButtonLabel}
                     </Button>
                   ) : (
                     <Button
                       onClick={() => setShowForm(true)}
-                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c8a96e] via-[#f1dfa0] to-[#c8a96e] font-bold text-[#13261d] shadow-[0_16px_40px_rgba(200,169,110,0.28)] hover:brightness-[1.02]"
+                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c9a227] via-[#e8d48b] to-[#c9a227] font-bold text-primary shadow-[0_12px_32px_rgba(201,162,39,0.35)] hover:brightness-[1.03]"
                     >
                       <Gift className="mr-2 h-4 w-4" /> Nhận ưu đãi ngay
                     </Button>
@@ -364,15 +364,15 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                   className="flex flex-col gap-3"
                 >
                   <div className="text-center">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-[#e8d48b]">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#9a7b2e]">
                       Ưu đãi của bạn
                     </p>
-                    <h2 className="mt-1 font-serif text-[20px] font-semibold tracking-tight text-white">
+                    <h2 className="mt-1 font-serif text-[20px] font-semibold tracking-tight text-primary">
                       {result?.label}
                     </h2>
-                    <p className="mt-0.5 text-[11px] text-white/60">Điền thông tin để đặt lịch & nhận ưu đãi</p>
+                    <p className="mt-0.5 text-[11px] text-primary/70">Điền thông tin để đặt lịch & nhận ưu đãi</p>
                   </div>
-                  <div className="rounded-[22px] border border-black/5 bg-white p-4 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+                  <div className="rounded-[22px] border border-primary/10 bg-white p-4 shadow-[0_12px_40px_rgba(26,80,60,0.1)]">
                     <BookingForm
                       compact
                       prefill={{ name: leadName.trim(), phone: normalizePhone(leadPhone) }}
