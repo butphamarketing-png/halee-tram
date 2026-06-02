@@ -72,7 +72,6 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
         <SectionHeading
           title="KHÁCH HÀNG NÓI GÌ VỀ THIÊN HOÀNG KIM"
           subtitle="Hơn 10.000 khách hàng đã tin tưởng và lựa chọn"
-          light
           className="mb-8 md:mb-12"
         />
 

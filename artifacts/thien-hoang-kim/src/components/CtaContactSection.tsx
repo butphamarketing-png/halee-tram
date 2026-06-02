@@ -94,7 +94,7 @@ export function CtaContactSection({
             initial={{ y: 10, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="font-vietnamese-serif inline-block min-w-full px-1 text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-none tracking-tight text-primary whitespace-nowrap"
+            className="font-vietnamese-serif inline-block min-w-full px-1 pb-1 text-[clamp(1.15rem,3.6vw,3.25rem)] font-semibold leading-[1.12] tracking-tight text-primary whitespace-nowrap"
           >
             {title}
           </motion.h2>
