@@ -67,7 +67,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       </AnimatePresence>
 
       {showContent && !loading && (
-    <div className="min-h-[100dvh] w-full max-w-[100vw] overflow-x-clip bg-background pb-[5.25rem] font-sans text-foreground md:pb-0 lg:pr-14">
+    <div className="min-h-[100dvh] w-full min-w-0 bg-background pb-[5.25rem] font-sans text-foreground md:pb-0">
       <div className="sticky top-0 z-[100] w-full shadow-sm">
         <TopbarMarquee
           address={settings.topbarAddress}
