@@ -1,9 +1,7 @@
-import { Switch, Route, Router as WouterRouter, useLocation, Redirect } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SiteContentProvider } from "@/context/SiteContentContext";
-import { BookingDialogProvider } from "@/context/BookingDialogContext";
 import { AdminApp } from "@/admin/AdminApp";
 import { isAdminLocation } from "@/config/admin";
 import { getPageContent } from "@/data/pages.defaults";
@@ -15,13 +13,13 @@ import ContentPage from "@/pages/ContentPage";
 import CustomersPage from "@/pages/CustomersPage";
 import DoctorsPage from "@/pages/DoctorsPage";
 import HomePage from "@/pages/HomePage";
+import PriceListPage from "@/pages/PriceListPage";
 import NotFound from "@/pages/not-found";
 import ServicesPage from "@/pages/ServicesPage";
 import ServiceCategoryPage from "@/pages/ServiceCategoryPage";
 import ServiceDetailPage from "@/pages/ServiceDetailPage";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { RouteSeo } from "@/components/RouteSeo";
-import { LuckyWheelController } from "@/components/LuckyWheelController";
 
 const queryClient = new QueryClient();
 
@@ -40,20 +38,20 @@ function LegacyServiceRedirect() {
   return <DynamicContentPage />;
 }
 
-function ThamMyCategoryPage() {
-  return <ServiceCategoryPage categoryId="tham-my" />;
+function LamDepCategoryPage() {
+  return <ServiceCategoryPage categoryId="lam-dep" />;
 }
 
-function SpaCategoryPage() {
-  return <ServiceCategoryPage categoryId="spa" />;
+function DaoTaoCategoryPage() {
+  return <ServiceCategoryPage categoryId="dao-tao" />;
 }
 
-function ThamMyDetailPage() {
-  return <ServiceDetailPage categoryId="tham-my" />;
+function LamDepDetailPage() {
+  return <ServiceDetailPage categoryId="lam-dep" />;
 }
 
-function SpaDetailPage() {
-  return <ServiceDetailPage categoryId="spa" />;
+function DaoTaoDetailPage() {
+  return <ServiceDetailPage categoryId="dao-tao" />;
 }
 
 function PublicRouter() {
@@ -63,10 +61,22 @@ function PublicRouter() {
       <Route path="/lien-he" component={ContactPage} />
       <Route path="/khach-hang" component={CustomersPage} />
       <Route path="/dich-vu" component={ServicesPage} />
-      <Route path="/tham-my" component={ThamMyCategoryPage} />
-      <Route path="/tham-my/:slug" component={ThamMyDetailPage} />
-      <Route path="/spa" component={SpaCategoryPage} />
-      <Route path="/spa/:slug" component={SpaDetailPage} />
+      <Route path="/lam-dep" component={LamDepCategoryPage} />
+      <Route path="/lam-dep/:slug" component={LamDepDetailPage} />
+      <Route path="/dao-tao" component={DaoTaoCategoryPage} />
+      <Route path="/dao-tao/:slug" component={DaoTaoDetailPage} />
+      <Route path="/tham-my/:rest*">
+        <Redirect to="/lam-dep" />
+      </Route>
+      <Route path="/tham-my">
+        <Redirect to="/lam-dep" />
+      </Route>
+      <Route path="/spa/:rest*">
+        <Redirect to="/dao-tao" />
+      </Route>
+      <Route path="/spa">
+        <Redirect to="/dao-tao" />
+      </Route>
       <Route path="/gioi-thieu/doi-ngu-bac-si" component={DoctorsPage} />
       <Route path="/tin-tuc/kien-thuc" component={ArticlesListPage} />
       <Route path="/tin-tuc/tin-tuc" component={ArticlesListPage} />
@@ -75,7 +85,7 @@ function PublicRouter() {
       <Route path="/gioi-thieu/:rest*" component={DynamicContentPage} />
       <Route path="/gioi-thieu" component={DynamicContentPage} />
       <Route path="/dich-vu/:slug" component={LegacyServiceRedirect} />
-      <Route path="/bang-gia" component={DynamicContentPage} />
+      <Route path="/bang-gia" component={PriceListPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -93,17 +103,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <SiteContentProvider>
-          <BookingDialogProvider>
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <ScrollToTop />
-              <RouteSeo />
-              <AppRouter />
-            </WouterRouter>
-            <LuckyWheelController />
-            <Toaster />
-          </BookingDialogProvider>
-        </SiteContentProvider>
+        <ScrollToTop />
+        <RouteSeo />
+        <AppRouter />
+        <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );

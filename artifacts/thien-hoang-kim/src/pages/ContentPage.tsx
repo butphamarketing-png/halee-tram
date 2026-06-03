@@ -20,8 +20,8 @@ export default function ContentPage() {
   return (
     <SiteLayout>
       <PageHero eyebrow={page.eyebrow} title={page.title} description={page.description} crumbs={crumbs} />
-      <div className="container mx-auto px-4 py-12 md:px-8 md:py-16">
-        <div className="mx-auto max-w-3xl space-y-10">
+      <div className="container mx-auto px-4 py-10 sm:px-6 md:px-8 md:py-16">
+        <div className="mx-auto max-w-3xl space-y-8 md:space-y-10">
           {page.blocks.map((block, i) => (
             <div key={i}>
               {block.title && (

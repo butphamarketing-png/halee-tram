@@ -28,19 +28,20 @@ export default function ServiceDetailPage({ categoryId }: ServiceDetailPageProps
     ? content.articles.find((a) => a.slug === service.articleSlug && a.published)
     : undefined;
 
+  const brand = content.settings.clinicName;
   const title = article?.title ?? service.label;
   const description =
     article?.description ??
     service.description ??
-    `Tư vấn và điều trị ${service.label.toLowerCase()} an toàn, hiệu quả tại Thiên Hoàng Kim.`;
+    `${service.label} tại ${brand} — tư vấn và đặt lịch qua hotline 0938 162 662.`;
   const image = article?.image ?? DEFAULT_HERO_IMAGE;
   const body =
     article?.body ??
-    `Dịch vụ ${service.label} được thực hiện bởi bác sĩ có chứng chỉ hành nghề, quy trình vô trùng và theo dõi sau điều trị.
+    `Dịch vụ ${service.label} được thực hiện bởi chuyên viên có kinh nghiệm, quy trình vệ sinh chuẩn salon.
 
-Khách hàng được thăm khám, phân tích và lên phác đồ cá nhân trước khi tiến hành.
+Khách hàng được tư vấn phong cách và thời gian làm phù hợp trước khi bắt đầu.
 
-Đặt lịch tư vấn miễn phí để được bác sĩ đánh giá tình trạng và báo giá chi tiết.`;
+Đặt lịch trước để được phục vụ đúng giờ — liên hệ ${brand}.`;
 
   const paragraphs = body.split(/\n\n+/).filter(Boolean);
 

@@ -91,19 +91,36 @@ export type SiteHandbook = {
   viewAllHref: string;
 };
 
+export type SitePriceListImage = {
+  id: string;
+  title: string;
+  category?: string;
+  src: string;
+  alt: string;
+};
+
+export type SitePriceList = {
+  title: string;
+  description: string;
+  note: string;
+  images: SitePriceListImage[];
+};
+
 export type SiteTestimonial = {
   id: string;
   name: string;
   initials: string;
   avatar: string;
   text: string;
+  /** Ảnh trong album khi bấm vào ô đánh giá */
+  albumImages: string[];
 };
 
 export type SiteCustomerCase = {
   id: string;
   label: string;
-  before: string;
-  after: string;
+  cover: string;
+  images: string[];
 };
 
 export type SiteProcessStep = {
@@ -184,6 +201,7 @@ export type SiteContent = {
   home: SiteHomeSections;
   footer: SiteFooter;
   handbook: SiteHandbook;
+  priceList: SitePriceList;
   bookingServices: SiteBookingService[];
   doctors: SiteDoctor[];
   articles: SiteArticle[];

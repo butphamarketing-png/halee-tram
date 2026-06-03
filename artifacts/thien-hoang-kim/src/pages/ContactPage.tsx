@@ -15,7 +15,7 @@ export default function ContactPage() {
     <SiteLayout>
       <PageHero
         eyebrow="Liên hệ"
-        title="Liên hệ Thiên Hoàng Kim"
+        title={`Liên hệ ${settings.clinicName}`}
         description="Đặt lịch tư vấn miễn phí hoặc liên hệ qua các kênh bên dưới."
         crumbs={[{ label: "Trang chủ", href: "/" }, { label: "Liên hệ" }]}
       />
@@ -50,7 +50,7 @@ export default function ContactPage() {
         description={home.ctaDescription}
         image={home.ctaImage}
         websiteUrl={settings.websiteUrl || "/"}
-        websiteLabel={settings.websiteLabel || "thienhoangkim.vn"}
+        websiteLabel={settings.websiteLabel || "haleetram.studio"}
         facebookUrl={settings.facebookUrl}
         messengerSlug={settings.messengerSlug}
         phone={settings.phone}

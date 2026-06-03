@@ -17,7 +17,7 @@ export function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#1a3328] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#6e473b] px-4">
       <form
         className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl"
         onSubmit={(e) => {
@@ -29,7 +29,7 @@ export function AdminLoginPage() {
           toast({ title: "Sai tài khoản hoặc mật khẩu", variant: "destructive" });
         }}
       >
-        <p className="text-xs font-bold uppercase tracking-widest text-primary">Thiên Hoàng Kim</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">Halee Trâm</p>
         <h1 className="mt-2 font-serif text-2xl font-semibold text-primary">Đăng nhập quản trị</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Đường dẫn: <code className="rounded bg-muted px-1">{adminPath()}</code>

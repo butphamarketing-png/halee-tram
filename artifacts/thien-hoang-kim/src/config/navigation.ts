@@ -26,8 +26,7 @@ export const MAIN_NAV: NavItem[] = [
     href: "/gioi-thieu",
     children: [
       { label: "Câu Chuyện Thương Hiệu", href: "/gioi-thieu/cau-chuyen-thuong-hieu" },
-      { label: "Đội Ngũ Bác Sĩ", href: "/gioi-thieu/doi-ngu-bac-si" },
-      { label: "Công Nghệ Thẩm Mỹ", href: "/gioi-thieu/cong-nghe-tham-my" },
+      { label: "Đội Ngũ Nhân Viên", href: "/gioi-thieu/doi-ngu-bac-si" },
       { label: "Cơ Sở Vật Chất", href: "/gioi-thieu/co-so-vat-chat" },
     ],
   },
@@ -36,16 +35,16 @@ export const MAIN_NAV: NavItem[] = [
     href: "/dich-vu",
     columns: [
       {
-        title: "THẨM MỸ Y KHOA",
-        items: buildNavServiceItems("tham-my"),
+        title: "DỊCH VỤ LÀM ĐẸP",
+        items: buildNavServiceItems("lam-dep"),
       },
       {
-        title: "SPA & CHĂM SÓC DA",
-        items: buildNavServiceItems("spa"),
+        title: "ĐÀO TẠO NGHỀ",
+        items: buildNavServiceItems("dao-tao"),
       },
     ],
   },
-  { label: "KHÁCH HÀNG", href: "/khach-hang" },
+  { label: "THƯ VIỆN ẢNH", href: "/khach-hang" },
   { label: "BẢNG GIÁ", href: "/bang-gia" },
   {
     label: "TIN TỨC",

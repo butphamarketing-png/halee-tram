@@ -1,46 +1,75 @@
 import { motion } from "framer-motion";
-import { LOGO_ICON_SRC } from "@/lib/brand-assets";
 
-export function LogoLoadingScreen() {
+type LogoLoadingScreenProps = {
+  clinicName: string;
+  clinicSubtitle: string;
+};
+
+export function LogoLoadingScreen({ clinicName, clinicSubtitle }: LogoLoadingScreenProps) {
   return (
     <div
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gradient-to-b from-[#f4f8f5] via-white to-[#eef4f0]"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-[#f4ece1]"
       role="status"
       aria-live="polite"
-      aria-label="Đang tải Thiên Hoàng Kim"
+      aria-label={`Đang tải ${clinicName}`}
     >
-      <div className="relative flex h-36 w-36 items-center justify-center sm:h-40 sm:w-40">
-        <div className="logo-loading-ring pointer-events-none absolute inset-0 rounded-full" aria-hidden />
-        <div className="logo-loading-ring logo-loading-ring-delay pointer-events-none absolute inset-2 rounded-full opacity-70" aria-hidden />
-        <motion.img
-          src={LOGO_ICON_SRC}
-          alt="Thiên Hoàng Kim"
-          className="logo-loading-float relative z-10 h-20 w-auto object-contain sm:h-24"
-          initial={{ opacity: 0, scale: 0.88 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      {/* Nền trang trí */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#c9a66b]/15 blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-[#6e473b]/10 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, #6e473b 1px, transparent 0)",
+            backgroundSize: "28px 28px",
+          }}
         />
       </div>
 
       <motion.div
-        className="mt-5 text-center"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.45 }}
+        initial={{ opacity: 0, scale: 0.92, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 flex flex-col items-center px-6"
       >
-        <p className="font-['Noto_Serif','Cormorant_Garamond',serif] text-lg font-bold uppercase tracking-wide text-gold-gradient sm:text-xl">
-          THIÊN HOÀNG KIM
-        </p>
-        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/75 sm:text-xs">
-          Aesthetic Clinic
-        </p>
+        {/* Tên thương hiệu */}
+        <motion.p
+          className="font-['Noto_Serif','Cormorant_Garamond',serif] text-xl font-bold uppercase tracking-[0.18em] text-[#6e473b] sm:text-2xl"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          {clinicName}
+        </motion.p>
+        <motion.p
+          className="mt-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#c9a66b] sm:text-xs"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32, duration: 0.5 }}
+        >
+          {clinicSubtitle}
+        </motion.p>
+
+        {/* Thanh loading */}
+        <div className="mt-10 h-1 w-48 overflow-hidden rounded-full bg-[#e5d8ca] sm:w-56">
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-[#6e473b] via-[#c9a66b] to-[#6e473b]"
+            initial={{ x: "-100%" }}
+            animate={{ x: "200%" }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ width: "45%" }}
+          />
+        </div>
+
+        <motion.p
+          className="mt-4 text-xs tracking-wide text-[#2b2b2b]/55"
+          animate={{ opacity: [0.45, 1, 0.45] }}
+          transition={{ duration: 1.8, repeat: Infinity }}
+        >
+          Đang tải trải nghiệm làm đẹp...
+        </motion.p>
       </motion.div>
-
-      <div className="logo-loading-bar mt-8 h-1 w-36 overflow-hidden rounded-full bg-primary/10 sm:w-44">
-        <div className="logo-loading-bar-fill h-full w-2/5 rounded-full bg-gradient-to-r from-primary/40 via-primary to-primary/40" />
-      </div>
-
-      <p className="mt-4 text-xs text-muted-foreground">Đang tải...</p>
     </div>
   );
 }

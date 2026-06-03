@@ -227,7 +227,7 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
           >
             {/* Decorative glow */}
             <div className="pointer-events-none absolute -top-20 right-0 h-40 w-40 rounded-full bg-white/50 blur-2xl" />
-            <div className="pointer-events-none absolute -bottom-16 left-0 h-44 w-44 rounded-full bg-[#c9a227]/15 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-16 left-0 h-44 w-44 rounded-full bg-[#c9a66b]/15 blur-3xl" />
 
             {/* Sticky header (always visible) */}
             <div className="sticky top-0 z-20 flex items-center justify-between gap-2 border-b border-primary/10 bg-white/50 px-3 py-2.5 backdrop-blur-sm">
@@ -243,8 +243,8 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                   </button>
                 ) : (
                   <span className="text-[11px] font-semibold uppercase tracking-widest text-[#9a7b2e]">
-                    <Sparkles className="mb-0.5 mr-1 inline h-3 w-3 text-[#c9a227]" />
-                    Thiên Hoàng Kim
+                    <Sparkles className="mb-0.5 mr-1 inline h-3 w-3 text-[#c9a66b]" />
+                    {content.settings.clinicName}
                   </span>
                 )}
               </div>
@@ -284,7 +284,7 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     {/* Pointer */}
                     <div
                       className="absolute left-1/2 top-2 z-10 -translate-x-1/2"
-                      style={{ width: 0, height: 0, borderLeft: "10px solid transparent", borderRight: "10px solid transparent", borderTop: "22px solid #c9a227", filter: "drop-shadow(0 4px 8px rgba(154,123,46,0.35))" }}
+                      style={{ width: 0, height: 0, borderLeft: "10px solid transparent", borderRight: "10px solid transparent", borderTop: "22px solid #c9a66b", filter: "drop-shadow(0 4px 8px rgba(201,166,107,0.35))" }}
                     />
                     <canvas
                       ref={canvasRef}
@@ -329,7 +329,7 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="w-full rounded-[22px] border border-[#c9a227]/30 bg-white/90 p-4 text-center shadow-sm"
+                      className="w-full rounded-[22px] border border-[#c9a66b]/30 bg-white/90 p-4 text-center shadow-sm"
                     >
                       <p className="text-[11px] font-semibold tracking-wide text-[#9a7b2e]">{cfg.resultHeading}</p>
                       <p className="mt-1 text-[20px] font-bold tracking-tight text-primary">{result.label}</p>
@@ -342,14 +342,14 @@ export function LuckyWheelPopup({ externalOpen, onExternalClose }: Props) {
                     <Button
                       onClick={handleSpin}
                       disabled={spinning}
-                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c9a227] via-[#e8d48b] to-[#c9a227] font-bold text-primary shadow-[0_12px_32px_rgba(201,162,39,0.35)] hover:brightness-[1.03] disabled:opacity-60"
+                      className="h-12 w-full rounded-full bg-gold-gradient font-bold text-[#2b2b2b] shadow-[0_12px_32px_rgba(201,166,107,0.35)] hover:brightness-[1.03] disabled:opacity-60"
                     >
                       {spinning ? "Đang quay..." : cfg.spinButtonLabel}
                     </Button>
                   ) : (
                     <Button
                       onClick={() => setShowForm(true)}
-                      className="h-12 w-full rounded-full bg-gradient-to-r from-[#c9a227] via-[#e8d48b] to-[#c9a227] font-bold text-primary shadow-[0_12px_32px_rgba(201,162,39,0.35)] hover:brightness-[1.03]"
+                      className="h-12 w-full rounded-full bg-gold-gradient font-bold text-[#2b2b2b] shadow-[0_12px_32px_rgba(201,166,107,0.35)] hover:brightness-[1.03]"
                     >
                       <Gift className="mr-2 h-4 w-4" /> Nhận ưu đãi ngay
                     </Button>

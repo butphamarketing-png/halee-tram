@@ -15,6 +15,7 @@ import {
   Workflow,
   PanelBottom,
   Sparkles,
+  Receipt,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ const NAV = [
   { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
   { href: adminPath("media"), label: "Kho ảnh & video", icon: Image },
   { href: adminPath("home"), label: "Trang chủ", icon: Home },
+  { href: adminPath("price-list"), label: "Bảng giá", icon: Receipt },
   { href: adminPath("articles"), label: "Bài viết / Cẩm nang", icon: BookOpen },
   { href: adminPath("doctors"), label: "Đội ngũ bác sĩ", icon: Stethoscope },
   { href: adminPath("testimonials"), label: "Đánh giá KH", icon: Star },
@@ -55,7 +57,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-              active ? "bg-[#2d6b4f] text-white" : "text-white/75 hover:bg-white/10 hover:text-white",
+              active ? "bg-[#c9a66b] text-[#2b2b2b]" : "text-white/75 hover:bg-white/10 hover:text-white",
             )}
           >
             <Icon className="h-4 w-4 shrink-0" />
@@ -72,10 +74,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#eef1ef]">
-      <aside className="hidden w-64 shrink-0 flex-col bg-[#1a3328] text-white md:flex">
+    <div className="flex min-h-screen bg-[#f4ece1]">
+      <aside className="hidden w-64 shrink-0 flex-col bg-[#6e473b] text-white md:flex">
         <div className="border-b border-white/10 px-5 py-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#e8d48b]">Thiên Hoàng Kim</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#c9a66b]">Halee Trâm</p>
           <h1 className="mt-1 font-serif text-lg font-semibold">Quản trị website</h1>
         </div>
         <SidebarNav />
@@ -101,9 +103,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <button type="button" className="flex-1 bg-black/40" aria-label="Đóng menu" onClick={() => setMobileOpen(false)} />
-          <aside className="flex w-72 max-w-[85vw] flex-col bg-[#1a3328] text-white shadow-xl">
+          <aside className="flex w-72 max-w-[85vw] flex-col bg-[#6e473b] text-white shadow-xl">
             <div className="border-b border-white/10 px-5 py-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#e8d48b]">Menu</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#c9a66b]">Menu</p>
             </div>
             <SidebarNav onNavigate={() => setMobileOpen(false)} />
             <div className="border-t border-white/10 p-3">

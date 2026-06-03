@@ -1,17 +1,17 @@
-import { useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { scrollCarouselLoop } from "@/lib/infinite-scroll";
 import { SectionHeading } from "@/components/layout/SectionHeading";
+import { CustomerAlbumDialog } from "@/components/CustomerAlbumDialog";
+import { useSiteContent } from "@/context/SiteContentContext";
 import { cn } from "@/lib/utils";
 
 export type Testimonial = {
+  id?: string;
   name: string;
   initials: string;
   text: string;
   avatar: string;
+  albumImages?: string[];
 };
 
 type TestimonialsSectionProps = {
@@ -19,46 +19,56 @@ type TestimonialsSectionProps = {
   backgroundImage?: string;
 };
 
-function TestimonialCard({ t }: { t: Testimonial }) {
+function PhonePreviewCard({
+  previewSrc,
+  headerName,
+  onClick,
+}: {
+  previewSrc: string;
+  headerName: string;
+  onClick: () => void;
+}) {
   return (
-    <article className="card-hover-lift flex h-full min-w-0 flex-col rounded-2xl border border-border bg-white p-3.5 shadow-sm sm:p-4 lg:rounded-[1.75rem] lg:p-6">
-      <div className="mb-2 flex items-center gap-2.5 lg:mb-4 lg:gap-3">
-        <Avatar className="h-9 w-9 shrink-0 ring-2 ring-primary/15 ring-offset-2 ring-offset-white sm:h-10 sm:w-10 lg:h-12 lg:w-12">
-          <AvatarImage src={t.avatar} alt={t.name} className="object-cover" />
-          <AvatarFallback className="bg-secondary/60 text-xs font-bold text-primary lg:text-sm">
-            {t.initials}
-          </AvatarFallback>
-        </Avatar>
-        <div className="min-w-0 text-left">
-          <p className="truncate text-xs font-bold text-foreground lg:text-sm">{t.name}</p>
-          <p className="text-[10px] text-muted-foreground lg:text-[11px]">Khách hàng VIP</p>
-          <div className="mt-0.5 text-xs tracking-wide text-amber-400 lg:mt-1 lg:text-sm" aria-label="5 sao">
-            ★★★★★
+    <button
+      type="button"
+      onClick={onClick}
+      className="group mx-auto w-full max-w-[240px] text-left transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+    >
+      <div className="rounded-[1.75rem] border-[3px] border-[#2b2b2b] bg-[#2b2b2b] p-1.5 shadow-[0_12px_32px_rgba(110,71,59,0.18)] transition-shadow group-hover:shadow-[0_18px_40px_rgba(110,71,59,0.24)]">
+        <div className="overflow-hidden rounded-[1.35rem] bg-white">
+          <div className="flex items-center justify-between bg-[#6e473b] px-3 py-2 text-[10px] font-medium text-white">
+            <span className="truncate">{headerName}</span>
+            <span className="shrink-0 opacity-80">●●●</span>
+          </div>
+          <div className="relative bg-[#f4ece1]">
+            <img
+              src={previewSrc}
+              alt={headerName}
+              className="aspect-[9/14] w-full object-cover object-top"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
           </div>
         </div>
       </div>
-      <p className="flex-1 text-[10px] italic leading-relaxed text-foreground/80 sm:text-[11px] lg:text-sm">
-        &ldquo;{t.text}&rdquo;
+      <p className="mt-3 text-center text-[11px] font-medium text-primary/70 group-hover:text-primary">
+        Xem album khách hàng →
       </p>
-    </article>
+    </button>
   );
 }
 
 export function TestimonialsSection({ items, backgroundImage }: TestimonialsSectionProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const clinicName = useSiteContent().content.settings.clinicName;
+  const [albumOpen, setAlbumOpen] = useState(false);
+  const [activeAlbum, setActiveAlbum] = useState<{ title: string; images: string[] } | null>(null);
 
-  const scroll = useCallback((direction: -1 | 1) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const isWide = window.matchMedia("(min-width: 1024px)").matches;
-    const card = el.querySelector<HTMLElement>("[data-testimonial-card]");
-    const step = isWide
-      ? card
-        ? card.offsetWidth + 16
-        : el.clientWidth / Math.max(1, Math.min(4, items.length))
-      : el.clientWidth;
-    scrollCarouselLoop(el, direction, step);
-  }, [items.length]);
+  const displayItems = items.slice(0, 4);
+
+  const openAlbum = (item: Testimonial) => {
+    const images = item.albumImages?.length ? item.albumImages : [item.avatar];
+    setActiveAlbum({ title: item.name, images });
+    setAlbumOpen(true);
+  };
 
   return (
     <section className="relative overflow-hidden bg-primary/5 py-16 pb-12 md:py-20 md:pb-16">
@@ -70,61 +80,39 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
 
       <div className="container relative z-10 mx-auto px-4 md:px-8">
         <SectionHeading
-          title="KHÁCH HÀNG NÓI GÌ VỀ THIÊN HOÀNG KIM"
-          subtitle="Hơn 10.000 khách hàng đã tin tưởng và lựa chọn"
+          title={`KHÁCH HÀNG NÓI GÌ VỀ ${clinicName}`}
+          subtitle="Nhấn vào từng ô để xem album hình ảnh khách hàng"
           className="mb-8 md:mb-12"
         />
 
-        <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-4">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => scroll(-1)}
-            className="customer-carousel-arrow h-9 w-9 shrink-0 rounded-full border-primary/20 bg-white text-primary hover:bg-primary hover:text-white sm:h-10 sm:w-10 lg:h-11 lg:w-11"
-            aria-label="Đánh giá trước"
-          >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
-
-          <div
-            ref={trackRef}
-            className={cn(
-              "flex min-w-0 flex-1 gap-3 overflow-x-auto scroll-smooth",
-              "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-              "snap-x snap-mandatory lg:gap-4 lg:snap-proximity",
-            )}
-          >
-            {items.map((t, i) => (
-              <motion.div
-                key={t.name}
-                data-testimonial-card
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className={cn(
-                  "w-[calc((100%-0.75rem)/2)] shrink-0 snap-start",
-                  "lg:w-[calc((100%-3rem)/4)] lg:max-w-none lg:flex-none",
-                )}
-              >
-                <TestimonialCard t={t} />
-              </motion.div>
-            ))}
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => scroll(1)}
-            className="customer-carousel-arrow h-9 w-9 shrink-0 rounded-full border-primary/20 bg-white text-primary hover:bg-primary hover:text-white sm:h-10 sm:w-10 lg:h-11 lg:w-11"
-            aria-label="Đánh giá tiếp theo"
-          >
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {displayItems.map((t, i) => (
+            <motion.div
+              key={t.id ?? t.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="flex flex-col items-center"
+            >
+              <PhonePreviewCard previewSrc={t.avatar} headerName={t.name} onClick={() => openAlbum(t)} />
+              <div className={cn("mt-4 w-full max-w-[240px] text-center")}>
+                <p className="font-serif text-base font-semibold text-primary md:text-lg">{t.name}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{t.text}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
+
+      {activeAlbum && (
+        <CustomerAlbumDialog
+          open={albumOpen}
+          onOpenChange={setAlbumOpen}
+          title={activeAlbum.title}
+          images={activeAlbum.images}
+        />
+      )}
     </section>
   );
 }

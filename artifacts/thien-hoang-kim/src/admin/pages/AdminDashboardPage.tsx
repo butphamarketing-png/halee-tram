@@ -104,7 +104,7 @@ export function AdminDashboardPage() {
                 <XAxis dataKey="day" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="views" stroke="hsl(158 60% 28%)" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="views" stroke="#6e473b" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

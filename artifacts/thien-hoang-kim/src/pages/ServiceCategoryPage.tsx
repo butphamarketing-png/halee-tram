@@ -45,7 +45,7 @@ export default function ServiceCategoryPage({ categoryId }: ServiceCategoryPageP
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a261c]/80 via-[#0a261c]/10 to-transparent" />
               </div>
-              <div className="bg-gradient-to-r from-primary to-[#124830] px-3 py-3.5 text-center sm:px-4">
+              <div className="bg-gradient-to-r from-primary to-[#5a3a30] px-3 py-3.5 text-center sm:px-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white sm:text-xs md:text-sm">
                   {item.label}
                 </p>

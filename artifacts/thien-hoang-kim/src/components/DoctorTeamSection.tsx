@@ -88,8 +88,8 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
       <div className="container mx-auto px-4 md:px-8">
         <SectionHeading
           eyebrow="Đội ngũ"
-          title="ĐỘI NGŨ BÁC SĨ"
-          subtitle="Đội ngũ bác sĩ giàu kinh nghiệm, chuyên môn cao và tận tâm với khách hàng."
+          title="ĐỘI NGŨ NHÂN VIÊN"
+          subtitle="Nhân viên nails, mi và đào tạo — giàu kinh nghiệm và tận tâm với khách hàng."
           className="mb-12 md:mb-14"
         />
 

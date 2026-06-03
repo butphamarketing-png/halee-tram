@@ -1,4 +1,5 @@
 import { MAIN_NAV } from "@/config/navigation";
+import { SERVICE_PAGE_COPY } from "@/data/service-pages.defaults";
 
 export type PageBlock = {
   title?: string;
@@ -22,71 +23,91 @@ function p(...text: string[]): PageBlock {
 const STATIC_PAGES: Record<string, SitePageContent> = {
   "/gioi-thieu": {
     eyebrow: "Giới thiệu",
-    title: "Thiên Hoàng Kim Aesthetic Clinic",
+    title: "Halee Trâm — Eyelash & Nail Academy",
     description:
-      "Phòng khám thẩm mỹ chuẩn y khoa — nơi kiến tạo vẻ đẹp tự nhiên, an toàn và bền vững.",
+      "Studio làm đẹp và đào tạo nghề tại Quận 7 — nơi bạn tỏa sáng và học nghề bài bản.",
     blocks: [
       p(
-        "Thiên Hoàng Kim Aesthetic Clinic là địa chỉ làm đẹp uy tín tại TP.HCM với đội ngũ bác sĩ giàu kinh nghiệm và trang thiết bị hiện đại.",
-        "Chúng tôi cam kết quy trình chuẩn y khoa, tư vấn trung thực và chăm sóc tận tâm trước – trong – sau điều trị.",
+        "Halee Trâm Eyelash & Nail Academy ra đời từ đam mê làm đẹp và mong muốn mang đến dịch vụ nails, nối mi chất lượng cao cho phụ nữ tại TP.HCM.",
+        "Tọa lạc tại 793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7 — chúng tôi phục vụ khách làm đẹp và đào tạo học viên ra nghề với phương pháp thực chiến, dễ áp dụng.",
+        "Với hơn 8 năm kinh nghiệm, Halee Trâm đã đồng hành cùng hàng nghìn khách hàng và hàng trăm học viên mở salon, tiệm nails và dịch vụ mi riêng.",
       ),
+      {
+        title: "Sứ mệnh",
+        paragraphs: [
+          "Mang đến vẻ đẹp tự nhiên, an toàn và dịch vụ tận tâm.",
+          "Đào tạo nghề minh bạch — học viên tự tin ra nghề, có thu nhập ổn định.",
+        ],
+      },
     ],
   },
   "/gioi-thieu/cau-chuyen-thuong-hieu": {
     eyebrow: "Giới thiệu",
     title: "Câu chuyện thương hiệu",
-    description: "Hành trình xây dựng niềm tin và chất lượng dịch vụ thẩm mỹ.",
+    description: "Hành trình từ đam mê làm đẹp đến academy đào tạo nghề.",
     blocks: [
       p(
-        "Thiên Hoàng Kim ra đời từ khát vọng mang đến dịch vụ thẩm mỹ an toàn, minh bạch cho khách hàng Việt.",
-        "Mỗi ca điều trị đều được đặt trên nền tảng chuyên môn, đạo đức nghề nghiệp và sự tôn trọng vẻ đẹp riêng của từng người.",
-      ),
-    ],
-  },
-  "/gioi-thieu/cong-nghe-tham-my": {
-    eyebrow: "Giới thiệu",
-    title: "Công nghệ thẩm mỹ",
-    description: "Ứng dụng thiết bị và kỹ thuật tiên tiến trong điều trị.",
-    blocks: [
-      p(
-        "Phòng khám đầu tư máy móc nhập khẩu chính hãng: laser, HIFU, peel, soi da chuyên sâu…",
-        "Bác sĩ được đào tạo liên tục để cập nhật phác đồ điều trị phù hợp từng tình trạng da và cơ địa.",
+        "Halee Trâm bắt đầu với một tiệm nhỏ và tình yêu với nghề nối mi, nails. Khách hàng quay lại nhiều, giới thiệu bạn bè — đó là động lực để mở rộng studio và lớp đào tạo.",
+        "Chúng tôi tin rằng làm đẹp không chỉ là thay đổi diện mạo mà còn giúp phụ nữ tự tin hơn mỗi ngày. Mỗi bộ mi, bộ móng hoàn thiện đều được làm bằng sự tỉ mỉ và tôn trọng thời gian của khách.",
+        "Hôm nay, Halee Trâm vừa là điểm hẹn làm đẹp uy tín tại Quận 7, vừa là nơi học viên từ khắp miền đến học nghề nối mi, nail và uốn mi.",
       ),
     ],
   },
   "/gioi-thieu/co-so-vat-chat": {
     eyebrow: "Giới thiệu",
     title: "Cơ sở vật chất",
-    description: "Không gian sang trọng, vô trùng và riêng tư.",
+    description: "Không gian ấm cúng, sạch sẽ — ghế nails, giường nối mi và khu đào tạo riêng.",
     blocks: [
       p(
-        "Không gian phòng khám thiết kế hiện đại, ấm cúng, đảm bảo riêng tư cho khách hàng.",
-        "Phòng thủ thuật, phòng hồi sức và khu tư vấn đạt tiêu chuẩn vệ sinh y tế.",
+        "Studio thiết kế hiện đại theo tông nâu kem ấm áp, tạo cảm giác thư giãn ngay khi bước vào. Khu vực làm nails và nối mi riêng biệt, đảm bảo riêng tư.",
+        "Dụng cụ tiệt trùng sau mỗi khách, sản phẩm gel – keo – mi nhập chính hãng. Khu đào tạo có model thực hành và giáo trình bài bản.",
+        "Bãi xe thuận tiện quanh khu vực Trần Xuân Soạn, Quận 7.",
       ),
     ],
   },
   "/bang-gia": {
     eyebrow: "Bảng giá",
     title: "Bảng giá tham khảo",
-    description: "Giá dịch vụ có thể thay đổi theo tình trạng và phác đồ cá nhân. Liên hệ để được báo giá chính xác.",
+    description: "Giá có thể thay đổi theo mẫu và combo. Hotline 0938 162 662.",
     blocks: [
       {
-        title: "Thẩm mỹ y khoa",
+        title: "Dịch vụ làm đẹp",
         paragraphs: [
-          "Nâng mũi cấu trúc: từ 45.000.000đ",
-          "Cắt mí / nhấn mí: từ 8.000.000đ",
-          "Filler / Botox: từ 3.000.000đ / vùng",
-          "Trẻ hóa da công nghệ cao: từ 5.000.000đ / buổi",
+          "Nails sơn gel cơ bản: từ 150.000đ",
+          "Nail art / đá / ombre: từ 250.000đ",
+          "Nối mi Classic: từ 350.000đ",
+          "Nối mi Volume: từ 450.000đ",
+          "Uốn mi (lash lift): từ 120.000đ",
+          "Định hình chân mày: từ 200.000đ",
+          "Chà gót chân + dưỡng: từ 180.000đ",
+          "Gội đầu thư giãn: từ 100.000đ",
+          "Combo nails + mi: liên hệ ưu đãi",
         ],
       },
       {
-        title: "Spa & chăm sóc da",
+        title: "Khóa đào tạo",
         paragraphs: [
-          "Chăm sóc da cơ bản: từ 500.000đ",
-          "Peel da y khoa: từ 1.200.000đ",
-          "Gội đầu dưỡng sinh: từ 350.000đ",
+          "Khóa Nối Mi Salon: từ 5.000.000đ",
+          "Khóa Nối Mi Định Cư: liên hệ",
+          "Khóa Nail Chuyên Nghiệp: từ 4.500.000đ",
+          "Khóa Chăm Sóc Móng: từ 2.500.000đ",
+          "Khóa Định Hình Chân Mày: từ 3.000.000đ",
+          "Khóa Học Uốn Mi: từ 2.000.000đ",
+          "Hỗ trợ trả góp / học nhóm — liên hệ trực tiếp.",
         ],
       },
+    ],
+  },
+  "/dich-vu": {
+    eyebrow: "Dịch vụ",
+    title: "Dịch vụ & Đào tạo",
+    description:
+      "Trọn bộ dịch vụ nails, mi, chân mày, spa chân, gội đầu và các khóa học nghề tại Halee Trâm.",
+    blocks: [
+      p(
+        "Halee Trâm cung cấp dịch vụ làm đẹp chuyên nghiệp và chương trình đào tạo bài bản. Dù bạn cần làm đẹp cho bản thân hay học nghề mở tiệm, chúng tôi đều có giải pháp phù hợp.",
+        "Đặt lịch online hoặc gọi 0938 162 662 — 793/62 Trần Xuân Soạn, Quận 7.",
+      ),
     ],
   },
 };
@@ -96,24 +117,17 @@ function buildServicePages(): Record<string, SitePageContent> {
   const servicesNav = MAIN_NAV.find((n) => n.href === "/dich-vu");
   if (!servicesNav?.columns) return pages;
 
-  pages["/dich-vu"] = {
-    eyebrow: "Dịch vụ",
-    title: "Dịch vụ thẩm mỹ",
-    description: "Giải pháp thẩm mỹ y khoa và spa chăm sóc da chuyên sâu tại Thiên Hoàng Kim.",
-    blocks: [],
-  };
-
   for (const col of servicesNav.columns) {
     for (const item of col.items) {
+      const copy = SERVICE_PAGE_COPY[item.href];
       pages[item.href] = {
         eyebrow: col.title,
         title: item.label,
-        description: `Tư vấn và điều trị ${item.label.toLowerCase()} an toàn, hiệu quả tại Thiên Hoàng Kim.`,
-        blocks: [
+        description: copy?.description ?? `${item.label} tại Halee Trâm — hotline 0938 162 662.`,
+        blocks: copy?.blocks ?? [
           p(
-            `Dịch vụ ${item.label} được thực hiện bởi bác sĩ có chứng chỉ hành nghề, quy trình vô trùng và theo dõi sau điều trị.`,
-            "Khách hàng được thăm khám, phân tích và lên phác đồ cá nhân trước khi tiến hành.",
-            "Đặt lịch tư vấn miễn phí để được bác sĩ đánh giá tình trạng và báo giá chi tiết.",
+            `Dịch vụ ${item.label} được thực hiện bởi chuyên viên có kinh nghiệm.`,
+            "Đặt lịch trước để được phục vụ đúng giờ.",
           ),
         ],
       };

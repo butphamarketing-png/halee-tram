@@ -12,7 +12,7 @@ export function BookingSection() {
           <div className="relative aspect-[4/5] max-h-[min(72vw,360px)] w-full bg-muted sm:aspect-[3/4] sm:max-h-[min(68vw,400px)] md:aspect-auto md:h-full md:max-h-none md:min-h-[480px]">
             <img
               src={home.bookingImage}
-              alt="Đặt lịch tư vấn Thiên Hoàng Kim"
+              alt="Đặt lịch Halee Trâm"
               className="absolute inset-0 h-full w-full object-cover object-[center_20%] md:object-center"
             />
           </div>

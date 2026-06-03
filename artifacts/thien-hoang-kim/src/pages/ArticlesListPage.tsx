@@ -25,7 +25,7 @@ export default function ArticlesListPage() {
       <PageHero
         eyebrow="Tin tức"
         title={pageTitle}
-        description="Kiến thức thẩm mỹ, tin tức và mẹo chăm sóc da từ đội ngũ Thiên Hoàng Kim."
+        description="Kiến thức nails, mi và mẹo làm đẹp từ Halee Trâm."
         crumbs={[
           { label: "Trang chủ", href: "/" },
           { label: "Tin tức", href: "/tin-tuc" },

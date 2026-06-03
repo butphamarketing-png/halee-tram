@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { MAIN_NAV } from "@/config/navigation";
+import { CLINIC_PHONE_DISPLAY, TEL_URL } from "@/config/contact";
 import { cn } from "@/lib/utils";
 
 type MobileNavMenuProps = {
@@ -81,8 +82,8 @@ export function MobileNavMenu({ onClose, onBook }: MobileNavMenuProps) {
         );
       })}
       <div className="my-2 h-px bg-border" />
-      <a href="tel:0938673996" className="flex items-center gap-2 p-2 font-bold text-primary">
-        0938 673 996
+      <a href={TEL_URL} className="flex items-center gap-2 p-2 font-bold text-primary">
+        {CLINIC_PHONE_DISPLAY}
       </a>
       <button
         type="button"

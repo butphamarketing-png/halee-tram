@@ -153,7 +153,7 @@ export function QuickContactActions({ onBook }: QuickContactActionsProps) {
       </nav>
 
       <div
-        className="fixed bottom-6 right-3 z-40 hidden flex-col items-center gap-2 rounded-2xl border border-primary/10 bg-white/90 p-1.5 shadow-lg backdrop-blur-md sm:right-4 md:flex"
+        className="fixed bottom-6 right-3 z-40 hidden flex-col items-center gap-2 rounded-2xl border border-primary/10 bg-white/90 p-1.5 shadow-lg backdrop-blur-md sm:right-4 lg:flex"
         aria-label="Liên hệ nhanh"
       >
         {desktopOrder.map((action) => (

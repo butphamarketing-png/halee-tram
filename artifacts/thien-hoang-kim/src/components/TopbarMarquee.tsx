@@ -54,10 +54,10 @@ export function TopbarMarquee({ address, hours, phone, facebookUrl, tiktokUrl, y
   );
 
   return (
-    <div className="w-full overflow-hidden bg-primary py-2.5 text-[11px] font-medium text-primary-foreground md:text-xs">
-      <div className="container mx-auto flex items-center gap-3 px-4 md:px-8">
+    <div className="w-full overflow-hidden bg-primary py-2 text-[10px] font-medium text-primary-foreground sm:py-2.5 sm:text-xs">
+      <div className="container mx-auto flex items-center gap-2 px-3 sm:gap-3 sm:px-4 md:px-8">
         <div className="relative min-w-0 flex-1 overflow-hidden">
-          <div className="topbar-marquee-track flex w-max items-center gap-8">
+          <div className="topbar-marquee-track flex w-max items-center gap-6 sm:gap-8">
             {items}
             <span aria-hidden className="flex items-center gap-8 opacity-90">
               {items}
@@ -65,7 +65,7 @@ export function TopbarMarquee({ address, hours, phone, facebookUrl, tiktokUrl, y
           </div>
           <span className="sr-only">{ticker}</span>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="hidden shrink-0 items-center gap-1.5 sm:flex sm:gap-2">
           {[
             { Icon: Facebook, href: facebookUrl },
             { Icon: SiTiktok, href: tiktokUrl },

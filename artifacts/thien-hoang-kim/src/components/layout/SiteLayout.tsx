@@ -27,6 +27,7 @@ import { LogoLoadingScreen } from "@/components/LogoLoadingScreen";
 import { Button } from "@/components/ui/button";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useBookingDialog } from "@/context/BookingDialogContext";
+import { useBookingWelcome } from "@/hooks/useBookingWelcome";
 import { formatPhoneDisplay } from "@/lib/format-phone";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
@@ -45,6 +46,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [loading]);
 
+  useBookingWelcome(showContent && !loading);
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -55,13 +58,16 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.45, ease: "easeInOut" }}
           >
-            <LogoLoadingScreen />
+            <LogoLoadingScreen
+              clinicName={settings.clinicName}
+              clinicSubtitle={settings.clinicSubtitle}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
       {showContent && !loading && (
-    <div className="min-h-[100dvh] w-full bg-background pb-[5.25rem] font-sans text-foreground md:pb-0">
+    <div className="min-h-[100dvh] w-full max-w-[100vw] overflow-x-clip bg-background pb-[5.25rem] font-sans text-foreground md:pb-0 lg:pr-14">
       <div className="sticky top-0 z-[100] w-full shadow-sm">
         <TopbarMarquee
           address={settings.topbarAddress}
@@ -114,12 +120,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
       <main className="site-main-bg overflow-x-clip">{children}</main>
 
-      <footer className="footer-luxury pb-10 pt-24 text-white/80 md:pb-8">
+      <footer className="footer-luxury pb-10 pt-16 text-white/80 sm:pt-20 md:pb-8 md:pt-24">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             <div className="space-y-6">
               <HeaderBrand variant="footer" />
-              <p className="font-serif text-2xl italic text-white/90">{settings.slogan}</p>
+              <p className="font-serif text-xl italic text-white/90 sm:text-2xl">{settings.slogan}</p>
               <p className="text-sm leading-relaxed text-white/70">{home.footerDescription}</p>
               <div className="flex gap-4 pt-2">
                 <Shield className="h-5 w-5 text-white/40" />
@@ -207,9 +213,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       </footer>
 
       <QuickContactActions onBook={openBookingDialog} />
-      <BookingDialog />
     </div>
       )}
+
+      <BookingDialog />
     </>
   );
 }

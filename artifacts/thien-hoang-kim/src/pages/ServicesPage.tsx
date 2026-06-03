@@ -7,14 +7,14 @@ import { SERVICE_CATEGORIES } from "@/data/services-catalog";
 
 export default function ServicesPage() {
   const servicesNav = MAIN_NAV.find((n) => n.href === "/dich-vu");
-  const categoryPaths = [SERVICE_CATEGORIES["tham-my"].path, SERVICE_CATEGORIES.spa.path];
+  const categoryPaths = [SERVICE_CATEGORIES["lam-dep"].path, SERVICE_CATEGORIES["dao-tao"].path];
 
   return (
     <SiteLayout>
       <PageHero
         eyebrow="Dịch vụ"
-        title="Dịch vụ thẩm mỹ"
-        description="Giải pháp thẩm mỹ y khoa và spa chăm sóc da chuyên sâu."
+        title="Dịch vụ & Đào tạo"
+        description="Nails, mi, chân mày, chăm sóc cơ thể và các khóa học nghề tại Halee Trâm."
         crumbs={[{ label: "Trang chủ", href: "/" }, { label: "Dịch vụ" }]}
       />
       <div className="container mx-auto px-4 py-12 md:px-8 md:py-16">

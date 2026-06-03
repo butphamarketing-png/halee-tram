@@ -10,12 +10,12 @@ export default function DoctorsPage() {
     <SiteLayout>
       <PageHero
         eyebrow="Giới thiệu"
-        title="Đội ngũ bác sĩ"
-        description="Bác sĩ chuyên môn cao, tận tâm và giàu kinh nghiệm trong lĩnh vực thẩm mỹ."
+        title="Đội ngũ nhân viên"
+        description="Nhân viên nails, mi và đào tạo — tận tâm và giàu kinh nghiệm."
         crumbs={[
           { label: "Trang chủ", href: "/" },
           { label: "Giới thiệu", href: "/gioi-thieu" },
-          { label: "Đội ngũ bác sĩ" },
+          { label: "Đội ngũ nhân viên" },
         ]}
       />
       <DoctorTeamSection doctors={content.doctors} />

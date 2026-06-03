@@ -10,6 +10,7 @@ import { AdminArticlesPage } from "@/admin/pages/AdminArticlesPage";
 import { AdminDoctorsPage } from "@/admin/pages/AdminDoctorsPage";
 import { AdminTestimonialsPage } from "@/admin/pages/AdminTestimonialsPage";
 import { AdminCustomersPage } from "@/admin/pages/AdminCustomersPage";
+import { AdminPriceListPage } from "@/admin/pages/AdminPriceListPage";
 import { AdminProcessPage } from "@/admin/pages/AdminProcessPage";
 import { AdminBookingsPage } from "@/admin/pages/AdminBookingsPage";
 import { AdminMediaPage } from "@/admin/pages/AdminMediaPage";
@@ -62,6 +63,11 @@ export function AdminApp() {
       <Route path={adminPath("customers")}>
         <AdminGuard>
           <AdminCustomersPage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("price-list")}>
+        <AdminGuard>
+          <AdminPriceListPage />
         </AdminGuard>
       </Route>
       <Route path={adminPath("process")}>

@@ -44,14 +44,14 @@ export function buildBreadcrumbs(path: string, siteName: string, article?: SiteA
     return items;
   }
 
-  if (segments[0] === "tham-my") {
-    items.push({ name: "Thẩm mỹ", url: `${base}/tham-my` });
+  if (segments[0] === "lam-dep") {
+    items.push({ name: "Dịch vụ làm đẹp", url: `${base}/lam-dep` });
     if (segments[1]) items.push({ name: segments[1].replace(/-/g, " "), url: `${base}${path}` });
     return items;
   }
 
-  if (segments[0] === "spa") {
-    items.push({ name: "Spa", url: `${base}/spa` });
+  if (segments[0] === "dao-tao") {
+    items.push({ name: "Đào tạo", url: `${base}/dao-tao` });
     if (segments[1]) items.push({ name: segments[1].replace(/-/g, " "), url: `${base}${path}` });
     return items;
   }
@@ -59,7 +59,7 @@ export function buildBreadcrumbs(path: string, siteName: string, article?: SiteA
   const labels: Record<string, string> = {
     "gioi-thieu": "Giới thiệu",
     "dich-vu": "Dịch vụ",
-    "khach-hang": "Khách hàng",
+    "khach-hang": "Thư viện hình ảnh",
     "bang-gia": "Bảng giá",
     "lien-he": "Liên hệ",
   };

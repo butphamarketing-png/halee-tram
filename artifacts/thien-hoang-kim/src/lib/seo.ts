@@ -60,14 +60,14 @@ function pick(...values: (string | undefined)[]): string {
 }
 
 function buildTitle(pageTitle: string, siteName: string, separator = " | "): string {
-  const name = siteName || "Thiên Hoàng Kim";
+  const name = siteName || "Halee Trâm";
   if (!pageTitle) return name;
   if (pageTitle.includes(name)) return pageTitle;
   return `${pageTitle}${separator}${name}`;
 }
 
 function baseFromGlobal(global: SiteSeo, path: string): PageSeoMeta {
-  const siteName = global.siteName || "Thiên Hoàng Kim Aesthetic Clinic";
+  const siteName = global.siteName || "Halee Trâm — Nails & Lashes Studio";
   const title = global.title || siteName;
   const description = global.description || "";
   const ogTitle = pick(global.ogTitle, title);
@@ -95,7 +95,7 @@ export function resolveArticleSeo(
   global: SiteSeo,
   path: string,
 ): PageSeoMeta {
-  const siteName = global.siteName || "Thiên Hoàng Kim Aesthetic Clinic";
+  const siteName = global.siteName || "Halee Trâm — Nails & Lashes Studio";
   const seo = article.seo ?? DEFAULT_ARTICLE_SEO;
   const sep = global.titleSeparator || " | ";
   const title = pick(seo.metaTitle) || buildTitle(article.title, siteName, sep);
@@ -139,7 +139,7 @@ export function resolveServiceSeo(
     return resolveArticleSeo(opts.article, opts.global, opts.path);
   }
 
-  const siteName = opts.global.siteName || "Thiên Hoàng Kim Aesthetic Clinic";
+  const siteName = opts.global.siteName || "Halee Trâm — Nails & Lashes Studio";
   const title = buildTitle(`${opts.serviceLabel} — Dịch vụ thẩm mỹ`, siteName, opts.global.titleSeparator);
   const description = pick(opts.description, opts.global.description);
   const canonical = toAbsoluteUrl(opts.path, opts.global.siteUrl);
@@ -188,9 +188,9 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     if (article) return resolveArticleSeo(article, global, clean);
   }
 
-  const thamMyMatch = clean.match(/^\/tham-my\/([^/]+)$/);
-  if (thamMyMatch) {
-    const service = getServiceItem("tham-my", thamMyMatch[1]);
+  const lamDepMatch = clean.match(/^\/lam-dep\/([^/]+)$/);
+  if (lamDepMatch) {
+    const service = getServiceItem("lam-dep", lamDepMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? content.articles.find((a) => a.slug === service.articleSlug && a.published)
@@ -206,9 +206,9 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     }
   }
 
-  const spaMatch = clean.match(/^\/spa\/([^/]+)$/);
-  if (spaMatch) {
-    const service = getServiceItem("spa", spaMatch[1]);
+  const daoTaoMatch = clean.match(/^\/dao-tao\/([^/]+)$/);
+  if (daoTaoMatch) {
+    const service = getServiceItem("dao-tao", daoTaoMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? content.articles.find((a) => a.slug === service.articleSlug && a.published)
@@ -224,8 +224,8 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     }
   }
 
-  if (clean === "/tham-my") {
-    const cat = SERVICE_CATEGORIES["tham-my"];
+  if (clean === "/lam-dep") {
+    const cat = SERVICE_CATEGORIES["lam-dep"];
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
@@ -236,8 +236,8 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     };
   }
 
-  if (clean === "/spa") {
-    const cat = SERVICE_CATEGORIES.spa;
+  if (clean === "/dao-tao") {
+    const cat = SERVICE_CATEGORIES["dao-tao"];
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
@@ -274,7 +274,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     return {
       ...base,
       title: buildTitle("Tin tức & Kiến thức làm đẹp", global.siteName, sep),
-      description: pick("Cẩm nang làm đẹp, tin tức thẩm mỹ và spa từ Thiên Hoàng Kim.", global.description),
+      description: pick("Cẩm nang nails, mi và mẹo chăm sóc từ Halee Trâm.", global.description),
     };
   }
 
@@ -296,9 +296,11 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
 
   if (clean === "/bang-gia") {
     const base = baseFromGlobal(global, clean);
+    const pl = content.priceList;
     return {
       ...base,
-      title: buildTitle("Bảng giá tham khảo", global.siteName, sep),
+      title: buildTitle(pl.title || "Bảng giá tham khảo", global.siteName, sep),
+      description: pl.description || base.description,
     };
   }
 

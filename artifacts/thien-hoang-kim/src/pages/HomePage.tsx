@@ -7,7 +7,6 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import { FeaturedServices } from "@/components/FeaturedServices";
 import { CustomerResultsSection } from "@/components/CustomerResultsSection";
 import { DoctorTeamSection } from "@/components/DoctorTeamSection";
-import { ExamProcessSection } from "@/components/ExamProcessSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { BeautyHandbookSection } from "@/components/BeautyHandbookSection";
 import { CtaContactSection } from "@/components/CtaContactSection";
@@ -48,7 +47,7 @@ export default function HomePage() {
                   transition={{ delay: i * 0.08 }}
                   className="luxury-card card-hover-lift group flex min-w-0 flex-col items-center rounded-2xl p-3 text-center sm:p-4 md:p-5"
                 >
-                  <div className="commitment-icon-wrap mb-3 flex h-11 w-11 shrink-0 cursor-default items-center justify-center rounded-full border border-[#d4b86a]/25 bg-gradient-to-br from-[#faf8f2] to-[#f0ebe0] text-primary shadow-inner sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
+                  <div className="commitment-icon-wrap mb-3 flex h-11 w-11 shrink-0 cursor-default items-center justify-center rounded-full border border-[#c9a66b]/30 bg-gradient-to-br from-[#f4ece1] to-[#e5d8ca] text-primary shadow-inner sm:mb-4 sm:h-14 sm:w-14 md:h-16 md:w-16">
                     <Icon className="commitment-icon h-5 w-5 stroke-[1.5] sm:h-6 sm:w-6 md:h-7 md:w-7" />
                   </div>
                   <h3 className="mb-1.5 w-full text-[10px] font-bold leading-tight text-primary sm:mb-2 sm:text-xs md:text-sm">
@@ -130,7 +129,7 @@ export default function HomePage() {
               <div className="order-1 relative w-full md:order-2 md:min-h-[480px] lg:min-h-[520px]">
                 <img
                   src={home.aboutImage}
-                  alt="Thiên Hoàng Kim Aesthetic Clinic"
+                  alt={`${settings.clinicName} — ${settings.clinicSubtitle}`}
                   className="aspect-[4/3] w-full object-cover object-top md:absolute md:inset-0 md:aspect-auto md:h-full"
                 />
                 <div
@@ -150,8 +149,6 @@ export default function HomePage() {
 
       <BookingSection />
 
-      <ExamProcessSection steps={content.processSteps} />
-
       <TestimonialsSection
         backgroundImage={home.testimonialsBackground}
         items={content.testimonials}
@@ -169,7 +166,7 @@ export default function HomePage() {
         description={home.ctaDescription}
         image={home.ctaImage}
         websiteUrl={settings.websiteUrl || "/"}
-        websiteLabel={settings.websiteLabel || "thienhoangkim.vn"}
+        websiteLabel={settings.websiteLabel || "haleetram.studio"}
         facebookUrl={settings.facebookUrl}
         messengerSlug={settings.messengerSlug}
         phone={settings.phone}

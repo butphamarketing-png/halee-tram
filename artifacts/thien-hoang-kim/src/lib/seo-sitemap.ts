@@ -13,7 +13,7 @@ export function getSiteBaseUrl(override?: string): string {
   const fromEnv = override?.trim();
   if (fromEnv) return fromEnv.replace(/\/$/, "");
   if (typeof window !== "undefined") return window.location.origin;
-  return "https://thienhoangkim.vercel.app";
+  return "https://haleetram.vercel.app";
 }
 
 export function collectSitemapEntries(content: SiteContent, baseUrl: string): SitemapEntry[] {
@@ -33,8 +33,8 @@ export function collectSitemapEntries(content: SiteContent, baseUrl: string): Si
   add("/", 1, "daily");
   add("/gioi-thieu", 0.9);
   add("/dich-vu", 0.9);
-  add("/tham-my", 0.9);
-  add("/spa", 0.9);
+  add("/lam-dep", 0.9);
+  add("/dao-tao", 0.9);
   add("/khach-hang", 0.8);
   add("/bang-gia", 0.8);
   add("/tin-tuc", 0.85);

@@ -1,5 +1,4 @@
 import {
-  createContext,
   useCallback,
   useContext,
   useEffect,
@@ -10,6 +9,12 @@ import {
 } from "react";
 import { useLocation } from "wouter";
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
+import { isAdminLocation } from "@/config/admin";
+import {
+  FALLBACK_SITE_CONTENT,
+  SiteContentContext,
+  type SiteContentContextValue,
+} from "@/context/site-content-store";
 import {
   loadSiteContent,
   publishContentToApi,
@@ -18,21 +23,9 @@ import {
 import { getAdminToken } from "@/lib/admin-auth";
 import type { SiteContent } from "@/types/site-content";
 
-type SiteContentContextValue = {
-  content: SiteContent;
-  loading: boolean;
-  isDirty: boolean;
-  updateContent: (updater: (prev: SiteContent) => SiteContent) => void;
-  saveContent: () => void;
-  resetContent: () => void;
-  publishContent: () => Promise<boolean>;
-};
-
-const SiteContentContext = createContext<SiteContentContextValue | null>(null);
-
 export function SiteContentProvider({ children }: { children: ReactNode }) {
   const [location] = useLocation();
-  const isAdmin = location.startsWith("/admin");
+  const isAdmin = isAdminLocation(location);
   const [content, setContent] = useState<SiteContent>(DEFAULT_SITE_CONTENT);
   const [loading, setLoading] = useState(true);
   const [isDirty, setIsDirty] = useState(false);
@@ -87,7 +80,7 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
     return ok;
   }, [content]);
 
-  const value = useMemo(
+  const value = useMemo<SiteContentContextValue>(
     () => ({
       content,
       loading,
@@ -103,8 +96,12 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
   return <SiteContentContext.Provider value={value}>{children}</SiteContentContext.Provider>;
 }
 
-export function useSiteContent() {
+export function useSiteContent(): SiteContentContextValue {
   const ctx = useContext(SiteContentContext);
-  if (!ctx) throw new Error("useSiteContent must be used within SiteContentProvider");
-  return ctx;
+  return ctx ?? FALLBACK_SITE_CONTENT;
+}
+
+/** Alias — SEO / HMR-safe */
+export function useSiteContentSafe(): SiteContentContextValue {
+  return useSiteContent();
 }

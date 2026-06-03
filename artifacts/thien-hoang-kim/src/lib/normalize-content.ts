@@ -2,7 +2,47 @@ import { DEFAULT_ARTICLES } from "@/data/articles.defaults";
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
 import { normalizeArticleSeo, normalizeSiteSeo } from "@/lib/seo";
 import { slugify } from "@/lib/slug";
-import type { SiteArticle, SiteContent } from "@/types/site-content";
+import type { SiteArticle, SiteContent, SiteCustomerCase, SiteTestimonial } from "@/types/site-content";
+
+function normalizeTestimonials(items?: SiteTestimonial[]): SiteTestimonial[] {
+  const base = DEFAULT_SITE_CONTENT.testimonials;
+  if (!items?.length) return base;
+  return items.map((t, i) => {
+    const fallback = base[i] ?? base[0];
+    const albumImages =
+      t.albumImages?.length ? t.albumImages : fallback?.albumImages?.length ? fallback.albumImages : [t.avatar || fallback.avatar];
+    return {
+      id: t.id || fallback.id,
+      name: t.name || fallback.name,
+      initials: t.initials || fallback.initials,
+      avatar: t.avatar || fallback.avatar,
+      text: t.text || fallback.text,
+      albumImages,
+    };
+  });
+}
+
+function normalizeCustomerCases(items?: SiteCustomerCase[]): SiteCustomerCase[] {
+  const base = DEFAULT_SITE_CONTENT.customerCases;
+  if (!items?.length) return base;
+  return items.map((c, i) => {
+    const fallback = base[i] ?? base[0];
+    const legacy = c as SiteCustomerCase & { before?: string; after?: string };
+    const images =
+      c.images?.length
+        ? c.images
+        : legacy.before || legacy.after
+          ? [legacy.before, legacy.after].filter(Boolean) as string[]
+          : fallback.images;
+    const cover = c.cover || legacy.before || images[0] || fallback.cover;
+    return {
+      id: c.id || fallback.id,
+      label: c.label || fallback.label,
+      cover,
+      images: images.length ? images : [cover],
+    };
+  });
+}
 
 export function normalizeArticles(articles?: SiteArticle[]): SiteArticle[] {
   if (!articles?.length) return DEFAULT_ARTICLES;
@@ -57,11 +97,17 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
       ),
     },
     handbook: { ...base.handbook, ...partial.handbook },
+    priceList: {
+      ...base.priceList,
+      ...partial.priceList,
+      images: partial.priceList?.images?.length ? partial.priceList.images : base.priceList.images,
+    },
     bookingServices: partial.bookingServices ?? base.bookingServices,
     doctors: partial.doctors ?? base.doctors,
     articles: normalizeArticles(partial.articles),
-    testimonials: partial.testimonials ?? base.testimonials,
-    customerCases: partial.customerCases ?? base.customerCases,
+    testimonials: normalizeTestimonials(partial.testimonials),
+    customerCases: normalizeCustomerCases(partial.customerCases),
     processSteps: partial.processSteps ?? base.processSteps,
+    luckyWheel: { ...base.luckyWheel, ...partial.luckyWheel },
   };
 }

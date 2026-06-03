@@ -114,7 +114,7 @@ export function AdminSeoPanel({
   onChange,
   previewPath = "/",
   previewUrl,
-  siteName = "Thiên Hoàng Kim",
+  siteName = "Halee Trâm",
   h1 = "",
   bodyText = "",
   slug = "",
@@ -123,7 +123,7 @@ export function AdminSeoPanel({
 }: AdminSeoPanelProps) {
   const resolvedTitle = metaTitle.trim() || h1;
   const resolvedDesc = metaDescription.trim();
-  const displayUrl = previewUrl || `thienhoangkim.vercel.app${previewPath}`;
+  const displayUrl = previewUrl || `haleetram.vercel.app${previewPath}`;
 
   const analysis = useMemo(
     () =>
@@ -142,7 +142,7 @@ export function AdminSeoPanel({
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-col gap-4 rounded-xl border border-primary/20 bg-gradient-to-br from-[#f8fbf9] to-white p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-xl border border-primary/20 bg-gradient-to-br from-[#f4ece1] to-white p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-semibold text-primary">Điểm SEO</p>
           <p className="text-xs text-muted-foreground">Phân tích giống Yoast SEO / Rank Math</p>
@@ -185,7 +185,7 @@ export function AdminSeoPanel({
         ))}
       </ul>
 
-      <div className="space-y-4 rounded-xl border border-primary/15 bg-[#f8fbf9] p-4">
+      <div className="space-y-4 rounded-xl border border-primary/15 bg-[#f4ece1] p-4">
         <AdminField
           label="Từ khóa chính (Focus keyphrase)"
           value={focusKeyphrase}

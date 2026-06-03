@@ -33,12 +33,12 @@ export function PageHero({ eyebrow, title, description, crumbs }: PageHeroProps)
         {eyebrow && (
           <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70 sm:text-xs">{eyebrow}</p>
         )}
-        <h1 className="font-vietnamese-serif mt-3 text-3xl font-semibold leading-tight text-primary md:text-4xl lg:text-[2.75rem]">
+        <h1 className="font-vietnamese-serif mt-3 text-2xl font-semibold leading-tight text-primary sm:text-3xl md:text-4xl lg:text-[2.75rem]">
           {title}
         </h1>
         <div className="mt-4 flex items-center gap-2">
           <span className="h-px w-10 bg-gradient-to-r from-primary/40 to-transparent" />
-          <span className="text-[8px] text-[#c9a227]/80">◆</span>
+          <span className="text-[8px] text-[#c9a66b]/80">◆</span>
         </div>
         {description && (
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">

@@ -170,7 +170,7 @@ export function BookingForm({ compact, prefill, lockPrefill, onSuccess, classNam
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel className="cursor-pointer text-[10px] font-medium leading-snug sm:text-xs">
-                Tôi đồng ý chính sách bảo mật của Thiên Hoàng Kim
+                Tôi đồng ý chính sách bảo mật của {content.settings.clinicName}
               </FormLabel>
             </FormItem>
           )}

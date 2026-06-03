@@ -17,8 +17,8 @@ function getServiceColumns(): NavMegaColumn[] {
 }
 
 function cardTitle(column: NavMegaColumn) {
-  if (column.title.toUpperCase().includes("SPA")) return "SPA";
-  return "THẨM MỸ";
+  if (column.title.toUpperCase().includes("ĐÀO TẠO")) return "ĐÀO TẠO";
+  return "LÀM ĐẸP";
 }
 
 function ServiceLink({ item }: { item: NavLinkItem }) {
@@ -26,7 +26,7 @@ function ServiceLink({ item }: { item: NavLinkItem }) {
     <li className="min-w-0 max-w-full">
       <Link
         href={item.href}
-        className="service-menu-link block max-w-full py-1 text-center text-[11px] font-medium leading-[1.45] text-white/88 transition-colors hover:text-[#f5e6b8] sm:text-xs"
+        className="service-menu-link block max-w-full py-1 text-center text-[11px] font-medium leading-[1.45] text-white/88 transition-colors hover:text-[#e8d4b8] sm:text-xs"
       >
         {item.label}
       </Link>
@@ -53,7 +53,7 @@ function ServiceHoverCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="group/card relative h-[320px] overflow-hidden rounded-[1.25rem] shadow-[0_8px_30px_rgba(15,48,36,0.12)] ring-1 ring-black/[0.06] transition-[box-shadow,transform] duration-500 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(15,48,36,0.18)] sm:h-[352px] md:h-[380px] md:rounded-3xl"
+      className="group/card relative h-[320px] overflow-hidden rounded-[1.25rem] shadow-[0_8px_30px_rgba(110,71,59,0.12)] ring-1 ring-black/[0.06] transition-[box-shadow,transform] duration-500 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(110,71,59,0.18)] sm:h-[352px] md:h-[380px] md:rounded-3xl"
     >
       <img
         src={imageSrc}
@@ -63,26 +63,26 @@ function ServiceHoverCard({
 
       {/* Idle */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.35)_100%)] transition-opacity duration-500 group-hover/card:opacity-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#071a14]/90 via-[#071a14]/25 to-transparent transition-opacity duration-500 group-hover/card:opacity-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#3d2821]/90 via-[#3d2821]/25 to-transparent transition-opacity duration-500 group-hover/card:opacity-0" />
       <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center pb-7 transition-all duration-500 group-hover/card:translate-y-2 group-hover/card:opacity-0 md:group-hover/card:opacity-0">
         <h3 className="font-serif text-[1.65rem] font-bold tracking-[0.1em] text-white sm:text-3xl">{title}</h3>
         <div className="mt-3 flex items-center gap-2">
-          <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#d4b86a]/70" />
-          <span className="text-[#d4b86a]/80">◆</span>
-          <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#d4b86a]/70" />
+          <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#c9a66b]/70" />
+          <span className="text-[#c9a66b]/80">◆</span>
+          <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#c9a66b]/70" />
         </div>
         <Link
           href={href}
-          className="mt-4 rounded-full bg-gold-gradient px-6 py-2 text-[11px] font-bold tracking-wide text-[#0f3024] shadow-md md:hidden"
+          className="mt-4 rounded-full bg-gold-gradient px-6 py-2 text-[11px] font-bold tracking-wide text-[#2b2b2b] shadow-md md:hidden"
         >
           XEM DỊCH VỤ
         </Link>
       </div>
 
       {/* Hover */}
-      <div className="absolute inset-0 z-20 hidden items-center justify-center bg-gradient-to-b from-[#0a261c]/98 via-[#124830]/98 to-[#061810]/98 opacity-0 transition-opacity duration-500 md:flex group-hover/card:opacity-100 group-focus-within/card:opacity-100">
+      <div className="absolute inset-0 z-20 hidden items-center justify-center bg-gradient-to-b from-[#4a3028]/98 via-[#6e473b]/98 to-[#3d2821]/98 opacity-0 transition-opacity duration-500 md:flex group-hover/card:opacity-100 group-focus-within/card:opacity-100">
         <div
-          className="pointer-events-none absolute inset-0 opacity-80 bg-[radial-gradient(ellipse_75%_60%_at_50%_35%,rgba(212,184,106,0.2)_0%,transparent_68%)]"
+          className="pointer-events-none absolute inset-0 opacity-80 bg-[radial-gradient(ellipse_75%_60%_at_50%_35%,rgba(201,166,107,0.25)_0%,transparent_68%)]"
           aria-hidden
         />
         <div
@@ -91,17 +91,17 @@ function ServiceHoverCard({
         />
 
         <div
-          className="relative z-10 mx-auto w-[calc(100%-1.5rem)] min-w-0 max-w-[360px] translate-y-2 scale-[0.98] overflow-visible rounded-2xl border border-[#d4b86a]/20 bg-gradient-to-b from-white/[0.12] to-white/[0.04] px-4 py-5 opacity-0 shadow-[0_12px_40px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md transition-all duration-500 ease-out group-hover/card:translate-y-0 group-hover/card:scale-100 group-hover/card:opacity-100 group-focus-within/card:translate-y-0 group-focus-within/card:scale-100 group-focus-within/card:opacity-100 sm:px-5 sm:py-6"
+          className="relative z-10 mx-auto w-[calc(100%-1.5rem)] min-w-0 max-w-[360px] translate-y-2 scale-[0.98] overflow-visible rounded-2xl border border-[#c9a66b]/20 bg-gradient-to-b from-white/[0.12] to-white/[0.04] px-4 py-5 opacity-0 shadow-[0_12px_40px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md transition-all duration-500 ease-out group-hover/card:translate-y-0 group-hover/card:scale-100 group-hover/card:opacity-100 group-focus-within/card:translate-y-0 group-focus-within/card:scale-100 group-focus-within/card:opacity-100 sm:px-5 sm:py-6"
         >
           <div className="text-center">
-            <p className="mx-auto max-w-full whitespace-normal break-words px-2 text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#d4b86a] sm:tracking-[0.24em]">
+            <p className="mx-auto max-w-full whitespace-normal break-words px-2 text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#c9a66b] sm:tracking-[0.24em]">
               {column.title}
             </p>
             <h3 className="mt-2 font-serif text-[1.75rem] font-bold leading-none text-white sm:text-[1.9rem]">{title}</h3>
             <div className="mx-auto mt-3 flex w-20 items-center justify-center gap-2">
-              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#d4b86a]/60" />
-              <span className="text-[8px] text-[#d4b86a]/70">✦</span>
-              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#d4b86a]/60" />
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#c9a66b]/60" />
+              <span className="text-[8px] text-[#c9a66b]/70">✦</span>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#c9a66b]/60" />
             </div>
           </div>
 
@@ -118,7 +118,7 @@ function ServiceHoverCard({
             <Button
               asChild
               size="sm"
-              className="group/btn bg-gold-gradient h-9 rounded-full border border-[#e8d48b]/50 px-8 text-[11px] font-bold tracking-[0.14em] text-[#0f3024] shadow-[0_6px_20px_rgba(0,0,0,0.28)] transition-all hover:scale-[1.03] hover:brightness-110"
+              className="group/btn bg-gold-gradient h-9 rounded-full border border-[#c9a66b]/50 px-8 text-[11px] font-bold tracking-[0.14em] text-[#2b2b2b] shadow-[0_6px_20px_rgba(0,0,0,0.28)] transition-all hover:scale-[1.03] hover:brightness-110"
             >
               <Link href={href}>
                 KHÁM PHÁ NGAY
@@ -134,7 +134,7 @@ function ServiceHoverCard({
 
 export function FeaturedServices({ images }: FeaturedServicesProps) {
   const columns = getServiceColumns();
-  const categoryHrefs = [SERVICE_CATEGORIES["tham-my"].path, SERVICE_CATEGORIES.spa.path];
+  const categoryHrefs = [SERVICE_CATEGORIES["lam-dep"].path, SERVICE_CATEGORIES["dao-tao"].path];
 
   if (columns.length < 2) return null;
 
@@ -144,7 +144,7 @@ export function FeaturedServices({ images }: FeaturedServicesProps) {
         <SectionHeading
           eyebrow="Dịch vụ"
           title="DỊCH VỤ NỔI BẬT"
-          subtitle="Giải pháp làm đẹp toàn diện chuẩn y khoa"
+          subtitle="Nails, mi, chân mày và khóa học nghề chuyên nghiệp"
           className="mb-10 md:mb-12"
         />
 

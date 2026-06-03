@@ -1,4 +1,4 @@
-export type ServiceCategoryId = "tham-my" | "spa";
+export type ServiceCategoryId = "lam-dep" | "dao-tao";
 
 export type ServiceCatalogItem = {
   slug: string;
@@ -16,48 +16,54 @@ export type ServiceCategory = {
   description: string;
 };
 
-const THAM_MY_ITEMS: ServiceCatalogItem[] = [
-  { slug: "nang-mui", label: "Nâng Mũi", articleSlug: "nang-mui-bao-lau-thi-dep-tu-nhien" },
-  { slug: "cat-mi", label: "Cắt Mí", articleSlug: "cat-mi-co-de-lai-seo-khong" },
-  { slug: "filler", label: "Filler", articleSlug: "tiem-filler-giu-duoc-bao-lau" },
-  { slug: "botox", label: "Botox", articleSlug: "botox-la-gi-khi-nao-nen-tiem" },
-  { slug: "cang-chi", label: "Căng Chỉ", description: "Nâng cơ, trẻ hóa vùng mặt bằng chỉ sinh học an toàn." },
-  { slug: "dieu-tri-mun", label: "Điều Trị Mụn", articleSlug: "dieu-tri-mun-boc-hieu-qua" },
-  { slug: "dieu-tri-nam", label: "Điều Trị Nám", description: "Phác đồ trị nám, tàn nhang cá nhân hóa theo từng loại da." },
-  { slug: "tre-hoa-da", label: "Trẻ Hóa Da", articleSlug: "tre-hoa-da-hifu" },
+const LAM_DEP_ITEMS: ServiceCatalogItem[] = [
+  { slug: "nails", label: "Nails", description: "Làm móng, sơn gel, thiết kế nail art theo xu hướng.", articleSlug: "son-gel-bao-lau-va-cach-giu-mau" },
+  { slug: "noi-mi", label: "Nối Mi", description: "Nối mi classic, volume, hybrid — tự nhiên, bền và đẹp.", articleSlug: "noi-mi-classic-hay-volume" },
+  { slug: "uon-mi", label: "Uốn Mi", description: "Uốn mi tự nhiên, giữ cong lâu, phù hợp mọi dáng mắt.", articleSlug: "uon-mi-co-dau-khong" },
+  {
+    slug: "dinh-hinh-chan-may",
+    label: "Định Hình Chân Mày",
+    description: "Tạo dáng, tô viền và định hình chân mày hài hòa với khuôn mặt.",
+    articleSlug: "dinh-hinh-chan-may-chon-dang-nao",
+  },
+  { slug: "cha-got-chan", label: "Chà Gót Chân", description: "Chà gót, dưỡng da chân mềm mịn và thư giãn.", articleSlug: "cham-soc-da-chan-tai-nha" },
+  { slug: "goi-dau", label: "Gội Đầu", description: "Gội đầu thư giãn, chăm sóc tóc và da đầu tại salon.", articleSlug: "goi-dau-thu-gian-quan-7" },
 ];
 
-const SPA_ITEMS: ServiceCatalogItem[] = [
-  { slug: "cham-soc-da", label: "Chăm Sóc Da", description: "Liệu trình chăm sóc da chuyên sâu, phục hồi và cân bằng." },
-  { slug: "facial", label: "Facial", description: "Facial thư giãn, làm sạch và cung cấp dưỡng chất cho da." },
-  { slug: "peel-da", label: "Peel Da", description: "Peel da y khoa giúp sáng mịn, mờ thâm và se khít lỗ chân lông." },
-  { slug: "dien-di", label: "Điện Di", description: "Đưa tinh chất vào sâu da bằng dòng điện siêu vi." },
-  { slug: "phuc-hoi-da", label: "Phục Hồi Da", description: "Phục hồi da sau điều trị, laser hoặc tổn thương nhẹ." },
-  { slug: "goi-dau-duong-sinh", label: "Gội Đầu Dưỡng Sinh", description: "Gội đầu thảo dược thư giãn, kích thích tuần hoàn." },
-  { slug: "massage", label: "Massage", description: "Massage body thư giãn, giảm căng cơ và mệt mỏi." },
-  { slug: "cham-soc-co-the", label: "Chăm Sóc Cơ Thể", description: "Liệu trình chăm sóc toàn thân cao cấp tại spa." },
+const DAO_TAO_ITEMS: ServiceCatalogItem[] = [
+  { slug: "khoa-noi-mi-salon", label: "Khóa Nối Mi Salon", description: "Đào tạo nối mi chuyên nghiệp cho môi trường salon.", articleSlug: "khoa-noi-mi-salon-co-gi" },
+  { slug: "khoa-noi-mi-dinh-cu", label: "Khóa Nối Mi Định Cư", description: "Khóa nối mi định cư — kỹ năng và chứng chỉ theo chuẩn quốc tế.", articleSlug: "khoa-noi-mi-dinh-cu-hoc-gi" },
+  { slug: "khoa-nail-chuyen-nghiep", label: "Khóa Nail Chuyên Nghiệp", description: "Học nail từ cơ bản đến nâng cao, thực hành trên model thật.", articleSlug: "khoa-nail-chuyen-nghiep-ra-nghe" },
+  { slug: "khoa-cham-soc-mong", label: "Khóa Chăm Sóc Móng", description: "Kỹ thuật chăm sóc, dưỡng và phục hồi móng tay chuyên nghiệp.", articleSlug: "khoa-cham-soc-mong-ai-nen-hoc" },
+  {
+    slug: "khoa-dinh-hinh-chan-may",
+    label: "Khóa Định Hình Chân Mày",
+    description: "Đào tạo kỹ thuật định hình, phun và tô chân mày chuẩn tỷ lệ.",
+    articleSlug: "khoa-dinh-hinh-chan-may-lo-trinh",
+  },
+  { slug: "khoa-hoc-uon-mi", label: "Khóa Học Uốn Mi", description: "Uốn mi an toàn, giữ nếp bền — phù hợp mở dịch vụ hoặc nâng tay nghề.", articleSlug: "khoa-hoc-uon-mi-mo-dich-vu" },
 ];
 
 export const SERVICE_CATEGORIES: Record<ServiceCategoryId, ServiceCategory> = {
-  "tham-my": {
-    id: "tham-my",
-    path: "/tham-my",
-    title: "DỊCH VỤ THẨM MỸ",
-    eyebrow: "Thẩm mỹ y khoa",
-    description: "Giải pháp thẩm mỹ chuẩn y khoa — an toàn, tự nhiên và hiệu quả lâu dài.",
+  "lam-dep": {
+    id: "lam-dep",
+    path: "/lam-dep",
+    title: "DỊCH VỤ LÀM ĐẸP",
+    eyebrow: "Dịch vụ tại salon",
+    description: "Nails, mi, chân mày, chăm sóc chân và gội đầu — tận tâm từng chi tiết.",
   },
-  spa: {
-    id: "spa",
-    path: "/spa",
-    title: "DỊCH VỤ SPA",
-    eyebrow: "Spa & chăm sóc da",
-    description: "Chăm sóc da và thư giãn toàn diện trong không gian cao cấp.",
+  "dao-tao": {
+    id: "dao-tao",
+    path: "/dao-tao",
+    title: "ĐÀO TẠO NGHỀ",
+    eyebrow: "Khóa học chuyên nghiệp",
+    description: "Các khóa nail, nối mi, uốn mi và định hình chân mày — học thực chiến, ra nghề nhanh.",
   },
 };
 
 export const SERVICE_ITEMS: Record<ServiceCategoryId, ServiceCatalogItem[]> = {
-  "tham-my": THAM_MY_ITEMS,
-  spa: SPA_ITEMS,
+  "lam-dep": LAM_DEP_ITEMS,
+  "dao-tao": DAO_TAO_ITEMS,
 };
 
 export function getServiceItem(categoryId: ServiceCategoryId, slug: string) {
@@ -68,13 +74,13 @@ export function getServiceHref(categoryId: ServiceCategoryId, slug: string) {
   return `${SERVICE_CATEGORIES[categoryId].path}/${slug}`;
 }
 
-/** Chuyển /dich-vu/slug cũ sang /tham-my/slug hoặc /spa/slug */
+/** Chuyển /dich-vu/slug cũ sang /lam-dep/slug hoặc /dao-tao/slug */
 export function resolveLegacyServicePath(path: string): string | null {
   const match = path.match(/^\/dich-vu\/([^/]+)$/);
   if (!match) return null;
   const slug = match[1];
-  if (getServiceItem("tham-my", slug)) return getServiceHref("tham-my", slug);
-  if (getServiceItem("spa", slug)) return getServiceHref("spa", slug);
+  if (getServiceItem("lam-dep", slug)) return getServiceHref("lam-dep", slug);
+  if (getServiceItem("dao-tao", slug)) return getServiceHref("dao-tao", slug);
   return null;
 }
 

@@ -31,7 +31,7 @@ export function SectionHeading({
         <p
           className={cn(
             "text-[10px] font-semibold uppercase tracking-[0.32em] sm:text-[11px]",
-            light ? "text-[#d4b86a]/90" : "text-primary/65",
+            light ? "text-[#c9a66b]/90" : "text-primary/65",
           )}
         >
           {eyebrow}
@@ -43,7 +43,7 @@ export function SectionHeading({
           centered ? "justify-center" : "justify-start",
         )}
       >
-        {!centered && <span className={cn("h-px w-10 shrink-0", light ? "bg-[#d4b86a]/50" : "bg-primary/30")} />}
+        {!centered && <span className={cn("h-px w-10 shrink-0", light ? "bg-[#c9a66b]/50" : "bg-primary/30")} />}
         <h2
           className={cn(
             "font-vietnamese-serif text-[1.65rem] font-semibold leading-tight sm:text-3xl md:text-4xl",
@@ -52,12 +52,12 @@ export function SectionHeading({
         >
           {title}
         </h2>
-        {!centered && <span className={cn("hidden h-px flex-1 max-w-16 sm:block", light ? "bg-[#d4b86a]/30" : "bg-primary/15")} />}
+        {!centered && <span className={cn("hidden h-px flex-1 max-w-16 sm:block", light ? "bg-[#c9a66b]/30" : "bg-primary/15")} />}
       </div>
       <div className={cn("mt-3 flex items-center gap-2", centered ? "justify-center" : "justify-start")}>
-        <span className={cn("h-px w-8", light ? "bg-gradient-to-r from-transparent to-[#d4b86a]/60" : "bg-gradient-to-r from-transparent to-[#c9a227]/50")} />
-        <span className={cn("text-[9px]", light ? "text-[#d4b86a]/80" : "text-[#c9a227]/70")}>◆</span>
-        <span className={cn("h-px w-8", light ? "bg-gradient-to-l from-transparent to-[#d4b86a]/60" : "bg-gradient-to-l from-transparent to-[#c9a227]/50")} />
+        <span className={cn("h-px w-8", light ? "bg-gradient-to-r from-transparent to-[#c9a66b]/60" : "bg-gradient-to-r from-transparent to-[#c9a66b]/50")} />
+        <span className={cn("text-[9px]", light ? "text-[#c9a66b]/80" : "text-[#c9a66b]/70")}>◆</span>
+        <span className={cn("h-px w-8", light ? "bg-gradient-to-l from-transparent to-[#c9a66b]/60" : "bg-gradient-to-l from-transparent to-[#c9a66b]/50")} />
       </div>
       {subtitle && (
         <p

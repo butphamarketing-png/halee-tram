@@ -116,14 +116,14 @@ export function CtaContactSection({
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.06 }}
-          className="w-full overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(15,48,36,0.12)] md:rounded-[1.75rem]"
+          className="w-full overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-[0_20px_50px_-20px_rgba(110,71,59,0.12)] md:rounded-[1.75rem]"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 md:items-stretch md:min-h-[300px] lg:min-h-[320px]">
             <div className="relative aspect-[16/10] w-full min-w-0 bg-muted sm:aspect-[16/9] md:aspect-auto md:min-h-[300px] lg:min-h-[320px]">
               {image ? (
                 <img
                   src={image}
-                  alt="Thiên Hoàng Kim Aesthetic Clinic"
+                  alt="Halee Trâm — Nails & Lashes Studio"
                   className="absolute inset-0 h-full w-full object-cover object-top"
                 />
               ) : (
@@ -150,7 +150,7 @@ export function CtaContactSection({
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.08 + i * 0.05 }}
-                    className="cta-channel-card group flex h-11 items-center gap-2.5 rounded-xl border border-primary/10 bg-gradient-to-r from-white to-[#f8fbf9] px-2.5 sm:h-12 sm:gap-3 sm:px-3 md:px-3.5"
+                    className="cta-channel-card group flex h-11 items-center gap-2.5 rounded-xl border border-primary/10 bg-gradient-to-r from-white to-[#f4ece1] px-2.5 sm:h-12 sm:gap-3 sm:px-3 md:px-3.5"
                   >
                     <span className="cta-channel-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/[0.07] text-primary sm:h-10 sm:w-10">
                       <Icon className={ch.id === "zalo" ? "h-[18px] w-[18px]" : "h-[18px] w-[18px] sm:h-5 sm:w-5"} />
