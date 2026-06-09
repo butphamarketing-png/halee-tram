@@ -18,6 +18,7 @@ function normalizeTestimonials(items?: SiteTestimonial[]): SiteTestimonial[] {
       avatar: t.avatar || fallback.avatar,
       text: t.text || fallback.text,
       albumImages,
+      category: t.category ?? fallback?.category ?? "service",
     };
   });
 }

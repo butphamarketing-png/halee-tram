@@ -106,6 +106,8 @@ export type SitePriceList = {
   images: SitePriceListImage[];
 };
 
+export type TestimonialCategory = "student" | "service";
+
 export type SiteTestimonial = {
   id: string;
   name: string;
@@ -114,6 +116,8 @@ export type SiteTestimonial = {
   text: string;
   /** Ảnh trong album khi bấm vào ô đánh giá */
   albumImages: string[];
+  /** Học viên hoặc khách làm dịch vụ */
+  category?: TestimonialCategory;
 };
 
 export type SiteCustomerCase = {

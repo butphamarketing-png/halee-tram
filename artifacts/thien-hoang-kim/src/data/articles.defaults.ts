@@ -2,10 +2,11 @@ import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
 import type { SiteArticle } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
-  `${import.meta.env.BASE_URL}${file}`.replace(/([^:]\/)\/+/g, "$1");
+  `${import.meta.env.BASE_URL}${encodeURI(file)}`.replace(/([^:]\/)\/+/g, "$1");
 
-const slide = publicAsset("slideshow.1.png");
-const intro = publicAsset("gioithieu.1.png");
+const handbookImg = publicAsset("gioithieu.1.png");
+const slide = handbookImg;
+const intro = handbookImg;
 
 function article(
   id: string,

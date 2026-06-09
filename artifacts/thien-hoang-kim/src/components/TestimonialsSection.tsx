@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { CustomerAlbumDialog } from "@/components/CustomerAlbumDialog";
 import { useSiteContent } from "@/context/SiteContentContext";
+import type { TestimonialCategory } from "@/types/site-content";
 import { cn } from "@/lib/utils";
 
 export type Testimonial = {
@@ -12,12 +13,26 @@ export type Testimonial = {
   text: string;
   avatar: string;
   albumImages?: string[];
+  category?: TestimonialCategory;
 };
 
 type TestimonialsSectionProps = {
   items: Testimonial[];
   backgroundImage?: string;
 };
+
+const CATEGORY_GROUPS: { key: TestimonialCategory; title: string; subtitle: string }[] = [
+  {
+    key: "student",
+    title: "Feedback học viên",
+    subtitle: "Học viên chia sẻ sau khi hoàn thành khóa học tại Halee Trâm",
+  },
+  {
+    key: "service",
+    title: "Feedback khách hàng làm dịch vụ",
+    subtitle: "Khách hàng đánh giá sau khi sử dụng dịch vụ nails, mi tại studio",
+  },
+];
 
 function PhonePreviewCard({
   previewSrc,
@@ -57,12 +72,39 @@ function PhonePreviewCard({
   );
 }
 
+function TestimonialGrid({
+  items,
+  onOpenAlbum,
+}: {
+  items: Testimonial[];
+  onOpenAlbum: (item: Testimonial) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+      {items.map((t, i) => (
+        <motion.div
+          key={t.id ?? t.name}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.08 }}
+          className="flex flex-col items-center"
+        >
+          <PhonePreviewCard previewSrc={t.avatar} headerName={t.name} onClick={() => onOpenAlbum(t)} />
+          <div className={cn("mt-4 w-full max-w-[240px] text-center")}>
+            <p className="font-serif text-base font-semibold text-primary md:text-lg">{t.name}</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{t.text}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 export function TestimonialsSection({ items, backgroundImage }: TestimonialsSectionProps) {
   const clinicName = useSiteContent().content.settings.clinicName;
   const [albumOpen, setAlbumOpen] = useState(false);
   const [activeAlbum, setActiveAlbum] = useState<{ title: string; images: string[] } | null>(null);
-
-  const displayItems = items.slice(0, 4);
 
   const openAlbum = (item: Testimonial) => {
     const images = item.albumImages?.length ? item.albumImages : [item.avatar];
@@ -81,27 +123,27 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
       <div className="container relative z-10 mx-auto px-4 md:px-8">
         <SectionHeading
           title={`KHÁCH HÀNG NÓI GÌ VỀ ${clinicName}`}
-          subtitle="Nhấn vào từng ô để xem album hình ảnh khách hàng"
-          className="mb-8 md:mb-12"
+          subtitle="Nhấn vào từng ô để xem album hình ảnh"
+          className="mb-10 md:mb-12"
         />
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {displayItems.map((t, i) => (
-            <motion.div
-              key={t.id ?? t.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="flex flex-col items-center"
-            >
-              <PhonePreviewCard previewSrc={t.avatar} headerName={t.name} onClick={() => openAlbum(t)} />
-              <div className={cn("mt-4 w-full max-w-[240px] text-center")}>
-                <p className="font-serif text-base font-semibold text-primary md:text-lg">{t.name}</p>
-                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{t.text}</p>
+        <div className="space-y-14 md:space-y-16">
+          {CATEGORY_GROUPS.map((group) => {
+            const groupItems = items.filter((t) => (t.category ?? "service") === group.key);
+            if (!groupItems.length) return null;
+
+            return (
+              <div key={group.key}>
+                <div className="mb-8 text-center md:mb-10">
+                  <h3 className="font-serif text-xl font-bold uppercase tracking-wide text-primary md:text-2xl">
+                    {group.title}
+                  </h3>
+                  <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">{group.subtitle}</p>
+                </div>
+                <TestimonialGrid items={groupItems} onOpenAlbum={openAlbum} />
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

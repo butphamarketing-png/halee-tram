@@ -2,16 +2,21 @@ import { DEFAULT_ARTICLES } from "@/data/articles.defaults";
 import type { SiteContent } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
-  `${import.meta.env.BASE_URL}${file}`.replace(/([^:]\/)\/+/g, "$1");
+  `${import.meta.env.BASE_URL}${encodeURI(file)}`.replace(/([^:]\/)\/+/g, "$1");
 
-const slide = publicAsset("slideshow.1.png");
-const intro = publicAsset("gioithieu.1.png");
+const slideshow = publicAsset("Slideshow.png");
+const haleeTram = publicAsset("Halee Trâm.jpg");
+const gioithieu = publicAsset("gioithieu.1.png");
+const mssNhan = publicAsset("Mss Nhàn.jpg");
+const mssThuLee = publicAsset("Mss Thu Lee.jpg");
+const feedbackHV = publicAsset("Feedback HV 1.jpg");
+const feedbackKH = publicAsset("Feedback KH 1.jpg");
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
   version: 3,
   settings: {
     clinicName: "HALEE TRÂM",
-    clinicSubtitle: "Eyelash & Nail Academy",
+    clinicSubtitle: "Eyelash / Nail / Academy",
     slogan: "Tỏa Sáng Vẻ Đẹp Của Bạn",
     address: "793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh",
     phone: "0938162662",
@@ -26,16 +31,16 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     tiktokUrl: "#",
     youtubeUrl: "#",
     seo: {
-      siteName: "Halee Trâm — Eyelash & Nail Academy",
+      siteName: "Halee Trâm — Eyelash / Nail / Academy",
       siteUrl: "https://haleetram.vercel.app",
       title: "Halee Trâm | Nails, Nối Mi, Uốn Mi & Đào Tạo Nghề",
       titleSeparator: " | ",
       description:
-        "Halee Trâm Eyelash & Nail Academy tại Quận 7 — nails, nối mi, uốn mi, định hình chân mày và khóa đào tạo nghề. Hotline 0938 162 662.",
+        "Halee Trâm Eyelash / Nail / Academy tại Quận 7 — nails, nối mi, uốn mi, định hình chân mày và khóa đào tạo nghề. Hotline 0938 162 662.",
       keywords:
         "Halee Trâm, nối mi Quận 7, nails Quận 7, uốn mi, đào tạo nối mi, học nail, eyelash academy, salon làm đẹp TP.HCM",
-      ogImage: slide,
-      ogTitle: "Halee Trâm | Eyelash & Nail Academy",
+      ogImage: slideshow,
+      ogTitle: "Halee Trâm | Eyelash / Nail / Academy",
       ogDescription:
         "Làm đẹp & đào tạo nghề tại Quận 7 — đặt lịch 0938 162 662.",
       twitterCard: "summary_large_image",
@@ -56,8 +61,8 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     heroSlides: [
       {
         id: "slideshow-1",
-        src: slide,
-        alt: "Halee Trâm — Eyelash & Nail Academy",
+        src: slideshow,
+        alt: "Halee Trâm — Eyelash / Nail / Academy",
       },
     ],
     commitmentsTitle: "CAM KẾT TỪ HALEE TRÂM",
@@ -103,9 +108,9 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     ],
     aboutEyebrow: "GIỚI THIỆU",
     aboutTitle: "HALEE TRÂM",
-    aboutSubtitle: "Eyelash & Nail Academy",
+    aboutSubtitle: "Eyelash / Nail / Academy",
     aboutParagraphs: [
-      "Halee Trâm Eyelash & Nail Academy là studio làm đẹp và trung tâm đào tạo nghề tại Quận 7, TP.HCM. Chúng tôi chuyên nails, nối mi, uốn mi, định hình chân mày, chà gót chân và gội đầu thư giãn.",
+      "Halee Trâm Eyelash / Nail / Academy là studio làm đẹp và trung tâm đào tạo nghề tại Quận 7, TP.HCM. Chúng tôi chuyên nails, nối mi, uốn mi, định hình chân mày, chà gót chân và gội đầu thư giãn.",
       "Không chỉ là nơi làm đẹp, Halee Trâm còn mở các khóa học nối mi salon, nail chuyên nghiệp, uốn mi và định hình chân mày — giúp học viên nắm kỹ thuật vững, tự tin ra nghề và mở tiệm riêng.",
       "Hotline đặt lịch: 0938 162 662 — 793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7.",
     ],
@@ -114,16 +119,16 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       { value: "3000+", title: "Khách hàng", sub: "Đã tin tưởng lựa chọn" },
       { value: "500+", title: "Học viên", sub: "Đã tốt nghiệp khóa học" },
     ],
-    aboutImage: intro,
-    featuredServiceImages: [slide, intro],
-    bookingImage: intro,
-    testimonialsBackground: slide,
+    aboutImage: haleeTram,
+    featuredServiceImages: [gioithieu, gioithieu],
+    bookingImage: gioithieu,
+    testimonialsBackground: slideshow,
     ctaTitle: "ĐẶT LỊCH NGAY — ƯU ĐÃI HÔM NAY",
     ctaDescription:
       "Đặt lịch online hoặc gọi 0938 162 662. Halee Trâm hỗ trợ tư vấn dịch vụ làm đẹp và khóa học nghề miễn phí.",
-    ctaImage: intro,
+    ctaImage: slideshow,
     footerDescription:
-      "Eyelash & Nail Academy tại Quận 7 — dịch vụ nails, mi chuyên nghiệp và đào tạo nghề bài bản. Halee Trâm — nơi bạn tỏa sáng và học nghề vững tay.",
+      "Eyelash / Nail / Academy tại Quận 7 — dịch vụ nails, mi chuyên nghiệp và đào tạo nghề bài bản. Halee Trâm — nơi bạn tỏa sáng và học nghề vững tay.",
   },
   footer: {
     featuredTitle: "DỊCH VỤ NỔI BẬT",
@@ -144,7 +149,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       { label: "Tin tức", href: "/tin-tuc" },
       { label: "Liên hệ", href: "/lien-he" },
     ],
-    copyright: "© 2026 Halee Trâm Eyelash & Nail Academy. All Rights Reserved.",
+    copyright: "© 2026 Halee Trâm Eyelash / Nail / Academy. All Rights Reserved.",
     designCreditLabel: "Butphamarketing.com",
     designCreditUrl: "https://butphamarketing.com",
   },
@@ -187,27 +192,27 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   doctors: [
     {
       id: "d1",
-      img: slide,
-      name: "Halee Trâm",
-      spec: "Founder — Chuyên gia Nối Mi & Nails",
-      exp: "8+ NĂM KINH NGHIỆM",
-      bio: "Sáng lập studio và giảng dạy các khóa nối mi, nail với phương pháp thực chiến, dễ áp dụng.",
+      img: mssNhan,
+      name: "Miss.Nhàn",
+      spec: "Giáo viên Nail Art & Chăm Sóc Móng / Waxing",
+      exp: "6 NĂM KINH NGHIỆM",
+      bio: "Giảng dạy nail art, chăm sóc móng và waxing với kỹ thuật chuẩn salon, tận tâm với học viên.",
     },
     {
       id: "d2",
-      img: intro,
-      name: "CHUYÊN VIÊN NỐI MI",
-      spec: "Nối mi Classic & Volume",
-      exp: "5+ NĂM KINH NGHIỆM",
-      bio: "Tư vấn dáng mi phù hợp khuôn mặt, kỹ thuật nhẹ nhàng và bền đẹp.",
+      img: haleeTram,
+      name: "Halee Trâm",
+      spec: "Giáo viên Nối Mi / Uốn Mi / Định Hình Lông Mày",
+      exp: "6 NĂM KINH NGHIỆM",
+      bio: "Sáng lập và trực tiếp giảng dạy các khoá học nối mi - nail trong và ngoài nước với phương pháp dễ hiểu, dễ áp dụng vào thực chiến.",
     },
     {
       id: "d3",
-      img: slide,
-      name: "CHUYÊN VIÊN NAIL",
-      spec: "Nail Art & Chăm sóc móng",
-      exp: "4+ NĂM KINH NGHIỆM",
-      bio: "Thiết kế móng theo xu hướng, chăm sóc và phục hồi móng yếu, gãy.",
+      img: mssThuLee,
+      name: "Miss.Thu Lee",
+      spec: "KTV chính Nail / Mi / Gội",
+      exp: "KTV CHÍNH",
+      bio: "Phục vụ nails, mi và gội đầu với sự tận tâm, nhẹ tay và chuyên nghiệp.",
     },
   ],
   articles: DEFAULT_ARTICLES,
@@ -216,59 +221,63 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       id: "t1",
       name: "Lan Anh",
       initials: "LA",
-      avatar: slide,
+      avatar: feedbackKH,
       text: "Nối mi volume tự nhiên, đi làm và đi chơi đều được khen.",
-      albumImages: [slide, intro],
+      albumImages: [feedbackKH],
+      category: "service",
     },
     {
       id: "t2",
       name: "Thuỳ Dung",
       initials: "TD",
-      avatar: intro,
+      avatar: feedbackKH,
       text: "Nail art xinh, bền màu — nhân viên nhẹ tay và tư vấn nhiệt tình.",
-      albumImages: [intro, slide],
+      albumImages: [feedbackKH],
+      category: "service",
     },
     {
       id: "t3",
       name: "Kim Ngân",
       initials: "KN",
-      avatar: slide,
+      avatar: feedbackHV,
       text: "Học khóa nối mi salon xong mở được tiệm, được hướng dẫn rất kỹ.",
-      albumImages: [slide, intro],
+      albumImages: [feedbackHV],
+      category: "student",
     },
     {
       id: "t4",
       name: "Hoài Phương",
       initials: "HP",
-      avatar: intro,
+      avatar: feedbackKH,
       text: "Uốn mi giữ cong lâu, không đau và không rụng nhiều như chỗ khác.",
-      albumImages: [intro, slide],
+      albumImages: [feedbackKH],
+      category: "service",
     },
   ],
   customerCases: [
     {
       id: "cr1",
       label: "Nối Mi Volume",
-      cover: slide,
-      images: [slide, intro],
+      cover: gioithieu,
+      images: [gioithieu],
     },
     {
       id: "cr2",
       label: "Nail Art Gel",
-      cover: intro,
-      images: [intro, slide],
+      cover: gioithieu,
+      images: [gioithieu],
     },
     {
       id: "cr3",
       label: "Định Hình Chân Mày",
-      cover: slide,
-      images: [slide, intro],
+      cover: gioithieu,
+      images: [gioithieu],
     },
     {
       id: "cr4",
       label: "Uốn Mi Classic",
-      cover: intro,
-      images: [intro, slide],
+      cover: gioithieu,
+      images: [gioithieu],
     },
   ],
   luckyWheel: {
@@ -293,37 +302,37 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       id: "s1",
       title: "TIẾP NHẬN & TƯ VẤN",
       desc: "Lắng nghe nhu cầu và gợi ý phong cách phù hợp",
-      image: intro,
+      image: gioithieu,
     },
     {
       id: "s2",
       title: "CHUẨN BỊ & VỆ SINH",
       desc: "Làm sạch, sát khuẩn dụng cụ và khu vực thực hiện",
-      image: slide,
+      image: gioithieu,
     },
     {
       id: "s3",
       title: "THỰC HIỆN DỊCH VỤ",
       desc: "Tiến hành nails, mi hoặc chân mày theo quy trình chuẩn",
-      image: intro,
+      image: gioithieu,
     },
     {
       id: "s4",
       title: "HOÀN THIỆN",
       desc: "Kiểm tra kỹ từng chi tiết trước khi bàn giao",
-      image: slide,
+      image: gioithieu,
     },
     {
       id: "s5",
       title: "HƯỚNG DẪN CHĂM SÓC",
       desc: "Hướng dẫn giữ mi, móng bền và đẹp tại nhà",
-      image: intro,
+      image: gioithieu,
     },
     {
       id: "s6",
       title: "HỖ TRỢ SAU DỊCH VỤ",
       desc: "Bảo hành và chỉnh sửa trong thời gian cam kết",
-      image: slide,
+      image: gioithieu,
     },
   ],
 };

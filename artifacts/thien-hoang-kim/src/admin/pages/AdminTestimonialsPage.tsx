@@ -30,7 +30,7 @@ export function AdminTestimonialsPage() {
               ...p,
               testimonials: [
                 ...p.testimonials,
-                { id: crypto.randomUUID(), name: "", initials: "", avatar: "", text: "", albumImages: [] },
+                { id: crypto.randomUUID(), name: "", initials: "", avatar: "", text: "", albumImages: [], category: "service" },
               ],
             }))
           }
@@ -50,6 +50,23 @@ export function AdminTestimonialsPage() {
             <div className="grid gap-3 md:grid-cols-2">
               <AdminField label="Tên" value={t.name} onChange={(v) => updateContent((p) => { const list = [...p.testimonials]; list[i] = { ...list[i], name: v }; return { ...p, testimonials: list }; })} />
               <AdminField label="Viết tắt" value={t.initials} onChange={(v) => updateContent((p) => { const list = [...p.testimonials]; list[i] = { ...list[i], initials: v }; return { ...p, testimonials: list }; })} />
+              <div>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">Loại feedback</label>
+                <select
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={t.category ?? "service"}
+                  onChange={(e) =>
+                    updateContent((p) => {
+                      const list = [...p.testimonials];
+                      list[i] = { ...list[i], category: e.target.value as "student" | "service" };
+                      return { ...p, testimonials: list };
+                    })
+                  }
+                >
+                  <option value="student">Feedback học viên</option>
+                  <option value="service">Feedback khách hàng làm dịch vụ</option>
+                </select>
+              </div>
               <AdminImageField label="Ảnh preview (khung điện thoại)" value={t.avatar} onChange={(v) => updateContent((p) => { const list = [...p.testimonials]; list[i] = { ...list[i], avatar: v }; return { ...p, testimonials: list }; })} />
               <div className="md:col-span-2">
                 <AdminField label="Mô tả (dưới tên)" value={t.text} onChange={(v) => updateContent((p) => { const list = [...p.testimonials]; list[i] = { ...list[i], text: v }; return { ...p, testimonials: list }; })} multiline />
