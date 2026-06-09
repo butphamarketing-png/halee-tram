@@ -6,6 +6,7 @@ const publicAsset = (file: string) =>
 
 const slideshow = publicAsset("Slideshow.png");
 const haleeTram = publicAsset("Halee Trâm.jpg");
+const haleeTram1 = publicAsset("Halee Trâm 1.jpg");
 const gioithieu = publicAsset("gioithieu.1.png");
 const mssNhan = publicAsset("Mss Nhàn.jpg");
 const mssThuLee = publicAsset("Mss Thu Lee.jpg");
@@ -192,7 +193,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   doctors: [
     {
       id: "d2",
-      img: haleeTram,
+      img: haleeTram1,
       name: "Halee Trâm",
       spec: "Giáo viên Nối Mi / Uốn Mi / Định Hình Lông Mày",
       exp: "6 NĂM KINH NGHIỆM",

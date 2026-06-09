@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { CustomerAlbumDialog } from "@/components/CustomerAlbumDialog";
 import { useSiteContent } from "@/context/SiteContentContext";
@@ -33,6 +35,52 @@ const CATEGORY_GROUPS: { key: TestimonialCategory; title: string; subtitle: stri
     subtitle: "Khách hàng đánh giá sau khi sử dụng dịch vụ nails, mi tại studio",
   },
 ];
+
+function useCardsPerView() {
+  const [perView, setPerView] = useState(1);
+
+  useEffect(() => {
+    const update = () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) setPerView(3);
+      else if (window.matchMedia("(min-width: 768px)").matches) setPerView(2);
+      else setPerView(1);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  return perView;
+}
+
+function CarouselArrow({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="icon"
+      disabled={disabled}
+      onClick={onClick}
+      className={cn(
+        "customer-carousel-arrow h-11 w-11 shrink-0 rounded-full border-white/80 bg-white/95 text-primary backdrop-blur-sm",
+        "transition-all duration-300 hover:border-gold/40 hover:bg-primary hover:text-white",
+        "disabled:pointer-events-none disabled:opacity-35",
+      )}
+      aria-label={direction === "prev" ? "Feedback trước" : "Feedback tiếp theo"}
+    >
+      <Icon className="h-5 w-5" strokeWidth={1.5} />
+    </Button>
+  );
+}
 
 function PhonePreviewCard({
   previewSrc,
@@ -74,6 +122,117 @@ function PhonePreviewCard({
   );
 }
 
+function TestimonialCard({
+  item,
+  category,
+  onOpenAlbum,
+}: {
+  item: Testimonial;
+  category: TestimonialCategory;
+  onOpenAlbum: (item: Testimonial) => void;
+}) {
+  return (
+    <div className="flex flex-col items-center">
+      <PhonePreviewCard
+        previewSrc={item.avatar}
+        headerName={item.name}
+        category={category}
+        onClick={() => onOpenAlbum(item)}
+      />
+      <div className="mt-4 w-full max-w-[240px] text-center">
+        <p className="font-serif text-base font-semibold text-primary md:text-lg">{item.name}</p>
+        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{item.text}</p>
+      </div>
+    </div>
+  );
+}
+
+function TestimonialCarousel({
+  items,
+  category,
+  onOpenAlbum,
+}: {
+  items: Testimonial[];
+  category: TestimonialCategory;
+  onOpenAlbum: (item: Testimonial) => void;
+}) {
+  const perView = useCardsPerView();
+  const [index, setIndex] = useState(0);
+  const maxIndex = Math.max(0, items.length - perView);
+  const canSlide = items.length > perView;
+
+  useEffect(() => {
+    setIndex((i) => Math.min(i, maxIndex));
+  }, [maxIndex]);
+
+  const go = (delta: number) => {
+    if (!canSlide) return;
+    setIndex((i) => {
+      const pages = maxIndex + 1;
+      return (i + delta + pages) % pages;
+    });
+  };
+
+  const visible = items.slice(index, index + perView);
+
+  return (
+    <div>
+      <div
+        className={cn(
+          "mx-auto max-w-6xl",
+          canSlide ? "flex items-center justify-center gap-4 md:gap-6" : "block",
+        )}
+      >
+        {canSlide && <CarouselArrow direction="prev" onClick={() => go(-1)} />}
+
+        <div
+          className={cn(
+            "grid min-h-[480px] flex-1 gap-6 md:gap-8",
+            !canSlide && "mx-auto",
+            perView === 1 && "grid-cols-1",
+            perView === 2 && "grid-cols-2",
+            perView === 3 && "grid-cols-3",
+          )}
+        >
+          <AnimatePresence mode="popLayout">
+            {visible.map((t) => (
+              <motion.div
+                key={t.id ?? t.name}
+                layout
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.28, ease: "easeOut" }}
+              >
+                <TestimonialCard item={t} category={category} onOpenAlbum={onOpenAlbum} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {canSlide && <CarouselArrow direction="next" onClick={() => go(1)} />}
+      </div>
+
+      {canSlide && (
+        <div className="mt-8 flex justify-center gap-2">
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIndex(i)}
+              className={cn(
+                "rounded-full transition-all duration-300",
+                i === index ? "customer-dot-active h-2 w-8" : "h-1.5 w-1.5 bg-primary/20 hover:bg-primary/35",
+              )}
+              aria-label={`Trang ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TestimonialGrid({
   items,
   category,
@@ -92,18 +251,8 @@ function TestimonialGrid({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.08 }}
-          className="flex flex-col items-center"
         >
-          <PhonePreviewCard
-            previewSrc={t.avatar}
-            headerName={t.name}
-            category={category}
-            onClick={() => onOpenAlbum(t)}
-          />
-          <div className={cn("mt-4 w-full max-w-[240px] text-center")}>
-            <p className="font-serif text-base font-semibold text-primary md:text-lg">{t.name}</p>
-            <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{t.text}</p>
-          </div>
+          <TestimonialCard item={t} category={category} onOpenAlbum={onOpenAlbum} />
         </motion.div>
       ))}
     </div>
@@ -149,7 +298,11 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
                   </h3>
                   <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">{group.subtitle}</p>
                 </div>
-                <TestimonialGrid items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
+                {group.key === "student" ? (
+                  <TestimonialCarousel items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
+                ) : (
+                  <TestimonialGrid items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
+                )}
               </div>
             );
           })}
