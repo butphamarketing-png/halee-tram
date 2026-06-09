@@ -37,10 +37,12 @@ const CATEGORY_GROUPS: { key: TestimonialCategory; title: string; subtitle: stri
 function PhonePreviewCard({
   previewSrc,
   headerName,
+  category,
   onClick,
 }: {
   previewSrc: string;
   headerName: string;
+  category: TestimonialCategory;
   onClick: () => void;
 }) {
   return (
@@ -66,7 +68,7 @@ function PhonePreviewCard({
         </div>
       </div>
       <p className="mt-3 text-center text-[11px] font-medium text-primary/70 group-hover:text-primary">
-        Xem album khách hàng →
+        {category === "student" ? "Xem album học viên →" : "Xem album khách hàng →"}
       </p>
     </button>
   );
@@ -74,9 +76,11 @@ function PhonePreviewCard({
 
 function TestimonialGrid({
   items,
+  category,
   onOpenAlbum,
 }: {
   items: Testimonial[];
+  category: TestimonialCategory;
   onOpenAlbum: (item: Testimonial) => void;
 }) {
   return (
@@ -90,7 +94,12 @@ function TestimonialGrid({
           transition={{ delay: i * 0.08 }}
           className="flex flex-col items-center"
         >
-          <PhonePreviewCard previewSrc={t.avatar} headerName={t.name} onClick={() => onOpenAlbum(t)} />
+          <PhonePreviewCard
+            previewSrc={t.avatar}
+            headerName={t.name}
+            category={category}
+            onClick={() => onOpenAlbum(t)}
+          />
           <div className={cn("mt-4 w-full max-w-[240px] text-center")}>
             <p className="font-serif text-base font-semibold text-primary md:text-lg">{t.name}</p>
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground md:text-sm">{t.text}</p>
@@ -140,7 +149,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
                   </h3>
                   <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">{group.subtitle}</p>
                 </div>
-                <TestimonialGrid items={groupItems} onOpenAlbum={openAlbum} />
+                <TestimonialGrid items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
               </div>
             );
           })}

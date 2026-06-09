@@ -123,11 +123,13 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
                 >
                   <div className="relative mb-6">
                     <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl transition-all group-hover:blur-2xl" />
-                    <img
-                      src={doc.img}
-                      alt={doc.name}
-                      className="relative z-10 h-48 w-48 rounded-full border-4 border-white object-cover shadow-md"
-                    />
+                    <div className="relative z-10 h-48 w-48 overflow-hidden rounded-full border-4 border-white bg-secondary/30 shadow-md">
+                      <img
+                        src={doc.img}
+                        alt={doc.name}
+                        className="h-full w-full object-cover object-center object-[center_28%] scale-[1.08]"
+                      />
+                    </div>
                   </div>
                   <h3 className="mb-1 font-serif text-2xl font-bold text-foreground">{doc.name}</h3>
                   <p className="mb-4 text-sm font-medium text-primary">{doc.spec}</p>

@@ -72,7 +72,7 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="grid grid-cols-1 overflow-hidden rounded-2xl border border-border/50 bg-white shadow-[0_20px_60px_-24px_rgba(15,48,36,0.12)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:items-stretch"
           >
-              <div className="order-2 flex min-w-0 flex-col justify-start px-0 py-8 md:order-1 md:px-10 md:py-12 lg:px-12 lg:py-14">
+              <div className="order-2 flex min-w-0 flex-col justify-start px-5 py-8 sm:px-6 md:order-1 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 <div className="mb-5 flex items-center gap-4 md:mb-6">
                   <div className="h-px w-12 bg-primary" />
                   <span className="text-sm font-semibold uppercase tracking-wider text-primary">{home.aboutEyebrow}</span>
@@ -126,16 +126,18 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="order-1 relative w-full md:order-2 md:min-h-[480px] lg:min-h-[520px]">
-                <img
-                  src={home.aboutImage}
-                  alt={`${settings.clinicName} — ${settings.clinicSubtitle}`}
-                  className="aspect-[4/3] w-full object-cover object-top md:absolute md:inset-0 md:aspect-auto md:h-full"
-                />
-                <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-white to-transparent md:inset-y-0 md:left-0 md:h-auto md:w-24 md:bg-gradient-to-r md:from-white md:via-white/80 md:to-transparent lg:w-32"
-                  aria-hidden
-                />
+              <div className="order-1 w-full px-5 pt-5 sm:px-6 sm:pt-6 md:order-2 md:min-h-[480px] md:p-0 lg:min-h-[520px]">
+                <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_40px_-16px_rgba(110,71,59,0.2)] md:h-full md:rounded-none md:shadow-none">
+                  <img
+                    src={home.aboutImage}
+                    alt={`${settings.clinicName} — ${settings.clinicSubtitle}`}
+                    className="aspect-[3/4] w-full object-cover object-top sm:aspect-[4/5] md:absolute md:inset-0 md:aspect-auto md:h-full"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-24 bg-gradient-to-r from-white via-white/80 to-transparent md:block lg:w-32"
+                    aria-hidden
+                  />
+                </div>
               </div>
           </motion.div>
         </div>
