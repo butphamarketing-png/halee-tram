@@ -233,32 +233,6 @@ function TestimonialCarousel({
   );
 }
 
-function TestimonialGrid({
-  items,
-  category,
-  onOpenAlbum,
-}: {
-  items: Testimonial[];
-  category: TestimonialCategory;
-  onOpenAlbum: (item: Testimonial) => void;
-}) {
-  return (
-    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
-      {items.map((t, i) => (
-        <motion.div
-          key={t.id ?? t.name}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: i * 0.08 }}
-        >
-          <TestimonialCard item={t} category={category} onOpenAlbum={onOpenAlbum} />
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
 export function TestimonialsSection({ items, backgroundImage }: TestimonialsSectionProps) {
   const clinicName = useSiteContent().content.settings.clinicName;
   const [albumOpen, setAlbumOpen] = useState(false);
@@ -298,11 +272,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
                   </h3>
                   <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">{group.subtitle}</p>
                 </div>
-                {group.key === "student" ? (
-                  <TestimonialCarousel items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
-                ) : (
-                  <TestimonialGrid items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
-                )}
+                <TestimonialCarousel items={groupItems} category={group.key} onOpenAlbum={openAlbum} />
               </div>
             );
           })}

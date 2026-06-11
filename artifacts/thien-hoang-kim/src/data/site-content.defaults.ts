@@ -5,7 +5,7 @@ const publicAsset = (file: string) =>
   `${import.meta.env.BASE_URL}${encodeURI(file)}`.replace(/([^:]\/)\/+/g, "$1");
 
 const slideshow = publicAsset("Slideshow.png");
-const slideshowOk = publicAsset("slideshowok.jpg");
+const slideshow2 = publicAsset("slideshow2.png");
 const haleeTram = publicAsset("Halee Trâm.jpg");
 const haleeTram1 = publicAsset("Halee Trâm 1.jpg");
 const gioithieu = publicAsset("gioithieu.1.png");
@@ -63,7 +63,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     heroSlides: [
       {
         id: "slideshow-1",
-        src: slideshowOk,
+        src: slideshow,
         alt: "Halee Trâm — Eyelash / Nail / Academy",
       },
     ],
@@ -117,9 +117,9 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       "Hotline đặt lịch: 0938 162 662 — 793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7.",
     ],
     aboutStats: [
-      { value: "8+", title: "Năm kinh nghiệm", sub: "Trong ngành làm đẹp" },
-      { value: "3000+", title: "Khách hàng", sub: "Đã tin tưởng lựa chọn" },
-      { value: "500+", title: "Học viên", sub: "Đã tốt nghiệp khóa học" },
+      { value: "6", title: "Năm kinh nghiệm", sub: "Trong ngành làm đẹp" },
+      { value: "1000+", title: "Khách hàng", sub: "Đã tin tưởng lựa chọn" },
+      { value: "200+", title: "Học viên", sub: "Đã tốt nghiệp khóa học" },
     ],
     aboutImage: haleeTram,
     featuredServiceImages: [gioithieu, gioithieu],
@@ -128,7 +128,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     ctaTitle: "ĐẶT LỊCH NGAY — ƯU ĐÃI HÔM NAY",
     ctaDescription:
       "Đặt lịch online hoặc gọi 0938 162 662. Halee Trâm hỗ trợ tư vấn dịch vụ làm đẹp và khóa học nghề miễn phí.",
-    ctaImage: slideshowOk,
+    ctaImage: slideshow2,
     footerDescription:
       "Eyelash / Nail / Academy tại Quận 7 — dịch vụ nails, mi chuyên nghiệp và đào tạo nghề bài bản. Halee Trâm — nơi bạn tỏa sáng và học nghề vững tay.",
   },
