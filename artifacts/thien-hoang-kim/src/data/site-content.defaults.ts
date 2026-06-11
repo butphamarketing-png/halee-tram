@@ -41,7 +41,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
         "Halee Trâm Eyelash / Nail / Academy tại Quận 7 — nails, nối mi, uốn mi, định hình chân mày và khóa đào tạo nghề. Hotline 0938 162 662.",
       keywords:
         "Halee Trâm, nối mi Quận 7, nails Quận 7, uốn mi, đào tạo nối mi, học nail, eyelash academy, salon làm đẹp TP.HCM",
-      ogImage: slideshow,
+      ogImage: slideshow2,
       ogTitle: "Halee Trâm | Eyelash / Nail / Academy",
       ogDescription:
         "Làm đẹp & đào tạo nghề tại Quận 7 — đặt lịch 0938 162 662.",
@@ -63,7 +63,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     heroSlides: [
       {
         id: "slideshow-1",
-        src: slideshow,
+        src: slideshow2,
         alt: "Halee Trâm — Eyelash / Nail / Academy",
       },
     ],
