@@ -13,7 +13,7 @@ export function getSiteBaseUrl(override?: string): string {
   const fromEnv = override?.trim();
   if (fromEnv) return fromEnv.replace(/\/$/, "");
   if (typeof window !== "undefined") return window.location.origin;
-  return "https://haleetram.com";
+  return "https://www.haleetram.com";
 }
 
 export function collectSitemapEntries(content: SiteContent, baseUrl: string): SitemapEntry[] {

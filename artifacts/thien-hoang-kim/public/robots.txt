@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /adminbp
+Disallow: /adminbp/
+
+Sitemap: https://www.haleetram.com/sitemap.xml
