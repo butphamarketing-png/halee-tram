@@ -36,7 +36,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     youtubeUrl: "#",
     seo: {
       siteName: "Halee Trâm — Eyelash / Nail / Academy",
-      siteUrl: "https://haleetram.vercel.app",
+      siteUrl: "https://haleetram.com",
       title: "Halee Trâm | Nails, Nối Mi, Uốn Mi & Đào Tạo Nghề",
       titleSeparator: " | ",
       description:
