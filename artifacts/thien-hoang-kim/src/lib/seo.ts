@@ -52,6 +52,14 @@ function toAbsoluteUrl(path: string, siteUrl?: string): string {
   return `${origin}${withBase}`;
 }
 
+function toAbsoluteAssetUrl(url: string, siteUrl?: string): string {
+  if (!url?.trim()) return "";
+  if (/^https?:\/\//i.test(url)) return url.trim();
+  const origin = getSiteBaseUrl(siteUrl);
+  const path = url.startsWith("/") ? url : `/${url}`;
+  return `${origin}${path}`;
+}
+
 function pick(...values: (string | undefined)[]): string {
   for (const v of values) {
     if (v?.trim()) return v.trim();
@@ -140,7 +148,7 @@ export function resolveServiceSeo(
   }
 
   const siteName = opts.global.siteName || "Halee Trâm — Nails & Lashes Studio";
-  const title = buildTitle(`${opts.serviceLabel} — Dịch vụ thẩm mỹ`, siteName, opts.global.titleSeparator);
+  const title = buildTitle(`${opts.serviceLabel} — Dịch vụ làm đẹp Quận 7`, siteName, opts.global.titleSeparator);
   const description = pick(opts.description, opts.global.description);
   const canonical = toAbsoluteUrl(opts.path, opts.global.siteUrl);
 
@@ -173,7 +181,7 @@ export function resolveRouteSeoContext(path: string, content: SiteContent): Sche
   const meta = resolveRouteSeo(clean, content);
   const article = findArticleForPath(clean, content);
   const siteName = content.settings.seo.siteName || content.settings.clinicName;
-  const breadcrumbs = buildBreadcrumbs(clean, siteName, article);
+  const breadcrumbs = buildBreadcrumbs(clean, siteName, content.settings.seo.siteUrl, article);
   return { path: clean, meta, breadcrumbs, article };
 }
 
@@ -264,8 +272,15 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
-      title: buildTitle("Dịch vụ thẩm mỹ", global.siteName, sep),
-      description: pick("Giải pháp thẩm mỹ y khoa và spa chăm sóc da chuyên sâu.", global.description),
+      title: buildTitle("Dịch vụ & Đào tạo làm đẹp", global.siteName, sep),
+      description: pick(
+        "Nails, nối mi, uốn mi, định hình chân mày, spa chân, gội đầu và khóa học nghề tại Halee Trâm Quận 7.",
+        global.description,
+      ),
+      keywords: pick(
+        "dịch vụ nails Quận 7, nối mi Quận 7, học nail TP.HCM, khóa nối mi salon",
+        global.keywords,
+      ),
     };
   }
 
@@ -283,6 +298,10 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     return {
       ...base,
       title: buildTitle("Liên hệ & Đặt lịch", global.siteName, sep),
+      description: pick(
+        "Liên hệ Halee Trâm — 793/62 Trần Xuân Soạn, Quận 7. Hotline 0938 162 662. Đặt lịch nails, nối mi hoặc tư vấn khóa học.",
+        global.description,
+      ),
     };
   }
 
@@ -290,7 +309,11 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
-      title: buildTitle("Khách hàng thực tế", global.siteName, sep),
+      title: buildTitle("Thư viện ảnh khách hàng", global.siteName, sep),
+      description: pick(
+        "Hình ảnh nails, nối mi và kết quả đào tạo thực tế tại Halee Trâm Eyelash / Nail / Academy Quận 7.",
+        global.description,
+      ),
     };
   }
 
@@ -368,6 +391,7 @@ function setJsonLd(json: string) {
 export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
   const { meta } = ctx;
   const global = content.settings.seo;
+  const ogImage = toAbsoluteAssetUrl(meta.ogImage, global.siteUrl);
 
   document.title = meta.title;
   document.documentElement.lang = global.locale?.slice(0, 2) || "vi";
@@ -375,11 +399,12 @@ export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
   setMetaName("description", meta.description);
   setMetaName("keywords", meta.keywords);
   setMetaName("robots", meta.robots);
+  setMetaName("author", global.siteName);
 
   setMetaProperty("og:site_name", global.siteName);
   setMetaProperty("og:title", meta.ogTitle);
   setMetaProperty("og:description", meta.ogDescription);
-  setMetaProperty("og:image", meta.ogImage);
+  setMetaProperty("og:image", ogImage);
   setMetaProperty("og:url", meta.ogUrl);
   setMetaProperty("og:type", meta.ogType);
   setMetaProperty("og:locale", global.locale || "vi_VN");
@@ -389,7 +414,7 @@ export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
   setMetaName("twitter:card", meta.twitterCard);
   setMetaName("twitter:title", meta.ogTitle);
   setMetaName("twitter:description", meta.ogDescription);
-  if (meta.ogImage) setMetaName("twitter:image", meta.ogImage);
+  if (ogImage) setMetaName("twitter:image", ogImage);
 
   setCanonical(meta.canonical);
 
@@ -439,7 +464,7 @@ export function normalizeSiteSeo(partial: Partial<SiteSeo> | undefined, base: Si
     facebookAppId: partial?.facebookAppId?.trim() ?? base.facebookAppId ?? "",
     schemaEnabled: partial?.schemaEnabled ?? base.schemaEnabled ?? true,
     breadcrumbsEnabled: partial?.breadcrumbsEnabled ?? base.breadcrumbsEnabled ?? true,
-    organizationType: partial?.organizationType?.trim() || base.organizationType || "MedicalBusiness",
+    organizationType: partial?.organizationType?.trim() || base.organizationType || "BeautySalon",
     organizationLogo: partial?.organizationLogo?.trim() || base.organizationLogo || base.ogImage,
     priceRange: partial?.priceRange?.trim() || base.priceRange || "$$",
     robotsTxtExtra: partial?.robotsTxtExtra?.trim() ?? base.robotsTxtExtra ?? "",
