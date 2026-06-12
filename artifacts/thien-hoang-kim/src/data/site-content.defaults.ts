@@ -7,6 +7,7 @@ const publicAsset = (file: string) =>
 const slideshow = publicAsset("Slideshow.png");
 const slideshow2 = publicAsset("slideshow2.png");
 const slideshow3 = publicAsset("slideshow3.jpg");
+const slideshow123 = publicAsset("slideshow123.jpg");
 const haleeTram = publicAsset("Halee Trâm.jpg");
 const haleeTram1 = publicAsset("Halee Trâm 1.jpg");
 const gioithieu = publicAsset("gioithieu.1.png");
@@ -42,7 +43,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
         "Halee Trâm Eyelash / Nail / Academy tại Quận 7 — nails, nối mi, uốn mi, định hình chân mày và khóa đào tạo nghề. Hotline 0938 162 662.",
       keywords:
         "Halee Trâm, nối mi Quận 7, nails Quận 7, uốn mi, đào tạo nối mi, học nail, eyelash academy, salon làm đẹp TP.HCM",
-      ogImage: slideshow3,
+      ogImage: slideshow123,
       ogTitle: "Halee Trâm | Eyelash / Nail / Academy",
       ogDescription:
         "Làm đẹp & đào tạo nghề tại Quận 7 — đặt lịch 0938 162 662.",
@@ -64,7 +65,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     heroSlides: [
       {
         id: "slideshow-1",
-        src: slideshow3,
+        src: slideshow123,
         alt: "Halee Trâm — Eyelash / Nail / Academy",
       },
     ],
@@ -129,7 +130,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     ctaTitle: "ĐẶT LỊCH NGAY — ƯU ĐÃI HÔM NAY",
     ctaDescription:
       "Đặt lịch online hoặc gọi 0938 162 662. Halee Trâm hỗ trợ tư vấn dịch vụ làm đẹp và khóa học nghề miễn phí.",
-    ctaImage: slideshow3,
+    ctaImage: slideshow123,
     footerDescription:
       "Eyelash / Nail / Academy tại Quận 7 — dịch vụ nails, mi chuyên nghiệp và đào tạo nghề bài bản. Halee Trâm — nơi bạn tỏa sáng và học nghề vững tay.",
   },
