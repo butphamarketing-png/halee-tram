@@ -22,6 +22,11 @@ export function loginAdmin(username: string, password: string): boolean {
   return true;
 }
 
+/** Verify admin password without starting a CMS session (e.g. renewal info). */
+export function verifyAdminPassword(password: string): boolean {
+  return password === getPassword();
+}
+
 export function changeAdminCredentials(
   currentUsername: string,
   currentPassword: string,
