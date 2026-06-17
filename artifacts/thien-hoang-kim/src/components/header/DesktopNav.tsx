@@ -1,6 +1,8 @@
 import { ChevronRight } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { MAIN_NAV, type NavItem } from "@/config/navigation";
+import type { NavItem } from "@/config/navigation";
+import { useSiteContentSafe } from "@/context/SiteContentContext";
+import { getMainNav } from "@/lib/site-cms";
 import { cn } from "@/lib/utils";
 import { dropdownPanelClass, navTriggerClass } from "./nav-styles";
 
@@ -81,13 +83,15 @@ function NavEntry({ item, location }: { item: NavItem; location: string }) {
 
 export function DesktopNav() {
   const [location] = useLocation();
+  const { content } = useSiteContentSafe();
+  const nav = getMainNav(content);
 
   return (
     <nav
       className="hidden min-w-0 flex-1 flex-nowrap items-stretch justify-center gap-3 xl:flex 2xl:gap-4"
       aria-label="Menu chính"
     >
-      {MAIN_NAV.map((item) => (
+      {nav.map((item) => (
         <NavEntry key={item.label} item={item} location={location} />
       ))}
     </nav>

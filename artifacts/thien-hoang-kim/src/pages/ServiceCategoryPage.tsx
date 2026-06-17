@@ -1,21 +1,20 @@
 import { Link } from "wouter";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { PageHero } from "@/components/layout/PageHero";
-import {
-  SERVICE_CATEGORIES,
-  SERVICE_ITEMS,
-  getServiceHref,
-  type ServiceCategoryId,
-} from "@/data/services-catalog";
+import { useSiteContent } from "@/context/SiteContentContext";
+import { getServiceCatalog, getServiceHref } from "@/lib/site-cms";
+import type { SiteServiceCategoryId } from "@/types/site-content";
 import { DEFAULT_HERO_IMAGE } from "@/data/pages.defaults";
 
 type ServiceCategoryPageProps = {
-  categoryId: ServiceCategoryId;
+  categoryId: SiteServiceCategoryId;
 };
 
 export default function ServiceCategoryPage({ categoryId }: ServiceCategoryPageProps) {
-  const category = SERVICE_CATEGORIES[categoryId];
-  const items = SERVICE_ITEMS[categoryId];
+  const { content } = useSiteContent();
+  const catalog = getServiceCatalog(content);
+  const category = catalog.categories[categoryId];
+  const items = catalog.items[categoryId];
 
   return (
     <SiteLayout>
@@ -34,7 +33,7 @@ export default function ServiceCategoryPage({ categoryId }: ServiceCategoryPageP
           {items.map((item) => (
             <Link
               key={item.slug}
-              href={getServiceHref(categoryId, item.slug)}
+              href={getServiceHref(catalog, categoryId, item.slug)}
               className="service-card-luxury group block"
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-primary/5">

@@ -1,5 +1,6 @@
 import type { PageSeoMeta } from "@/lib/seo";
-import { getServiceItem } from "@/data/services-catalog";
+import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
+import { getServiceItem } from "@/lib/site-cms";
 import { getSiteBaseUrl } from "@/lib/seo-sitemap";
 import type { SiteArticle, SiteContent, SiteSeo } from "@/types/site-content";
 
@@ -42,6 +43,7 @@ export function buildBreadcrumbs(
   siteName: string,
   siteUrl: string,
   article?: SiteArticle,
+  content: SiteContent = DEFAULT_SITE_CONTENT,
 ): BreadcrumbItem[] {
   const base = getSiteBaseUrl(siteUrl);
   const items: BreadcrumbItem[] = [{ name: "Trang chủ", url: `${base}/` }];
@@ -65,7 +67,7 @@ export function buildBreadcrumbs(
   if (segments[0] === "lam-dep") {
     items.push({ name: "Dịch vụ làm đẹp", url: `${base}/lam-dep` });
     if (segments[1]) {
-      const service = getServiceItem("lam-dep", segments[1]);
+      const service = getServiceItem(content, "lam-dep", segments[1]);
       items.push({
         name: service?.label || segments[1].replace(/-/g, " "),
         url: `${base}${path}`,
@@ -77,7 +79,7 @@ export function buildBreadcrumbs(
   if (segments[0] === "dao-tao") {
     items.push({ name: "Đào tạo nghề", url: `${base}/dao-tao` });
     if (segments[1]) {
-      const service = getServiceItem("dao-tao", segments[1]);
+      const service = getServiceItem(content, "dao-tao", segments[1]);
       items.push({
         name: service?.label || segments[1].replace(/-/g, " "),
         url: `${base}${path}`,
@@ -116,8 +118,9 @@ function buildServiceSchema(
   orgId: string,
   canonical: string,
   fallbackDescription: string,
+  content: SiteContent,
 ) {
-  const service = getServiceItem(categoryId, slug);
+  const service = getServiceItem(content, categoryId, slug);
   if (!service) return null;
   return {
     "@type": "Service",
@@ -236,6 +239,7 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
       orgId,
       ctx.meta.canonical,
       ctx.meta.description,
+      content,
     );
     if (serviceSchema) graphs.push(serviceSchema);
   }
@@ -248,6 +252,7 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
       orgId,
       ctx.meta.canonical,
       ctx.meta.description,
+      content,
     );
     if (serviceSchema) graphs.push(serviceSchema);
   }

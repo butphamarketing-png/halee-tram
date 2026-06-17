@@ -2,12 +2,14 @@ import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { PageHero } from "@/components/layout/PageHero";
-import { MAIN_NAV } from "@/config/navigation";
-import { SERVICE_CATEGORIES } from "@/data/services-catalog";
+import { useSiteContent } from "@/context/SiteContentContext";
+import { getMainNav, getServiceCatalog } from "@/lib/site-cms";
 
 export default function ServicesPage() {
-  const servicesNav = MAIN_NAV.find((n) => n.href === "/dich-vu");
-  const categoryPaths = [SERVICE_CATEGORIES["lam-dep"].path, SERVICE_CATEGORIES["dao-tao"].path];
+  const { content } = useSiteContent();
+  const servicesNav = getMainNav(content).find((n) => n.href === "/dich-vu");
+  const catalog = getServiceCatalog(content);
+  const categoryPaths = [catalog.categories["lam-dep"].path, catalog.categories["dao-tao"].path];
 
   return (
     <SiteLayout>

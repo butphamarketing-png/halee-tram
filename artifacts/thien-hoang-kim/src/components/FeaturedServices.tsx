@@ -2,17 +2,18 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { MAIN_NAV } from "@/config/navigation";
 import type { NavMegaColumn, NavLinkItem } from "@/config/navigation";
 import { SectionHeading } from "@/components/layout/SectionHeading";
-import { SERVICE_CATEGORIES } from "@/data/services-catalog";
+import { useSiteContentSafe } from "@/context/SiteContentContext";
+import { getMainNav, getServiceCatalog } from "@/lib/site-cms";
+import type { SiteContent } from "@/types/site-content";
 
 type FeaturedServicesProps = {
   images: [string, string];
 };
 
-function getServiceColumns(): NavMegaColumn[] {
-  const services = MAIN_NAV.find((item) => item.href === "/dich-vu");
+function getServiceColumns(content: SiteContent): NavMegaColumn[] {
+  const services = getMainNav(content).find((item) => item.href === "/dich-vu");
   return services?.columns ?? [];
 }
 
@@ -133,8 +134,10 @@ function ServiceHoverCard({
 }
 
 export function FeaturedServices({ images }: FeaturedServicesProps) {
-  const columns = getServiceColumns();
-  const categoryHrefs = [SERVICE_CATEGORIES["lam-dep"].path, SERVICE_CATEGORIES["dao-tao"].path];
+  const { content } = useSiteContentSafe();
+  const columns = getServiceColumns(content);
+  const catalog = getServiceCatalog(content);
+  const categoryHrefs = [catalog.categories["lam-dep"].path, catalog.categories["dao-tao"].path];
 
   if (columns.length < 2) return null;
 

@@ -5,6 +5,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { BookingSection } from "@/components/BookingSection";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { FeaturedServices } from "@/components/FeaturedServices";
+import { ExamProcessSection } from "@/components/ExamProcessSection";
 import { CustomerResultsSection } from "@/components/CustomerResultsSection";
 import { DoctorTeamSection } from "@/components/DoctorTeamSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
@@ -23,10 +24,93 @@ export default function HomePage() {
 
   return (
     <SiteLayout>
-      {/* HERO */}
+      {/* 1. Banner */}
       <HeroCarousel slides={home.heroSlides} />
 
-      {/* COMMITMENTS */}
+      {/* 2. Giới thiệu */}
+      <section id="gioi-thieu" className="section-surface-alt scroll-mt-24 border-t border-border/40 pb-12 pt-10 md:pb-16 md:pt-12">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 overflow-hidden rounded-2xl border border-border/50 bg-white shadow-[0_20px_60px_-24px_rgba(15,48,36,0.12)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:items-stretch"
+          >
+            <div className="order-2 flex min-w-0 flex-col justify-start px-5 py-8 sm:px-6 md:order-1 md:px-10 md:py-12 lg:px-12 lg:py-14">
+              <div className="mb-5 flex items-center gap-4 md:mb-6">
+                <div className="h-px w-12 bg-primary" />
+                <span className="text-sm font-semibold uppercase tracking-wider text-primary">{home.aboutEyebrow}</span>
+              </div>
+
+              <h2 className="font-vietnamese-serif text-3xl font-semibold leading-tight text-primary md:text-4xl lg:text-[2.75rem]">
+                {home.aboutTitle}
+              </h2>
+              <p className="mt-2 font-sans text-base uppercase tracking-[0.22em] text-muted-foreground md:text-lg">
+                {home.aboutSubtitle}
+              </p>
+
+              <div className="mt-6 space-y-4 text-base leading-relaxed text-foreground/80 md:mt-8 md:space-y-5 md:text-[17px]">
+                {home.aboutParagraphs.map((para) => (
+                  <p key={para.slice(0, 24)}>{para}</p>
+                ))}
+              </div>
+
+              <div className="mt-8 md:mt-10">
+                <div className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-3 sm:gap-4 sm:py-5 md:py-6">
+                  {home.aboutStats.map((stat) => (
+                    <div
+                      key={stat.title}
+                      className="stat-pill flex min-w-0 flex-col items-center rounded-xl px-3 py-4 text-center"
+                    >
+                      <CountUpValue
+                        value={stat.value}
+                        className="font-serif text-2xl font-bold text-primary sm:text-3xl md:text-4xl"
+                        durationMs={stat.value.includes("5000") ? 2200 : 1600}
+                      />
+                      <div className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-foreground sm:whitespace-nowrap sm:text-xs md:text-sm">
+                        {stat.title}
+                      </div>
+                      <div className="mt-1 text-[10px] text-muted-foreground sm:whitespace-nowrap sm:text-[11px] md:text-xs">
+                        {stat.sub}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 grid grid-cols-3">
+                  <div aria-hidden className="hidden sm:block" />
+                  <div className="col-span-3 flex justify-center sm:col-span-1 sm:col-start-2">
+                    <Link href="/gioi-thieu">
+                      <Button className="group h-12 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+                        TÌM HIỂU THÊM
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 w-full px-5 pt-5 sm:px-6 sm:pt-6 md:order-2 md:min-h-[480px] md:p-0 lg:min-h-[520px]">
+              <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_40px_-16px_rgba(110,71,59,0.2)] md:h-full md:rounded-none md:shadow-none">
+                <img
+                  src={home.aboutImage}
+                  alt={`${settings.clinicName} — ${settings.clinicSubtitle}`}
+                  className="aspect-[3/4] w-full object-cover object-top sm:aspect-[4/5] md:absolute md:inset-0 md:aspect-auto md:h-full"
+                />
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-24 bg-gradient-to-r from-white via-white/80 to-transparent md:block lg:w-32"
+                  aria-hidden
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 3. Dịch vụ nổi bật */}
+      <FeaturedServices images={home.featuredServiceImages} />
+
+      {/* 4. Cam kết */}
       <section className="section-surface border-b border-border/60 pt-14 pb-0 md:pt-16">
         <div className="container mx-auto px-4 pb-6 md:px-8 md:pb-8">
           <SectionHeading
@@ -63,99 +147,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ABOUT — desktop: trái chữ | phải ảnh; mobile: ảnh trên, chữ full width */}
-      <section id="gioi-thieu" className="section-surface-alt scroll-mt-24 border-t border-border/40 pb-12 pt-10 md:pb-16 md:pt-12">
-        <div className="container mx-auto max-w-7xl px-4 md:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 overflow-hidden rounded-2xl border border-border/50 bg-white shadow-[0_20px_60px_-24px_rgba(15,48,36,0.12)] md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:items-stretch"
-          >
-              <div className="order-2 flex min-w-0 flex-col justify-start px-5 py-8 sm:px-6 md:order-1 md:px-10 md:py-12 lg:px-12 lg:py-14">
-                <div className="mb-5 flex items-center gap-4 md:mb-6">
-                  <div className="h-px w-12 bg-primary" />
-                  <span className="text-sm font-semibold uppercase tracking-wider text-primary">{home.aboutEyebrow}</span>
-                </div>
+      {/* 5. Quy trình dịch vụ */}
+      <ExamProcessSection steps={content.processSteps} />
 
-                <h2 className="font-vietnamese-serif text-3xl font-semibold leading-tight text-primary md:text-4xl lg:text-[2.75rem]">
-                  {home.aboutTitle}
-                </h2>
-                <p className="mt-2 font-sans text-base uppercase tracking-[0.22em] text-muted-foreground md:text-lg">
-                  {home.aboutSubtitle}
-                </p>
-
-                <div className="mt-6 space-y-4 text-base leading-relaxed text-foreground/80 md:mt-8 md:space-y-5 md:text-[17px]">
-                  {home.aboutParagraphs.map((para) => (
-                    <p key={para.slice(0, 24)}>{para}</p>
-                  ))}
-                </div>
-
-                <div className="mt-8 md:mt-10">
-                  <div className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-3 sm:gap-4 sm:py-5 md:py-6">
-                    {home.aboutStats.map((stat) => (
-                      <div
-                        key={stat.title}
-                        className="stat-pill flex min-w-0 flex-col items-center rounded-xl px-3 py-4 text-center"
-                      >
-                        <CountUpValue
-                          value={stat.value}
-                          className="font-serif text-2xl font-bold text-primary sm:text-3xl md:text-4xl"
-                          durationMs={stat.value.includes("5000") ? 2200 : 1600}
-                        />
-                        <div className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-foreground sm:whitespace-nowrap sm:text-xs md:text-sm">
-                          {stat.title}
-                        </div>
-                        <div className="mt-1 text-[10px] text-muted-foreground sm:whitespace-nowrap sm:text-[11px] md:text-xs">
-                          {stat.sub}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-8 grid grid-cols-3">
-                    <div aria-hidden className="hidden sm:block" />
-                    <div className="col-span-3 flex justify-center sm:col-span-1 sm:col-start-2">
-                      <Link href="/gioi-thieu">
-                        <Button className="group h-12 rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
-                          TÌM HIỂU THÊM
-                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="order-1 w-full px-5 pt-5 sm:px-6 sm:pt-6 md:order-2 md:min-h-[480px] md:p-0 lg:min-h-[520px]">
-                <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_40px_-16px_rgba(110,71,59,0.2)] md:h-full md:rounded-none md:shadow-none">
-                  <img
-                    src={home.aboutImage}
-                    alt={`${settings.clinicName} — ${settings.clinicSubtitle}`}
-                    className="aspect-[3/4] w-full object-cover object-top sm:aspect-[4/5] md:absolute md:inset-0 md:aspect-auto md:h-full"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-24 bg-gradient-to-r from-white via-white/80 to-transparent md:block lg:w-32"
-                    aria-hidden
-                  />
-                </div>
-              </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <FeaturedServices images={home.featuredServiceImages} />
-
+      {/* 6. Thư viện hình ảnh */}
       <CustomerResultsSection cases={content.customerCases} />
 
+      {/* 7. Đội ngũ */}
       <DoctorTeamSection doctors={content.doctors} />
 
-      <BookingSection />
-
+      {/* 8. Đánh giá khách hàng */}
       <TestimonialsSection
         backgroundImage={home.testimonialsBackground}
         items={content.testimonials}
       />
 
+      {/* 9. Cẩm nang làm đẹp */}
       <BeautyHandbookSection
         articles={publishedArticles}
         title={content.handbook.title}
@@ -163,6 +170,10 @@ export default function HomePage() {
         viewAllHref={content.handbook.viewAllHref}
       />
 
+      {/* 10. Form đặt lịch */}
+      <BookingSection />
+
+      {/* 11. CTA liên hệ */}
       <CtaContactSection
         title={home.ctaTitle}
         description={home.ctaDescription}

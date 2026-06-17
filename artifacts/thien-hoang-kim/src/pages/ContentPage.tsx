@@ -3,12 +3,14 @@ import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { PageHero } from "@/components/layout/PageHero";
 import { Button } from "@/components/ui/button";
-import { getPageContent } from "@/data/pages.defaults";
+import { getPageContent } from "@/lib/site-cms";
+import { useSiteContent } from "@/context/SiteContentContext";
 import NotFound from "@/pages/not-found";
 
 export default function ContentPage() {
   const [location] = useLocation();
-  const page = getPageContent(location.split("#")[0]);
+  const { content } = useSiteContent();
+  const page = getPageContent(content, location.split("#")[0]);
 
   if (!page) return <NotFound />;
 

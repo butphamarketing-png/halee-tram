@@ -16,6 +16,8 @@ import {
   PanelBottom,
   Sparkles,
   Receipt,
+  Layers,
+  FileText,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,9 @@ const NAV = [
   { href: adminPath("seo"), label: "Quản lý SEO", icon: Search },
   { href: adminPath("media"), label: "Kho ảnh & video", icon: Image },
   { href: adminPath("home"), label: "Trang chủ", icon: Home },
+  { href: adminPath("navigation"), label: "Menu điều hướng", icon: Menu },
+  { href: adminPath("services"), label: "Dịch vụ & khóa học", icon: Layers },
+  { href: adminPath("pages"), label: "Trang nội dung", icon: FileText },
   { href: adminPath("price-list"), label: "Bảng giá", icon: Receipt },
   { href: adminPath("articles"), label: "Bài viết / Cẩm nang", icon: BookOpen },
   { href: adminPath("doctors"), label: "Đội ngũ bác sĩ", icon: Stethoscope },

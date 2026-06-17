@@ -134,6 +134,51 @@ export type SiteProcessStep = {
   image: string;
 };
 
+export type SitePageBlock = {
+  title?: string;
+  paragraphs: string[];
+};
+
+export type SitePageContent = {
+  title: string;
+  eyebrow?: string;
+  description: string;
+  blocks: SitePageBlock[];
+};
+
+export type SiteNavLink = {
+  label: string;
+  href: string;
+};
+
+export type SiteNavItem = {
+  label: string;
+  href: string;
+  children?: SiteNavLink[];
+};
+
+export type SiteServiceCategoryId = "lam-dep" | "dao-tao";
+
+export type SiteServiceItem = {
+  slug: string;
+  label: string;
+  description?: string;
+  articleSlug?: string;
+};
+
+export type SiteServiceCategory = {
+  id: SiteServiceCategoryId;
+  path: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+};
+
+export type SiteServiceCatalog = {
+  categories: Record<SiteServiceCategoryId, SiteServiceCategory>;
+  items: Record<SiteServiceCategoryId, SiteServiceItem[]>;
+};
+
 export type SiteSeo = {
   siteName: string;
   /** URL gốc website (https://domain.com) — dùng canonical & sitemap */
@@ -213,6 +258,12 @@ export type SiteContent = {
   customerCases: SiteCustomerCase[];
   processSteps: SiteProcessStep[];
   luckyWheel: LuckyWheelConfig;
+  /** Menu header — cột Dịch vụ tự sinh từ serviceCatalog */
+  navigation: SiteNavItem[];
+  /** Nội dung trang tĩnh & trang dịch vụ (path → content) */
+  pages: Record<string, SitePageContent>;
+  /** Danh mục dịch vụ / khóa học */
+  serviceCatalog: SiteServiceCatalog;
 };
 
 export type LuckyWheelSegment = {

@@ -1,5 +1,4 @@
-import { ALL_PAGES } from "@/data/pages.defaults";
-import { SERVICE_CATEGORIES, SERVICE_ITEMS } from "@/data/services-catalog";
+import { getServiceCatalog, listEditableStaticPagePaths } from "@/lib/site-cms";
 import type { SiteContent } from "@/types/site-content";
 
 export type SitemapEntry = {
@@ -40,15 +39,16 @@ export function collectSitemapEntries(content: SiteContent, baseUrl: string): Si
   add("/tin-tuc", 0.85);
   add("/lien-he", 0.85);
 
-  for (const path of Object.keys(ALL_PAGES)) {
+  for (const path of listEditableStaticPagePaths()) {
     if (path !== "/gioi-thieu") add(path, 0.75);
   }
 
   add("/gioi-thieu/doi-ngu-bac-si", 0.75);
 
-  for (const id of Object.keys(SERVICE_ITEMS) as Array<keyof typeof SERVICE_ITEMS>) {
-    const prefix = SERVICE_CATEGORIES[id].path;
-    for (const item of SERVICE_ITEMS[id]) {
+  const catalog = getServiceCatalog(content);
+  for (const id of ["lam-dep", "dao-tao"] as const) {
+    const prefix = catalog.categories[id].path;
+    for (const item of catalog.items[id]) {
       add(`${prefix}/${item.slug}`, 0.8);
     }
   }

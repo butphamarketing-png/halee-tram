@@ -4,7 +4,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdminApp } from "@/admin/AdminApp";
 import { isAdminLocation } from "@/config/admin";
-import { getPageContent } from "@/data/pages.defaults";
+import { getPageContent } from "@/lib/site-cms";
+import { useSiteContentSafe } from "@/context/SiteContentContext";
 import { resolveLegacyServicePath } from "@/data/services-catalog";
 import ArticlePage from "@/pages/ArticlePage";
 import ArticlesListPage from "@/pages/ArticlesListPage";
@@ -25,8 +26,9 @@ const queryClient = new QueryClient();
 
 function DynamicContentPage() {
   const [location] = useLocation();
+  const { content } = useSiteContentSafe();
   const path = location.split("#")[0];
-  if (!getPageContent(path)) return <NotFound />;
+  if (!getPageContent(content, path)) return <NotFound />;
   return <ContentPage />;
 }
 

@@ -18,6 +18,9 @@ import { AdminSeoPage } from "@/admin/pages/AdminSeoPage";
 import { AdminAccountPage } from "@/admin/pages/AdminAccountPage";
 import { AdminFooterPage } from "@/admin/pages/AdminFooterPage";
 import { AdminLuckyWheelPage } from "@/admin/pages/AdminLuckyWheelPage";
+import { AdminNavigationPage } from "@/admin/pages/AdminNavigationPage";
+import { AdminServicesPage } from "@/admin/pages/AdminServicesPage";
+import { AdminPagesPage } from "@/admin/pages/AdminPagesPage";
 
 function AdminGuard({ children }: { children: React.ReactNode }) {
   if (!isAdminLoggedIn()) {
@@ -43,6 +46,21 @@ export function AdminApp() {
       <Route path={adminPath("home")}>
         <AdminGuard>
           <AdminHomePage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("navigation")}>
+        <AdminGuard>
+          <AdminNavigationPage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("services")}>
+        <AdminGuard>
+          <AdminServicesPage />
+        </AdminGuard>
+      </Route>
+      <Route path={adminPath("pages")}>
+        <AdminGuard>
+          <AdminPagesPage />
         </AdminGuard>
       </Route>
       <Route path={adminPath("articles")}>

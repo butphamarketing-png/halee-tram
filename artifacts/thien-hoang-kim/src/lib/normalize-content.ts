@@ -110,5 +110,19 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
     customerCases: normalizeCustomerCases(partial.customerCases),
     processSteps: partial.processSteps ?? base.processSteps,
     luckyWheel: { ...base.luckyWheel, ...partial.luckyWheel },
+    navigation: partial.navigation?.length ? partial.navigation : base.navigation,
+    pages: { ...base.pages, ...partial.pages },
+    serviceCatalog: partial.serviceCatalog
+      ? {
+          categories: {
+            "lam-dep": { ...base.serviceCatalog.categories["lam-dep"], ...partial.serviceCatalog.categories?.["lam-dep"] },
+            "dao-tao": { ...base.serviceCatalog.categories["dao-tao"], ...partial.serviceCatalog.categories?.["dao-tao"] },
+          },
+          items: {
+            "lam-dep": partial.serviceCatalog.items?.["lam-dep"] ?? base.serviceCatalog.items["lam-dep"],
+            "dao-tao": partial.serviceCatalog.items?.["dao-tao"] ?? base.serviceCatalog.items["dao-tao"],
+          },
+        }
+      : base.serviceCatalog,
   };
 }

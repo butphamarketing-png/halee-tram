@@ -1,4 +1,5 @@
 import { DEFAULT_ARTICLES } from "@/data/articles.defaults";
+import { DEFAULT_NAVIGATION, DEFAULT_PAGES, DEFAULT_SERVICE_CATALOG } from "@/data/cms-defaults";
 import type { SiteContent } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
@@ -17,7 +18,7 @@ const feedbackHV = publicAsset("Feedback HV 1.jpg");
 const feedbackKH = publicAsset("Feedback KH 1.jpg");
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  version: 3,
+  version: 4,
   settings: {
     clinicName: "HALEE TRÂM",
     clinicSubtitle: "Eyelash / Nail / Academy",
@@ -357,4 +358,19 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       image: gioithieu,
     },
   ],
+  navigation: DEFAULT_NAVIGATION.map((item) => ({
+    ...item,
+    children: item.children?.map((c) => ({ ...c })),
+  })),
+  pages: { ...DEFAULT_PAGES },
+  serviceCatalog: {
+    categories: {
+      "lam-dep": { ...DEFAULT_SERVICE_CATALOG.categories["lam-dep"] },
+      "dao-tao": { ...DEFAULT_SERVICE_CATALOG.categories["dao-tao"] },
+    },
+    items: {
+      "lam-dep": DEFAULT_SERVICE_CATALOG.items["lam-dep"].map((item) => ({ ...item })),
+      "dao-tao": DEFAULT_SERVICE_CATALOG.items["dao-tao"].map((item) => ({ ...item })),
+    },
+  },
 };

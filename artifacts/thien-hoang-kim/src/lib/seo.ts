@@ -1,5 +1,4 @@
-import { getPageContent } from "@/data/pages.defaults";
-import { SERVICE_CATEGORIES, getServiceItem } from "@/data/services-catalog";
+import { getPageContent, getServiceCatalog, getServiceItem } from "@/lib/site-cms";
 import { buildBreadcrumbs, buildJsonLdGraph, jsonLdScript, type SchemaContext } from "@/lib/seo-schema";
 import { getSiteBaseUrl } from "@/lib/seo-sitemap";
 import type { ArticleSeo, SiteArticle, SiteContent, SiteSeo } from "@/types/site-content";
@@ -181,7 +180,7 @@ export function resolveRouteSeoContext(path: string, content: SiteContent): Sche
   const meta = resolveRouteSeo(clean, content);
   const article = findArticleForPath(clean, content);
   const siteName = content.settings.seo.siteName || content.settings.clinicName;
-  const breadcrumbs = buildBreadcrumbs(clean, siteName, content.settings.seo.siteUrl, article);
+  const breadcrumbs = buildBreadcrumbs(clean, siteName, content.settings.seo.siteUrl, article, content);
   return { path: clean, meta, breadcrumbs, article };
 }
 
@@ -198,7 +197,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
 
   const lamDepMatch = clean.match(/^\/lam-dep\/([^/]+)$/);
   if (lamDepMatch) {
-    const service = getServiceItem("lam-dep", lamDepMatch[1]);
+    const service = getServiceItem(content, "lam-dep", lamDepMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? content.articles.find((a) => a.slug === service.articleSlug && a.published)
@@ -216,7 +215,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
 
   const daoTaoMatch = clean.match(/^\/dao-tao\/([^/]+)$/);
   if (daoTaoMatch) {
-    const service = getServiceItem("dao-tao", daoTaoMatch[1]);
+    const service = getServiceItem(content, "dao-tao", daoTaoMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? content.articles.find((a) => a.slug === service.articleSlug && a.published)
@@ -233,7 +232,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
   }
 
   if (clean === "/lam-dep") {
-    const cat = SERVICE_CATEGORIES["lam-dep"];
+    const cat = getServiceCatalog(content).categories["lam-dep"];
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
@@ -245,7 +244,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
   }
 
   if (clean === "/dao-tao") {
-    const cat = SERVICE_CATEGORIES["dao-tao"];
+    const cat = getServiceCatalog(content).categories["dao-tao"];
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
@@ -256,7 +255,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     };
   }
 
-  const staticPage = getPageContent(clean);
+  const staticPage = getPageContent(content, clean);
   if (staticPage) {
     const base = baseFromGlobal(global, clean);
     return {

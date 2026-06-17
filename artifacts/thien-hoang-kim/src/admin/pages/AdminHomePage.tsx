@@ -24,7 +24,27 @@ export function AdminHomePage() {
       <h2 className="font-serif text-2xl font-semibold text-primary">Nội dung trang chủ</h2>
 
       <section className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 font-semibold">Banner (Hero)</h3>
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="font-semibold">Banner (Hero)</h3>
+          <Button
+            type="button"
+            size="sm"
+            onClick={() =>
+              updateContent((p) => ({
+                ...p,
+                home: {
+                  ...p.home,
+                  heroSlides: [
+                    ...p.home.heroSlides,
+                    { id: crypto.randomUUID(), src: "", alt: "Halee Trâm — Eyelash / Nail / Academy" },
+                  ],
+                },
+              }))
+            }
+          >
+            + Thêm slide
+          </Button>
+        </div>
         {h.heroSlides.map((slide, i) => (
           <div key={slide.id} className="mb-4 grid gap-3 border-b pb-4 last:border-0">
             <AdminImageField
@@ -50,6 +70,19 @@ export function AdminHomePage() {
                 })
               }
             />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                updateContent((p) => ({
+                  ...p,
+                  home: { ...p.home, heroSlides: p.home.heroSlides.filter((_, idx) => idx !== i) },
+                }))
+              }
+            >
+              Xóa slide
+            </Button>
           </div>
         ))}
       </section>
@@ -86,7 +119,27 @@ export function AdminHomePage() {
       </section>
 
       <section className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 font-semibold">Cam kết</h3>
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="font-semibold">Cam kết</h3>
+          <Button
+            type="button"
+            size="sm"
+            onClick={() =>
+              updateContent((p) => ({
+                ...p,
+                home: {
+                  ...p.home,
+                  commitments: [
+                    ...p.home.commitments,
+                    { id: crypto.randomUUID(), icon: "Shield", title: "CAM KẾT MỚI", desc: "" },
+                  ],
+                },
+              }))
+            }
+          >
+            + Thêm cam kết
+          </Button>
+        </div>
         <AdminField label="Tiêu đề" value={h.commitmentsTitle} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, commitmentsTitle: v } }))} />
         <div className="mt-3">
           <AdminField label="Mô tả" value={h.commitmentsSubtitle} onChange={(v) => updateContent((p) => ({ ...p, home: { ...p.home, commitmentsSubtitle: v } }))} multiline />
@@ -187,6 +240,78 @@ export function AdminHomePage() {
               multiline
             />
           ))}
+          <div className="mt-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-semibold">Số liệu thống kê</h4>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() =>
+                  updateContent((p) => ({
+                    ...p,
+                    home: {
+                      ...p.home,
+                      aboutStats: [...p.home.aboutStats, { value: "0", title: "Tiêu đề", sub: "Mô tả" }],
+                    },
+                  }))
+                }
+              >
+                + Thêm số liệu
+              </Button>
+            </div>
+            {h.aboutStats.map((stat, i) => (
+              <div key={i} className="grid gap-2 rounded-lg border p-3 md:grid-cols-3">
+                <AdminField
+                  label="Giá trị"
+                  value={stat.value}
+                  onChange={(v) =>
+                    updateContent((p) => {
+                      const aboutStats = [...p.home.aboutStats];
+                      aboutStats[i] = { ...aboutStats[i], value: v };
+                      return { ...p, home: { ...p.home, aboutStats } };
+                    })
+                  }
+                />
+                <AdminField
+                  label="Tiêu đề"
+                  value={stat.title}
+                  onChange={(v) =>
+                    updateContent((p) => {
+                      const aboutStats = [...p.home.aboutStats];
+                      aboutStats[i] = { ...aboutStats[i], title: v };
+                      return { ...p, home: { ...p.home, aboutStats } };
+                    })
+                  }
+                />
+                <AdminField
+                  label="Phụ đề"
+                  value={stat.sub}
+                  onChange={(v) =>
+                    updateContent((p) => {
+                      const aboutStats = [...p.home.aboutStats];
+                      aboutStats[i] = { ...aboutStats[i], sub: v };
+                      return { ...p, home: { ...p.home, aboutStats } };
+                    })
+                  }
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="md:col-span-3 md:justify-self-end"
+                  onClick={() =>
+                    updateContent((p) => ({
+                      ...p,
+                      home: { ...p.home, aboutStats: p.home.aboutStats.filter((_, idx) => idx !== i) },
+                    }))
+                  }
+                >
+                  Xóa
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
