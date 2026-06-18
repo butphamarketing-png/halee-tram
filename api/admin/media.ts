@@ -1,11 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import {
-  getAdminClient,
-  isAllowedMedia,
-  MEDIA_BUCKET,
-  mediaKind,
-  safeMediaFilename,
-} from "../lib/supabase-admin";
+import { isAllowedMedia, safeMediaFilename } from "../lib/media-utils";
+import { listMedia, removeMedia } from "../lib/media-storage";
 import { isAdminAuthed } from "./verify-auth";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -15,31 +10,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const supabase = getAdminClient();
-
     if (req.method === "GET") {
-      const { data: files, error } = await supabase.storage.from(MEDIA_BUCKET).list("", {
-        limit: 500,
-        sortBy: { column: "created_at", order: "desc" },
-      });
-
-      if (error) {
-        res.status(500).json({ error: error.message });
-        return;
-      }
-
-      const items = (files ?? [])
-        .filter((f) => f.id != null && isAllowedMedia(f.name))
-        .map((f) => {
-          const { data } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(f.name);
-          return {
-            name: f.name,
-            url: data.publicUrl,
-            type: mediaKind(f.name),
-          };
-        });
-
-      res.status(200).json(items);
+      const items = (await listMedia()).filter((item) => isAllowedMedia(item.name));
+      res.status(200).json(
+        items.map(({ name, url, type }) => ({ name, url, type })),
+      );
       return;
     }
 
@@ -57,12 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return;
       }
 
-      const { error } = await supabase.storage.from(MEDIA_BUCKET).remove([safeName]);
-      if (error) {
-        res.status(500).json({ error: error.message });
-        return;
-      }
-
+      await removeMedia(safeName);
       res.status(200).json({ ok: true });
       return;
     }

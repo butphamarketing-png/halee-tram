@@ -42,6 +42,12 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key |
 | `ADMIN_USERNAME` | Cùng tài khoản admin (cho API serverless) |
 | `ADMIN_TOKEN` | Cùng mật khẩu admin (cho API PUT) |
+| `R2_ACCOUNT_ID` | Cloudflare Account ID |
+| `R2_ACCESS_KEY_ID` | R2 API token — Access Key ID |
+| `R2_SECRET_ACCESS_KEY` | R2 API token — Secret Access Key |
+| `R2_BUCKET_NAME` | Tên bucket R2 (vd. `halee-tram-media`) |
+| `R2_PUBLIC_URL` | URL public bucket (`https://pub-xxx.r2.dev` hoặc custom domain) |
+| `R2_KEY_PREFIX` | Thư mục trong bucket (mặc định `media`) |
 | `BASE_PATH` | `/` |
 | `PORT` | `5173` (cho build script) |
 
@@ -51,10 +57,22 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 - Admin: `https://your-app.vercel.app/adminbp` (đăng nhập: `/adminbp/login`)
 - Form đặt lịch → bảng `bookings` trên Supabase
 - Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel
-- **Thư viện ảnh** → upload vào Supabase Storage bucket `media` (chạy `supabase/schema.sql` để tạo bucket)
+- **Thư viện ảnh** → upload lên **Cloudflare R2** (khi đã cấu hình biến `R2_*`); nếu chưa có R2 thì fallback Supabase Storage bucket `media`
 - API serverless nằm ở thư mục `api/` **gốc repo** (cùng cấp `vercel.json`) — bắt buộc để upload ảnh hoạt động trên Vercel
 
-## 5. Local dev
+## 5. Cloudflare R2 (kho ảnh — khuyến nghị)
+
+Giúp giảm băng thông Supabase. Ảnh/video admin upload qua `/api/admin/upload` sẽ lên R2 khi đủ 5 biến `R2_*`.
+
+1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **R2** → **Create bucket** (vd. `halee-tram-media`)
+2. Bucket → **Settings** → bật **Public access** (hoặc gắn custom domain `media.haleetram.com`)
+3. **Manage R2 API Tokens** → Create token (Object Read & Write) → lấy Access Key + Secret
+4. **Account ID** ở sidebar Cloudflare → copy vào `R2_ACCOUNT_ID`
+5. Thêm biến trên **Vercel** (xem bảng trên) → **Redeploy**
+
+Ảnh cũ trên Supabase vẫn hiển thị nếu URL trong CMS trỏ Supabase — upload mới sẽ dùng URL R2.
+
+## 6. Local dev
 
 ```bash
 cd artifacts/thien-hoang-kim

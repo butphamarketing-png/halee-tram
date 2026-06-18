@@ -1,11 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import {
-  getAdminClient,
-  isAllowedMedia,
-  MEDIA_BUCKET,
-  mediaKind,
-  safeMediaFilename,
-} from "../lib/supabase-admin";
+import { isAllowedMedia, safeMediaFilename } from "../lib/media-utils";
+import { storeMedia } from "../lib/media-storage";
 import { isAdminAuthed } from "./verify-auth";
 
 export const config = {
@@ -49,22 +44,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const buffer = Buffer.from(match[3], "base64");
     const contentType = `${match[1]}/${match[2]}`;
 
-    const supabase = getAdminClient();
-    const { error } = await supabase.storage.from(MEDIA_BUCKET).upload(safeName, buffer, {
-      contentType,
-      upsert: true,
-    });
-
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
-
-    const { data: urlData } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(safeName);
+    const stored = await storeMedia(safeName, buffer, contentType);
     res.status(200).json({
-      url: urlData.publicUrl,
-      name: safeName,
-      type: mediaKind(safeName),
+      url: stored.url,
+      name: stored.name,
+      type: stored.type,
     });
   } catch (err) {
     res.status(500).json({ error: String(err) });

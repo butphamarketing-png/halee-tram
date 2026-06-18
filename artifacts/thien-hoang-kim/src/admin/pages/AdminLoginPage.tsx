@@ -109,7 +109,7 @@ export function AdminLoginPage() {
                     id="username"
                     type="text"
                     autoComplete="username"
-                    placeholder="butphamarketing@gmail.com"
+                    placeholder="haleetram@gmail.com"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-800 outline-none transition focus:border-[#7c3aed] focus:ring-2 focus:ring-violet-100"

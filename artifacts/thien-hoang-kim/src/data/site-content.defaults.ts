@@ -25,7 +25,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     slogan: "Tỏa Sáng Vẻ Đẹp Của Bạn",
     address: "793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh",
     phone: "0938162662",
-    email: "haleetram.studio@gmail.com",
+    email: "haleetram@gmail.com",
     hours: "09:00 - 20:00 (Thứ 2 - Chủ Nhật)",
     messengerSlug: "haleetram",
     topbarAddress: "793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP. Hồ Chí Minh",
