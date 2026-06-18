@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { CustomerAlbumDialog } from "@/components/CustomerAlbumDialog";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import type { TestimonialCategory } from "@/types/site-content";
 import { cn } from "@/lib/utils";
 
@@ -71,7 +72,7 @@ function CarouselArrow({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "customer-carousel-arrow h-11 w-11 shrink-0 rounded-full border-white/80 bg-white/95 text-primary backdrop-blur-sm",
+        "customer-carousel-arrow hidden h-11 w-11 shrink-0 rounded-full border-white/80 bg-white/95 text-primary backdrop-blur-sm md:inline-flex",
         "transition-all duration-300 hover:border-gold/40 hover:bg-primary hover:text-white",
         "disabled:pointer-events-none disabled:opacity-35",
       )}
@@ -173,6 +174,17 @@ function TestimonialCarousel({
     });
   };
 
+  const swipe = useHorizontalSwipe({
+    enabled: canSlide,
+    onSwipeLeft: () => go(1),
+    onSwipeRight: () => go(-1),
+  });
+
+  const handleOpenAlbum = (item: Testimonial) => {
+    if (swipe.didSwipeRef.current) return;
+    onOpenAlbum(item);
+  };
+
   const visible = items.slice(index, index + perView);
 
   return (
@@ -187,12 +199,14 @@ function TestimonialCarousel({
 
         <div
           className={cn(
-            "grid min-h-[480px] flex-1 gap-6 md:gap-8",
+            "grid min-h-[480px] flex-1 touch-pan-y gap-6 md:gap-8",
             !canSlide && "mx-auto",
             perView === 1 && "grid-cols-1",
             perView === 2 && "grid-cols-2",
             perView === 3 && "grid-cols-3",
           )}
+          onTouchStart={swipe.onTouchStart}
+          onTouchEnd={swipe.onTouchEnd}
         >
           <AnimatePresence mode="popLayout">
             {visible.map((t) => (
@@ -204,7 +218,7 @@ function TestimonialCarousel({
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
               >
-                <TestimonialCard item={t} category={category} onOpenAlbum={onOpenAlbum} />
+                <TestimonialCard item={t} category={category} onOpenAlbum={handleOpenAlbum} />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -255,7 +269,7 @@ export function TestimonialsSection({ items, backgroundImage }: TestimonialsSect
       <div className="container relative z-10 mx-auto px-4 md:px-8">
         <SectionHeading
           title={`KHÁCH HÀNG NÓI GÌ VỀ ${clinicName}`}
-          subtitle="Nhấn vào từng ô để xem album hình ảnh"
+          subtitle="Nhấn vào từng ô để xem album — vuốt trái/phải trên điện thoại để xem thêm"
           className="mb-10 md:mb-12"
         />
 

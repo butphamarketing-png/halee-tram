@@ -3,6 +3,7 @@ import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/layout/SectionHeading";
+import { useHorizontalSwipe } from "@/hooks/useHorizontalSwipe";
 import { cn } from "@/lib/utils";
 
 export type DoctorProfile = {
@@ -52,7 +53,7 @@ function TeamArrow({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "customer-carousel-arrow h-11 w-11 shrink-0 rounded-full border-white/80 bg-white/95 text-primary backdrop-blur-sm",
+        "customer-carousel-arrow hidden h-11 w-11 shrink-0 rounded-full border-white/80 bg-white/95 text-primary backdrop-blur-sm md:inline-flex",
         "transition-all duration-300 hover:border-gold/40 hover:bg-primary hover:text-white",
         "disabled:pointer-events-none disabled:opacity-35",
       )}
@@ -81,6 +82,12 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
     });
   };
 
+  const swipe = useHorizontalSwipe({
+    enabled: canSlide,
+    onSwipeLeft: () => go(1),
+    onSwipeRight: () => go(-1),
+  });
+
   const visible = doctors.slice(index, index + perView);
 
   return (
@@ -89,7 +96,7 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
         <SectionHeading
           eyebrow="Đội ngũ"
           title="ĐỘI NGŨ NHÂN VIÊN"
-          subtitle="Nhân viên nails, mi và đào tạo — giàu kinh nghiệm và tận tâm với khách hàng."
+          subtitle="Nhân viên nails, mi và đào tạo — vuốt trái/phải trên điện thoại để xem thêm."
           className="mb-12 md:mb-14"
         />
 
@@ -103,12 +110,14 @@ export function DoctorTeamSection({ doctors }: DoctorTeamSectionProps) {
 
           <div
             className={cn(
-              "grid min-h-[420px] flex-1 gap-6 md:gap-8",
+              "grid min-h-[420px] flex-1 touch-pan-y gap-6 md:gap-8",
               !canSlide && "mx-auto",
               perView === 1 && "grid-cols-1",
               perView === 2 && "grid-cols-2",
               perView === 3 && "grid-cols-3",
             )}
+            onTouchStart={swipe.onTouchStart}
+            onTouchEnd={swipe.onTouchEnd}
           >
             <AnimatePresence mode="popLayout">
               {visible.map((doc) => (
