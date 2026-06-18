@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAdminClient } from "./lib/supabase-admin";
+import { getAdminClient } from "../server/lib/supabase-admin";
 
 const STATIC_PATHS = ["/", "/gioi-thieu", "/dich-vu", "/tin-tuc", "/lien-he"];
 

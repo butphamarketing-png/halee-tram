@@ -4,10 +4,10 @@
   "outputDirectory": "artifacts/thien-hoang-kim/dist/public",
   "framework": null,
   "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 30,
-      "memory": 1024
-    }
+    "api/bookings.ts": { "maxDuration": 30 },
+    "api/admin/*.ts": { "maxDuration": 30 },
+    "api/sitemap.xml.ts": { "maxDuration": 30 },
+    "api/robots.txt.ts": { "maxDuration": 30 }
   },
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.svg" },

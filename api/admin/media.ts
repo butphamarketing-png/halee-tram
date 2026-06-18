@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { isAllowedMedia, safeMediaFilename } from "../lib/media-utils";
-import { listMedia, removeMedia } from "../lib/media-storage";
-import { isAdminAuthed } from "./verify-auth";
+import { isAllowedMedia, safeMediaFilename } from "../../server/lib/media-utils";
+import { listMedia, removeMedia } from "../../server/lib/media-storage";
+import { isAdminAuthed } from "../../server/lib/verify-auth";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!isAdminAuthed(req)) {

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAdminClient } from "./lib/supabase-admin";
-import { isEmailConfigured, sendBookingNotification } from "./lib/send-email";
+import { getAdminClient } from "../server/lib/supabase-admin";
+import { isEmailConfigured, sendBookingNotification } from "../server/lib/send-email";
 
 type BookingBody = {
   name?: string;

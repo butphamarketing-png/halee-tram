@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAdminClient } from "../lib/supabase-admin";
-import { isAdminAuthed } from "./verify-auth";
+import { getAdminClient } from "../../server/lib/supabase-admin";
+import { isAdminAuthed } from "../../server/lib/verify-auth";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

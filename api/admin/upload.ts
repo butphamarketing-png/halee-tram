@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { isAllowedMedia, safeMediaFilename } from "../lib/media-utils";
-import { storeMedia } from "../lib/media-storage";
-import { isAdminAuthed } from "./verify-auth";
+import { isAllowedMedia, safeMediaFilename } from "../../server/lib/media-utils";
+import { storeMedia } from "../../server/lib/media-storage";
+import { isAdminAuthed } from "../../server/lib/verify-auth";
 
 export const config = {
   api: {
