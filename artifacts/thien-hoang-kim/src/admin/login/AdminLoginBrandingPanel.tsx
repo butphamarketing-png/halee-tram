@@ -77,7 +77,7 @@ function ServiceCardButton({
 
 export function ServiceCardGrid({ onServiceClick }: { onServiceClick: (card: BpServiceCard) => void }) {
   return (
-    <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3">
       {BP_SERVICE_CARDS.map((card) => (
         <ServiceCardButton
           key={card.id}

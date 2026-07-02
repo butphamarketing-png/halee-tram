@@ -11,8 +11,7 @@ import {
 } from "lucide-react";
 import { Redirect, useLocation } from "wouter";
 import { AdminLoginBrandingPanel } from "@/admin/login/AdminLoginBrandingPanel";
-import { AdminLoginModals, RenewalAuthDialog } from "@/admin/login/AdminLoginModals";
-import type { BpServiceCard, BpServiceModal } from "@/admin/login/bp-login-data";
+import type { BpServiceCard } from "@/admin/login/bp-login-data";
 import { adminPath } from "@/config/admin";
 import { isAdminLoggedIn, loginAdmin } from "@/lib/admin-auth";
 import { toast } from "@/hooks/use-toast";
@@ -45,26 +44,13 @@ export function AdminLoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [activeModal, setActiveModal] = useState<BpServiceModal | null>(null);
-  const [renewalAuthOpen, setRenewalAuthOpen] = useState(false);
-  const [renewalOpen, setRenewalOpen] = useState(false);
 
   if (isAdminLoggedIn()) {
     return <Redirect to={adminPath()} />;
   }
 
   const onServiceClick = (card: BpServiceCard) => {
-    if (card.action === "renewal") {
-      setRenewalAuthOpen(true);
-      return;
-    }
-    if (card.href) {
-      window.open(card.href, "_blank", "noopener,noreferrer");
-      return;
-    }
-    if (card.modal) {
-      setActiveModal(card.modal);
-    }
+    window.open(card.href, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -183,18 +169,6 @@ export function AdminLoginPage() {
           onServiceClick={onServiceClick}
         />
       </div>
-
-      <RenewalAuthDialog
-        open={renewalAuthOpen}
-        onOpenChange={setRenewalAuthOpen}
-        onVerified={() => setRenewalOpen(true)}
-      />
-      <AdminLoginModals
-        activeModal={activeModal}
-        onModalChange={setActiveModal}
-        renewalOpen={renewalOpen}
-        onRenewalChange={setRenewalOpen}
-      />
     </>
   );
 }
