@@ -115,52 +115,50 @@ export function AdminLoginBrandingPanel({
       <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-violet-600/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl" />
 
-      <div className="relative flex h-full flex-col justify-between px-6 py-8 sm:px-10 lg:px-10 lg:py-10 xl:px-14">
-        <div>
-          {!compact && <BpmLogoLight subtitle="Dành cho khách hàng" />}
+      <div className="relative flex h-full flex-col px-6 py-8 sm:px-10 lg:px-10 lg:py-10 xl:px-14">
+        {!compact && <BpmLogoLight subtitle="Dành cho khách hàng" />}
 
-          {!compact && (
-            <>
-              <h2 className="mt-10 text-3xl font-extrabold leading-tight tracking-tight text-white xl:text-4xl">
-                QUẢN LÝ
-                <br />
-                MARKETING &amp; WEBSITE
-              </h2>
-              <p className="mt-4 max-w-lg text-sm leading-relaxed text-violet-200/80">
-                Dành riêng cho khách hàng Bứt Phá Marketing —{" "}
-                <span className="font-semibold text-white">Halee Trâm</span>.
-              </p>
-            </>
-          )}
-
-          {compact && (
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-violet-400">
-              Dịch vụ Bứt Phá Marketing
+        {!compact && (
+          <>
+            <h2 className="mt-10 text-3xl font-extrabold leading-tight tracking-tight text-white xl:text-4xl">
+              QUẢN LÝ
+              <br />
+              MARKETING &amp; WEBSITE
+            </h2>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-violet-200/80">
+              Dành riêng cho khách hàng Bứt Phá Marketing —{" "}
+              <span className="font-semibold text-white">Halee Trâm</span>.
             </p>
-          )}
+          </>
+        )}
 
-          <div className={cn("grid grid-cols-2 gap-3 xl:grid-cols-4", compact ? "mt-0" : "mt-8")}>
-            {BP_CONTACTS.map((contact) => (
-              <ContactCard key={contact.label} {...contact} />
-            ))}
-          </div>
+        {compact && (
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-violet-400">
+            Dịch vụ Bứt Phá Marketing
+          </p>
+        )}
+
+        <div className={cn("grid grid-cols-2 gap-3 xl:grid-cols-4", compact ? "mt-0" : "mt-8")}>
+          {BP_CONTACTS.map((contact) => (
+            <ContactCard key={contact.label} {...contact} />
+          ))}
         </div>
 
-        <div className={cn("relative", compact ? "mt-6" : "mt-8")}>
-          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-violet-400">
+        <div className="mt-6">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-violet-400">
             Dịch vụ của chúng tôi
           </p>
           <ServiceCardGrid onServiceClick={onServiceClick} />
+        </div>
 
-          <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
-            <p className="flex items-center gap-2 text-xs text-violet-300/80">
-              <Shield className="h-3.5 w-3.5" />
-              Powered by Bứt Phá Marketing
-            </p>
-            <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-violet-300">
-              Phiên bản v2
-            </span>
-          </div>
+        <div className="mt-auto flex items-center justify-between border-t border-white/10 pt-6">
+          <p className="flex items-center gap-2 text-xs text-violet-300/80">
+            <Shield className="h-3.5 w-3.5" />
+            Powered by Bứt Phá Marketing
+          </p>
+          <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-violet-300">
+            Phiên bản v2
+          </span>
         </div>
       </div>
     </div>

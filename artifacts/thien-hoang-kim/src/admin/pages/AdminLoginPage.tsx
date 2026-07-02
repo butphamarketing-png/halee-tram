@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   ArrowRight,
-  Check,
   Eye,
   EyeOff,
   Lock,
@@ -15,13 +14,6 @@ import type { BpServiceCard } from "@/admin/login/bp-login-data";
 import { adminPath } from "@/config/admin";
 import { isAdminLoggedIn, loginAdmin } from "@/lib/admin-auth";
 import { toast } from "@/hooks/use-toast";
-
-const FEATURES = [
-  "Quản lý website & landing page",
-  "SEO & quảng cáo Google Ads",
-  "Chăm sóc fanpage & Google Maps",
-  "Hỗ trợ kỹ thuật tận tâm",
-];
 
 function BpmLogo() {
   return (
@@ -137,17 +129,6 @@ export function AdminLoginPage() {
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
-
-            <ul className="mt-8 max-w-md space-y-3">
-              {FEATURES.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-slate-600">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-100 text-[#7c3aed]">
-                    <Check className="h-3 w-3" strokeWidth={3} />
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
           </div>
 
           <p className="mt-10 hidden items-center gap-2 text-xs text-slate-400 lg:flex">
