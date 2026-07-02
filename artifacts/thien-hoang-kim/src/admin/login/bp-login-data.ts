@@ -112,8 +112,8 @@ export const BP_CONTACTS: BpContact[] = [
   {
     icon: Mail,
     label: "EMAIL",
-    value: "haleetram@gmail.com",
-    href: "mailto:haleetram@gmail.com",
+    value: "butphamarketing@gmail.com",
+    href: "mailto:butphamarketing@gmail.com",
   },
   { icon: MessageCircle, label: "ZALO", value: "093.741.7982", href: ZALO_URL },
 ];
