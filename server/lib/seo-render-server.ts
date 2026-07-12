@@ -12,11 +12,18 @@ export type RenderedPageSeo = {
   ogTitle: string;
   ogDescription: string;
   ogImage: string;
+  ogImageAlt?: string;
   ogUrl: string;
   ogType: string;
   twitterCard: string;
   siteName: string;
   locale: string;
+  googleSiteVerification?: string;
+  bingSiteVerification?: string;
+  facebookAppId?: string;
+  articlePublished?: string;
+  articleSection?: string;
+  jsonLd?: string;
 };
 
 type CmsSeo = {
@@ -405,14 +412,25 @@ export function injectMetaIntoHtml(html: string, meta: RenderedPageSeo): string 
     .replace(/<meta\s+name="description"[^>]*>/gi, "")
     .replace(/<meta\s+name="keywords"[^>]*>/gi, "")
     .replace(/<meta\s+name="robots"[^>]*>/gi, "")
+    .replace(/<meta\s+name="google-site-verification"[^>]*>/gi, "")
+    .replace(/<meta\s+name="msvalidate\.01"[^>]*>/gi, "")
     .replace(/<meta\s+property="og:[^"]+"[^>]*>/gi, "")
+    .replace(/<meta\s+property="article:[^"]+"[^>]*>/gi, "")
+    .replace(/<meta\s+property="fb:app_id"[^>]*>/gi, "")
     .replace(/<meta\s+name="twitter:[^"]+"[^>]*>/gi, "")
-    .replace(/<link\s+rel="canonical"[^>]*>/gi, "");
+    .replace(/<link\s+rel="canonical"[^>]*>/gi, "")
+    .replace(/<script[^>]*id="thk-json-ld"[^>]*>[\s\S]*?<\/script>/gi, "");
 
   const tags = [
     meta.description ? `<meta name="description" content="${escapeHtml(meta.description)}" />` : "",
     meta.keywords ? `<meta name="keywords" content="${escapeHtml(meta.keywords)}" />` : "",
     `<meta name="robots" content="${escapeHtml(meta.robots)}" />`,
+    meta.googleSiteVerification
+      ? `<meta name="google-site-verification" content="${escapeHtml(meta.googleSiteVerification)}" />`
+      : "",
+    meta.bingSiteVerification
+      ? `<meta name="msvalidate.01" content="${escapeHtml(meta.bingSiteVerification)}" />`
+      : "",
     `<link rel="canonical" href="${escapeHtml(meta.canonical)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(meta.siteName)}" />`,
     `<meta property="og:title" content="${escapeHtml(meta.ogTitle)}" />`,
@@ -421,11 +439,21 @@ export function injectMetaIntoHtml(html: string, meta: RenderedPageSeo): string 
     `<meta property="og:url" content="${escapeHtml(meta.ogUrl)}" />`,
     meta.ogImage ? `<meta property="og:image" content="${escapeHtml(meta.ogImage)}" />` : "",
     meta.ogImage ? `<meta property="og:image:secure_url" content="${escapeHtml(meta.ogImage)}" />` : "",
+    meta.ogImageAlt ? `<meta property="og:image:alt" content="${escapeHtml(meta.ogImageAlt)}" />` : "",
     `<meta property="og:locale" content="${escapeHtml(meta.locale)}" />`,
+    meta.facebookAppId ? `<meta property="fb:app_id" content="${escapeHtml(meta.facebookAppId)}" />` : "",
+    meta.articlePublished
+      ? `<meta property="article:published_time" content="${escapeHtml(meta.articlePublished)}" />`
+      : "",
+    meta.articleSection ? `<meta property="article:section" content="${escapeHtml(meta.articleSection)}" />` : "",
     `<meta name="twitter:card" content="${escapeHtml(meta.twitterCard)}" />`,
     `<meta name="twitter:title" content="${escapeHtml(meta.ogTitle)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(meta.ogDescription)}" />`,
     meta.ogImage ? `<meta name="twitter:image" content="${escapeHtml(meta.ogImage)}" />` : "",
+    meta.ogImageAlt ? `<meta name="twitter:image:alt" content="${escapeHtml(meta.ogImageAlt)}" />` : "",
+    meta.jsonLd
+      ? `<script id="thk-json-ld" type="application/ld+json">${meta.jsonLd}</script>`
+      : "",
   ]
     .filter(Boolean)
     .join("\n    ");

@@ -60,6 +60,8 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       organizationLogo: publicAsset("logo-halee-tram.jpg"),
       priceRange: "$$",
       robotsTxtExtra: "",
+      focusKeyphrase: "nối mi Quận 7",
+      llmsTxtEnabled: true,
     },
   },
   home: {

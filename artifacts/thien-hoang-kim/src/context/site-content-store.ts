@@ -11,9 +11,18 @@ export type IndexNowPublishResult = {
   reason?: string;
 };
 
+export type GooglePingPublishResult = {
+  ok: boolean;
+  status?: number;
+  error?: string;
+  skipped?: boolean;
+  reason?: string;
+};
+
 export type PublishContentResult = {
   ok: boolean;
   indexNow?: IndexNowPublishResult;
+  googlePing?: GooglePingPublishResult;
   changedUrls?: string[];
 };
 

@@ -81,7 +81,7 @@ export async function publishContentToApi(content: SiteContent, token: string): 
     });
     if (!res.ok) return { ok: false };
     const data = (await res.json()) as PublishContentResult;
-    return { ok: true, indexNow: data.indexNow, changedUrls: data.changedUrls };
+    return { ok: true, indexNow: data.indexNow, googlePing: data.googlePing, changedUrls: data.changedUrls };
   } catch {
     return { ok: false };
   }

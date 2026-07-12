@@ -177,6 +177,22 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysisResult {
     checks.push({ id: "slug", status: "ok", label: "Kiểm tra lại slug URL" });
   }
 
+  const canonical = input.canonicalUrl?.trim();
+  if (canonical) {
+    if (/^https?:\/\//i.test(canonical)) {
+      checks.push({ id: "canonical-abs", status: "good", label: "Canonical URL đầy đủ" });
+    } else if (canonical.startsWith("/")) {
+      checks.push({ id: "canonical-rel", status: "good", label: "Canonical URL tương đối hợp lệ" });
+    } else {
+      checks.push({
+        id: "canonical-bad",
+        status: "bad",
+        label: "Canonical URL không hợp lệ",
+        hint: "Dùng https://... hoặc /duong-dan",
+      });
+    }
+  }
+
   const good = checks.filter((c) => c.status === "good").length;
   const ok = checks.filter((c) => c.status === "ok").length;
   const bad = checks.filter((c) => c.status === "bad").length;

@@ -203,6 +203,10 @@ export type SiteSeo = {
   organizationLogo: string;
   priceRange: string;
   robotsTxtExtra: string;
+  /** Từ khóa chính trang chủ — dùng phân tích SEO */
+  focusKeyphrase: string;
+  /** Bật /llms.txt cho AI crawlers */
+  llmsTxtEnabled: boolean;
 };
 
 export type SiteSettings = {

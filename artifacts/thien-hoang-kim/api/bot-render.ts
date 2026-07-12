@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { fetchCmsPayload } from "../server/lib/cms-payload-server";
+import { buildJsonLdForPayload } from "../server/lib/seo-schema-server";
 import { injectMetaIntoHtml, resolveRouteSeoForPayload } from "../server/lib/seo-render-server";
 import { getServerSiteUrl } from "../server/lib/seo-sitemap-server";
 
@@ -15,6 +16,13 @@ async function fetchIndexHtml(origin: string): Promise<string> {
   });
   if (!res.ok) throw new Error(`index.html fetch failed: ${res.status}`);
   return res.text();
+}
+
+function parseViDateIso(dateStr: string): string | undefined {
+  const m = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (!m) return undefined;
+  const [, d, mo, y] = m;
+  return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,8 +41,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const cmsUrl = payload?.settings?.seo?.siteUrl?.trim();
     if (cmsUrl) baseUrl = cmsUrl.replace(/\/$/, "");
 
+    const seoSettings = payload?.settings?.seo;
     const meta = resolveRouteSeoForPayload(path, payload, baseUrl);
-    const html = injectMetaIntoHtml(await fetchIndexHtml(origin), meta);
+    const articleMatch = path.match(/^\/tin-tuc\/([^/]+)$/);
+    const article = articleMatch
+      ? payload?.articles?.find((item) => item.slug === articleMatch[1] && item.published)
+      : undefined;
+
+    const enriched = {
+      ...meta,
+      googleSiteVerification: seoSettings?.googleSiteVerification,
+      bingSiteVerification: seoSettings?.bingSiteVerification,
+      facebookAppId: seoSettings?.facebookAppId,
+      ogImageAlt: meta.ogImage ? meta.siteName : undefined,
+      articlePublished: article?.date ? parseViDateIso(article.date) : undefined,
+      articleSection: article?.category,
+      jsonLd: buildJsonLdForPayload(path, meta, payload, baseUrl),
+    };
+
+    const html = injectMetaIntoHtml(await fetchIndexHtml(origin), enriched);
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=3600");

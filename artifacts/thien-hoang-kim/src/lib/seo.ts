@@ -546,5 +546,7 @@ export function normalizeSiteSeo(partial: Partial<SiteSeo> | undefined, base: Si
     organizationLogo: partial?.organizationLogo?.trim() || base.organizationLogo || base.ogImage,
     priceRange: partial?.priceRange?.trim() || base.priceRange || "$$",
     robotsTxtExtra: partial?.robotsTxtExtra?.trim() ?? base.robotsTxtExtra ?? "",
+    focusKeyphrase: partial?.focusKeyphrase?.trim() ?? base.focusKeyphrase ?? "",
+    llmsTxtEnabled: partial?.llmsTxtEnabled ?? base.llmsTxtEnabled ?? true,
   };
 }

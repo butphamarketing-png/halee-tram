@@ -56,30 +56,26 @@ export function AdminSaveBar() {
           }
 
           const indexNow = result.indexNow;
+          const googlePing = result.googlePing;
+          const parts: string[] = ["Website đã cập nhật."];
+
           if (indexNow?.ok && indexNow.submitted > 0) {
-            toast({
-              title: "Xuất bản thành công",
-              description: `Đã gửi ${indexNow.submitted} URL lập chỉ mục qua IndexNow (Bing).`,
-            });
-            return;
+            parts.push(`IndexNow: ${indexNow.submitted} URL (Bing).`);
+          } else if (indexNow?.reason === "INDEXNOW_KEY chưa cấu hình") {
+            parts.push("Thêm INDEXNOW_KEY trên Vercel để tự gửi Bing.");
+          } else if (indexNow?.error) {
+            parts.push(`IndexNow lỗi: ${indexNow.error}`);
           }
 
-          if (indexNow?.skipped) {
-            toast({
-              title: "Xuất bản thành công",
-              description:
-                indexNow.reason === "INDEXNOW_KEY chưa cấu hình"
-                  ? "Website đã cập nhật. Thêm INDEXNOW_KEY trên Vercel để tự gửi lập chỉ mục."
-                  : "Website đã cập nhật.",
-            });
-            return;
+          if (googlePing?.ok) {
+            parts.push("Đã ping Google sitemap.");
+          } else if (googlePing?.error) {
+            parts.push(`Google ping: ${googlePing.error}`);
           }
 
           toast({
             title: "Xuất bản thành công",
-            description: indexNow?.error
-              ? `Website đã cập nhật. IndexNow báo lỗi: ${indexNow.error}`
-              : "Website đã cập nhật.",
+            description: parts.join(" "),
             variant: indexNow?.error ? "destructive" : "default",
           });
         }}

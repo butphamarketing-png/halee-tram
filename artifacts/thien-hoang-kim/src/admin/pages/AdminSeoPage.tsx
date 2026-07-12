@@ -5,8 +5,10 @@ import { AdminImageField } from "@/admin/components/AdminImageField";
 import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
 import { AdminSeoPanel } from "@/admin/components/AdminSeoPanel";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { auditSiteContent, scoreColor, scoreLabel } from "@/lib/seo-audit";
 import { buildRobotsTxt, collectSitemapEntries, getSiteBaseUrl } from "@/lib/seo-sitemap";
 import type { SiteSeo } from "@/types/site-content";
+import { cn } from "@/lib/utils";
 
 export function AdminSeoPage() {
   const { content, updateContent } = useSiteContent();
@@ -35,6 +37,8 @@ export function AdminSeoPage() {
     () => buildRobotsTxt(baseUrl, seo.robotsTxtExtra),
     [baseUrl, seo.robotsTxtExtra],
   );
+  const audit = useMemo(() => auditSiteContent(content), [content]);
+  const weakRows = audit.rows.filter((row) => row.score < 80).slice(0, 12);
 
   return (
     <div>
@@ -61,7 +65,7 @@ export function AdminSeoPage() {
           <AdminSeoPanel
             metaTitle={seo.title}
             metaDescription={seo.description}
-            focusKeyphrase=""
+            focusKeyphrase={seo.focusKeyphrase}
             keywords={seo.keywords}
             canonicalUrl=""
             ogImage={seo.ogImage}
@@ -81,6 +85,7 @@ export function AdminSeoPage() {
               if (typeof value !== "string") return;
               if (key === "metaTitle") patchSeo({ title: value });
               else if (key === "metaDescription") patchSeo({ description: value });
+              else if (key === "focusKeyphrase") patchSeo({ focusKeyphrase: value });
               else if (key === "keywords") patchSeo({ keywords: value });
               else if (key === "ogImage") patchSeo({ ogImage: value });
               else if (key === "ogTitle") patchSeo({ ogTitle: value });
@@ -88,6 +93,64 @@ export function AdminSeoPage() {
               else if (key === "robots") patchSeo({ robots: value });
             }}
           />
+        </section>
+
+        <section className="rounded-xl border bg-white p-6 shadow-sm">
+          <h3 className="mb-2 font-semibold">Kiểm tra SEO toàn site</h3>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Quét {audit.total} URL trong sitemap — phát hiện trang yếu, thiếu OG, tiêu đề trùng.
+          </p>
+          <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-lg border bg-muted/30 p-3">
+              <p className="text-xs text-muted-foreground">Điểm trung bình</p>
+              <p className={cn("text-2xl font-bold", scoreColor(audit.averageScore))}>{audit.averageScore}</p>
+              <p className="text-xs">{scoreLabel(audit.averageScore)}</p>
+            </div>
+            <div className="rounded-lg border bg-muted/30 p-3">
+              <p className="text-xs text-muted-foreground">Trang cần cải thiện</p>
+              <p className="text-2xl font-bold text-amber-600">{audit.weakPages}</p>
+              <p className="text-xs">Điểm &lt; 50</p>
+            </div>
+            <div className="rounded-lg border bg-muted/30 p-3">
+              <p className="text-xs text-muted-foreground">Thiếu ảnh OG</p>
+              <p className="text-2xl font-bold text-red-600">{audit.missingOgCount}</p>
+            </div>
+            <div className="rounded-lg border bg-muted/30 p-3">
+              <p className="text-xs text-muted-foreground">Tiêu đề trùng</p>
+              <p className="text-2xl font-bold text-red-600">{audit.duplicateTitles.length}</p>
+            </div>
+          </div>
+          {audit.duplicateTitles.length > 0 && (
+            <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              Tiêu đề trùng: {audit.duplicateTitles.slice(0, 3).join(" · ")}
+              {audit.duplicateTitles.length > 3 ? " …" : ""}
+            </p>
+          )}
+          <div className="overflow-x-auto rounded-lg border">
+            <table className="min-w-full text-sm">
+              <thead className="bg-muted/50 text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-3 py-2">Trang</th>
+                  <th className="px-3 py-2">Điểm</th>
+                  <th className="px-3 py-2">Vấn đề</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weakRows.map((row) => (
+                  <tr key={row.path} className="border-t">
+                    <td className="px-3 py-2">
+                      <p className="font-medium">{row.label}</p>
+                      <p className="text-xs text-muted-foreground">{row.path}</p>
+                    </td>
+                    <td className={cn("px-3 py-2 font-semibold", scoreColor(row.score))}>{row.score}</td>
+                    <td className="px-3 py-2 text-xs text-muted-foreground">
+                      {row.issues.slice(0, 2).join(" · ") || "Ổn"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section className="rounded-xl border bg-white p-6 shadow-sm">
@@ -162,9 +225,7 @@ export function AdminSeoPage() {
         <section className="rounded-xl border bg-white p-6 shadow-sm">
           <h3 className="mb-4 font-semibold">Sitemap & Robots.txt</h3>
           <p className="mb-3 text-sm text-muted-foreground">
-            Sau khi xuất bản, Google/Bing đọc sitemap ({sitemapCount} URL) và robots.txt tự động. Nếu đã cấu hình
-            `INDEXNOW_KEY` trên Vercel, mỗi lần Xuất bản sẽ tự gửi URL thay đổi cho Bing qua IndexNow. Bot Facebook/Zalo
-            nhận meta đúng theo từng trang qua Edge Middleware (không cần cấu hình thêm).
+            Sau khi xuất bản, Google/Bing đọc sitemap ({sitemapCount} URL) và robots.txt tự động. Hệ thống tự **ping Google sitemap** và gửi URL thay đổi qua **IndexNow (Bing)**. Bot Facebook/Zalo nhận meta + JSON-LD đúng từng trang qua Edge Middleware.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -186,6 +247,15 @@ export function AdminSeoPage() {
               Mở robots.txt
             </a>
             <a
+              href={`${baseUrl}/llms.txt`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Mở llms.txt
+            </a>
+            <a
               href={`${baseUrl}/api/indexnow-verify`}
               target="_blank"
               rel="noopener noreferrer"
@@ -194,6 +264,17 @@ export function AdminSeoPage() {
               <ExternalLink className="h-4 w-4" />
               Kiểm tra IndexNow key
             </a>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-4">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={seo.llmsTxtEnabled}
+                onChange={(e) => setSeo("llmsTxtEnabled", e.target.checked)}
+                className="rounded border-input"
+              />
+              Bật llms.txt (AI crawlers)
+            </label>
           </div>
           <div className="mt-4">
             <AdminField

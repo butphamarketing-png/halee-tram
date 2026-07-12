@@ -173,6 +173,33 @@ export function AdminSeoPanel({
         />
       </div>
 
+      <div className="flex flex-wrap gap-2">
+        <a
+          href={`https://search.google.com/test/rich-results?url=${encodeURIComponent(displayUrl)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+        >
+          Rich Results Test
+        </a>
+        <a
+          href={`https://developers.facebook.com/tools/debug/?q=${encodeURIComponent(displayUrl)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+        >
+          Facebook Debugger
+        </a>
+        <a
+          href={`${previewUrl?.replace(/\/$/, "") || ""}/api/bot-render?path=${encodeURIComponent(previewPath || "/")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+        >
+          Xem HTML bot-render
+        </a>
+      </div>
+
       <ul className="space-y-2 rounded-lg border bg-white p-3">
         {analysis.checks.map((check) => (
           <li key={check.id} className="flex gap-2 text-sm">

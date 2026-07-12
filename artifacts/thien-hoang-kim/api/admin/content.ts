@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { pingGoogleSitemap } from "../../server/lib/google-sitemap-ping";
 import { submitIndexNow } from "../../server/lib/indexnow";
 import {
   collectChangedUrls,
@@ -62,8 +63,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         payload.settings?.seo?.siteUrl?.trim()?.replace(/\/$/, "") || getServerSiteUrl();
       const changedUrls = collectChangedUrls(oldPayload, payload, baseUrl);
       const indexNow = await submitIndexNow(changedUrls, baseUrl);
+      const googlePing = await pingGoogleSitemap(`${baseUrl}/sitemap.xml`);
 
-      res.status(200).json({ ok: true, indexNow, changedUrls });
+      res.status(200).json({ ok: true, indexNow, googlePing, changedUrls });
       return;
     }
 

@@ -241,15 +241,17 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
 
   const daoTaoMatch = ctx.path.match(/^\/dao-tao\/([^/]+)$/);
   if (daoTaoMatch) {
-    const serviceSchema = buildServiceSchema(
-      "dao-tao",
-      daoTaoMatch[1],
-      orgId,
-      ctx.meta.canonical,
-      ctx.meta.description,
-      content,
-    );
-    if (serviceSchema) graphs.push(serviceSchema);
+    const service = getServiceItem(content, "dao-tao", daoTaoMatch[1]);
+    if (service) {
+      graphs.push({
+        "@type": "Course",
+        "@id": `${ctx.meta.canonical}#course`,
+        name: service.label,
+        description: service.description || ctx.meta.description,
+        provider: { "@id": orgId },
+        url: ctx.meta.canonical,
+      });
+    }
   }
 
   if (ctx.article && ctx.path.startsWith("/tin-tuc/")) {
