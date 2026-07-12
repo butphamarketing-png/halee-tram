@@ -7,7 +7,7 @@ export const config = {
 const BOT_UA =
   /bot|crawler|spider|crawl|slurp|mediapartners|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|telegrambot|discordbot|embed|preview|pinterest|googlebot|bingbot|yandex|baiduspider|duckduckbot|applebot|ia_archiver/i;
 
-export default function middleware(request: Request) {
+export default async function middleware(request: Request) {
   const userAgent = request.headers.get("user-agent") ?? "";
   if (!BOT_UA.test(userAgent)) return;
 
@@ -17,5 +17,7 @@ export default function middleware(request: Request) {
   const target = new URL("/api/bot-render", url.origin);
   target.searchParams.set("path", url.pathname + url.search);
 
-  return Response.rewrite(target);
+  return fetch(target.toString(), {
+    headers: { "User-Agent": userAgent },
+  });
 }

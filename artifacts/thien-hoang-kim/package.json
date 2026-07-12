@@ -10,7 +10,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.8"
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@supabase/supabase-js": "^2.49.8",
+    "nodemailer": "^6.10.1"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -48,6 +50,7 @@
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@types/node": "catalog:",
+    "@types/nodemailer": "^6.4.17",
     "@vercel/node": "^5.3.0",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

@@ -2,19 +2,5 @@
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @workspace/thien-hoang-kim build",
   "outputDirectory": "artifacts/thien-hoang-kim/dist/public",
-  "framework": null,
-  "functions": {
-    "api/bookings.ts": { "maxDuration": 30 },
-    "api/admin/*.ts": { "maxDuration": 30 },
-    "api/sitemap.xml.ts": { "maxDuration": 30 },
-    "api/robots.txt.ts": { "maxDuration": 30 },
-    "api/indexnow-verify.ts": { "maxDuration": 10 },
-    "api/bot-render.ts": { "maxDuration": 30 }
-  },
-  "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/api/robots.txt" },
-    { "source": "/favicon.ico", "destination": "/favicon.svg" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
+  "framework": null
 }

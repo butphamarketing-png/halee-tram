@@ -20,14 +20,14 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 ## 3. Vercel
 
 1. [vercel.com](https://vercel.com) → **Add New Project** → import repo GitHub
-2. **Root Directory**: `artifacts/thien-hoang-kim`
+2. **Root Directory**: `artifacts/thien-hoang-kim` (**bắt buộc** — API serverless và middleware nằm trong thư mục này)
 3. **Framework**: Vite
-4. **Build Command**: `pnpm build` (hoặc để mặc định nếu Vercel detect)
-5. **Output Directory**: `dist/public`
-6. **Install Command** (monorepo): tại root project Vercel vẫn là `artifacts/thien-hoang-kim` — set **Root Directory** như trên; nếu lỗi install, dùng:
-   - Root Directory: `.` (repo root)
+4. **Build Command**: để trống (dùng `vercel.json` trong artifact: `cd ../.. && pnpm --filter @workspace/thien-hoang-kim build`)
+5. **Output Directory**: `dist/public` (tương đối Root Directory)
+6. Nếu lỗi install monorepo, thử **Root Directory** = `.` (repo root) và build:
    - Build: `pnpm install && pnpm --filter @workspace/thien-hoang-kim build`
    - Output: `artifacts/thien-hoang-kim/dist/public`
+   - Lưu ý: khi đó **API sẽ không chạy** trừ khi copy `api/` + `server/` lên root hoặc đổi lại Root Directory.
 
 ### Biến môi trường (Vercel → Settings → Environment Variables)
 
@@ -61,7 +61,7 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 - Form đặt lịch → bảng `bookings` trên Supabase
 - Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel, đồng thời **tự gửi URL thay đổi qua IndexNow** (Bing) nếu đã cấu hình `INDEXNOW_KEY`
 - **Thư viện ảnh** → upload lên **Cloudflare R2** (khi đã cấu hình biến `R2_*`); nếu chưa có R2 thì fallback Supabase Storage bucket `media`
-- API serverless nằm ở thư mục `api/` **gốc repo** (cùng cấp `vercel.json`) — bắt buộc để upload ảnh hoạt động trên Vercel
+- API serverless và middleware nằm trong `artifacts/thien-hoang-kim/api/` và `artifacts/thien-hoang-kim/middleware.ts` — **phải** deploy với Root Directory = `artifacts/thien-hoang-kim`
 
 ### IndexNow (tự gửi lập chỉ mục Bing)
 

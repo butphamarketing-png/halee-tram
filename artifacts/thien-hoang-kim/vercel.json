@@ -1,8 +1,20 @@
 {
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter @workspace/thien-hoang-kim build",
+  "outputDirectory": "dist/public",
+  "framework": null,
+  "functions": {
+    "api/bookings.ts": { "maxDuration": 30 },
+    "api/admin/*.ts": { "maxDuration": 30 },
+    "api/sitemap.xml.ts": { "maxDuration": 30 },
+    "api/robots.txt.ts": { "maxDuration": 30 },
+    "api/indexnow-verify.ts": { "maxDuration": 10 },
+    "api/bot-render.ts": { "maxDuration": 30 }
+  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/api/robots.txt" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/favicon.ico", "destination": "/favicon.svg" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
