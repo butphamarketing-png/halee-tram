@@ -61,7 +61,9 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 - Form đặt lịch → bảng `bookings` trên Supabase
 - Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel, đồng thời **tự gửi URL thay đổi qua IndexNow** (Bing) nếu đã cấu hình `INDEXNOW_KEY`
 - **Thư viện ảnh** → upload lên **Cloudflare R2** (khi đã cấu hình biến `R2_*`); nếu chưa có R2 thì fallback Supabase Storage bucket `media`
-- API serverless và middleware nằm trong `artifacts/thien-hoang-kim/api/` và `artifacts/thien-hoang-kim/middleware.ts` — **phải** deploy với Root Directory = `artifacts/thien-hoang-kim`
+- API serverless và middleware: **một nguồn** tại `artifacts/thien-hoang-kim/api/` + `middleware.ts`
+- Deploy **repo root** (Root Directory trống): `vercel.json` gốc tự chạy `scripts/sync-vercel-api.mjs` trước build để copy API lên root
+- Deploy **artifact root** (Root Directory = `artifacts/thien-hoang-kim`): dùng `artifacts/thien-hoang-kim/vercel.json` — API đã có sẵn trong thư mục
 
 ### IndexNow (tự gửi lập chỉ mục Bing)
 
