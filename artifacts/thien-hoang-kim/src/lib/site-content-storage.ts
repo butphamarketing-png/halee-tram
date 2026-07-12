@@ -1,6 +1,7 @@
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
 import { mergeSiteContent } from "@/lib/normalize-content";
 import { fetchContentFromSupabase } from "@/lib/supabase-content";
+import type { PublishContentResult } from "@/context/site-content-store";
 import type { SiteContent } from "@/types/site-content";
 
 const STORAGE_KEY = "thk_site_content_v2";
@@ -67,7 +68,7 @@ export async function loadSiteContent(options?: { preferLocal?: boolean }): Prom
   return DEFAULT_SITE_CONTENT;
 }
 
-export async function publishContentToApi(content: SiteContent, token: string): Promise<boolean> {
+export async function publishContentToApi(content: SiteContent, token: string): Promise<PublishContentResult> {
   try {
     const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     const res = await fetch(`${base}/api/admin/content`, {
@@ -78,9 +79,11 @@ export async function publishContentToApi(content: SiteContent, token: string): 
       },
       body: JSON.stringify(content),
     });
-    return res.ok;
+    if (!res.ok) return { ok: false };
+    const data = (await res.json()) as PublishContentResult;
+    return { ok: true, indexNow: data.indexNow, changedUrls: data.changedUrls };
   } catch {
-    return false;
+    return { ok: false };
   }
 }
 

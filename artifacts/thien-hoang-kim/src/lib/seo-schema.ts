@@ -195,11 +195,6 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
     description: seo.description,
     publisher: { "@id": orgId },
     inLanguage: seo.locale?.replace("_", "-") || "vi-VN",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/tin-tuc?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   });
 
   const breadcrumbId = `${ctx.meta.canonical}#breadcrumb`;

@@ -45,16 +45,43 @@ export function AdminSaveBar() {
         className="bg-primary"
         onClick={async () => {
           saveContent();
-          const ok = await publishContent();
-          toast(
-            ok
-              ? { title: "Xuất bản thành công", description: "Website dùng file JSON chung." }
-              : {
-                  title: "Xuất bản qua file JSON thất bại",
-                  description: "Đã lưu local. Chạy dev server hoặc bật API.",
-                  variant: "destructive",
-                },
-          );
+          const result = await publishContent();
+          if (!result.ok) {
+            toast({
+              title: "Xuất bản qua file JSON thất bại",
+              description: "Đã lưu local. Chạy dev server hoặc bật API.",
+              variant: "destructive",
+            });
+            return;
+          }
+
+          const indexNow = result.indexNow;
+          if (indexNow?.ok && indexNow.submitted > 0) {
+            toast({
+              title: "Xuất bản thành công",
+              description: `Đã gửi ${indexNow.submitted} URL lập chỉ mục qua IndexNow (Bing).`,
+            });
+            return;
+          }
+
+          if (indexNow?.skipped) {
+            toast({
+              title: "Xuất bản thành công",
+              description:
+                indexNow.reason === "INDEXNOW_KEY chưa cấu hình"
+                  ? "Website đã cập nhật. Thêm INDEXNOW_KEY trên Vercel để tự gửi lập chỉ mục."
+                  : "Website đã cập nhật.",
+            });
+            return;
+          }
+
+          toast({
+            title: "Xuất bản thành công",
+            description: indexNow?.error
+              ? `Website đã cập nhật. IndexNow báo lỗi: ${indexNow.error}`
+              : "Website đã cập nhật.",
+            variant: indexNow?.error ? "destructive" : "default",
+          });
         }}
       >
         Xuất bản website

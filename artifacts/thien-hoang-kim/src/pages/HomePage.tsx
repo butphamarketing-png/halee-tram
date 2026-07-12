@@ -24,6 +24,10 @@ export default function HomePage() {
 
   return (
     <SiteLayout>
+      <h1 className="sr-only">
+        {settings.clinicName}
+        {settings.slogan ? ` — ${settings.slogan}` : ""}
+      </h1>
       {/* 1. Banner */}
       <HeroCarousel slides={home.heroSlides} />
 

@@ -1,4 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { submitIndexNow } from "../../server/lib/indexnow";
+import {
+  collectChangedUrls,
+  getServerSiteUrl,
+  type CmsPayload,
+} from "../../server/lib/seo-sitemap-server";
 import { getAdminClient } from "../../server/lib/supabase-admin";
 import { isAdminAuthed } from "../../server/lib/verify-auth";
 
@@ -28,7 +34,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return;
       }
 
-      const payload = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+      const payload =
+        typeof req.body === "string"
+          ? (JSON.parse(req.body) as CmsPayload)
+          : (req.body as CmsPayload);
+
+      const { data: existing } = await supabase
+        .from("site_content")
+        .select("payload")
+        .eq("id", 1)
+        .maybeSingle();
+
+      const oldPayload = (existing?.payload as CmsPayload | null) ?? null;
 
       const { error } = await supabase.from("site_content").upsert({
         id: 1,
@@ -41,7 +58,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return;
       }
 
-      res.status(200).json({ ok: true });
+      const baseUrl =
+        payload.settings?.seo?.siteUrl?.trim()?.replace(/\/$/, "") || getServerSiteUrl();
+      const changedUrls = collectChangedUrls(oldPayload, payload, baseUrl);
+      const indexNow = await submitIndexNow(changedUrls, baseUrl);
+
+      res.status(200).json({ ok: true, indexNow, changedUrls });
       return;
     }
 

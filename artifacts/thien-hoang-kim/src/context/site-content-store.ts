@@ -2,6 +2,21 @@ import { createContext } from "react";
 import { DEFAULT_SITE_CONTENT } from "@/data/site-content.defaults";
 import type { SiteContent } from "@/types/site-content";
 
+export type IndexNowPublishResult = {
+  ok: boolean;
+  submitted: number;
+  status?: number;
+  error?: string;
+  skipped?: boolean;
+  reason?: string;
+};
+
+export type PublishContentResult = {
+  ok: boolean;
+  indexNow?: IndexNowPublishResult;
+  changedUrls?: string[];
+};
+
 export type SiteContentContextValue = {
   content: SiteContent;
   loading: boolean;
@@ -9,7 +24,7 @@ export type SiteContentContextValue = {
   updateContent: (updater: (prev: SiteContent) => SiteContent) => void;
   saveContent: () => void;
   resetContent: () => void;
-  publishContent: () => Promise<boolean>;
+  publishContent: () => Promise<PublishContentResult>;
 };
 
 /** Tách riêng để HMR không tạo context mới → tránh lỗi "must be used within Provider". */
@@ -22,5 +37,5 @@ export const FALLBACK_SITE_CONTENT: SiteContentContextValue = {
   updateContent: () => {},
   saveContent: () => {},
   resetContent: () => {},
-  publishContent: async () => false,
+  publishContent: async () => ({ ok: false }),
 };

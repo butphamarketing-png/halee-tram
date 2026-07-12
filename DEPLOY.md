@@ -33,6 +33,8 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 
 | Biến | Mô tả |
 |------|--------|
+| `SITE_URL` | Domain production (vd. `https://www.haleetram.com`) — sitemap, robots.txt API |
+| `VITE_SITE_URL` | Cùng domain — fallback client SEO khi chưa có CMS |
 | `VITE_SUPABASE_URL` | Supabase Project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `VITE_ADMIN_BASE_PATH` | Đường dẫn admin (mặc định `/adminbp`) |
@@ -42,6 +44,7 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key |
 | `ADMIN_USERNAME` | Cùng tài khoản admin (cho API serverless) |
 | `ADMIN_TOKEN` | Cùng mật khẩu admin (cho API PUT) |
+| `INDEXNOW_KEY` | Key IndexNow — tự gửi URL lập chỉ mục Bing khi Xuất bản CMS |
 | `R2_ACCOUNT_ID` | Cloudflare Account ID |
 | `R2_ACCESS_KEY_ID` | R2 API token — Access Key ID |
 | `R2_SECRET_ACCESS_KEY` | R2 API token — Secret Access Key |
@@ -56,9 +59,20 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 - Website: `https://your-app.vercel.app`
 - Admin: `https://your-app.vercel.app/adminbp` (đăng nhập: `/adminbp/login`)
 - Form đặt lịch → bảng `bookings` trên Supabase
-- Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel
+- Admin **Xuất bản website** → lưu vào `site_content` qua API Vercel, đồng thời **tự gửi URL thay đổi qua IndexNow** (Bing) nếu đã cấu hình `INDEXNOW_KEY`
 - **Thư viện ảnh** → upload lên **Cloudflare R2** (khi đã cấu hình biến `R2_*`); nếu chưa có R2 thì fallback Supabase Storage bucket `media`
 - API serverless nằm ở thư mục `api/` **gốc repo** (cùng cấp `vercel.json`) — bắt buộc để upload ảnh hoạt động trên Vercel
+
+### IndexNow (tự gửi lập chỉ mục Bing)
+
+1. Vào [Bing Webmaster Tools](https://www.bing.com/webmasters) → thêm site `https://www.haleetram.com`
+2. Lấy hoặc tạo **IndexNow key** (chuỗi ngẫu nhiên, vd. UUID)
+3. Vercel → thêm biến `INDEXNOW_KEY`
+4. Redeploy
+5. Kiểm tra key: `https://www.haleetram.com/api/indexnow-verify`
+6. Mỗi lần admin bấm **Xuất bản website**, hệ thống gửi các URL thay đổi tới IndexNow
+
+Google Search Console vẫn cần submit sitemap **một lần thủ công**: `https://www.haleetram.com/sitemap.xml`
 
 ## 5. Cloudflare R2 (kho ảnh — khuyến nghị)
 

@@ -71,13 +71,13 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const publishContent = useCallback(async () => {
-    const ok = await publishContentToApi(content, getAdminToken());
-    if (ok) {
+    const result = await publishContentToApi(content, getAdminToken());
+    if (result.ok) {
       saveContentToStorage(content);
       savedSnapshot.current = JSON.stringify(content);
       setIsDirty(false);
     }
-    return ok;
+    return result;
   }, [content]);
 
   const value = useMemo<SiteContentContextValue>(

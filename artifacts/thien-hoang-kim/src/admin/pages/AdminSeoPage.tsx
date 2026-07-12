@@ -162,7 +162,8 @@ export function AdminSeoPage() {
         <section className="rounded-xl border bg-white p-6 shadow-sm">
           <h3 className="mb-4 font-semibold">Sitemap & Robots.txt</h3>
           <p className="mb-3 text-sm text-muted-foreground">
-            Sau khi xuất bản, Google sẽ đọc sitemap ({sitemapCount} URL) và robots.txt tự động.
+            Sau khi xuất bản, Google/Bing đọc sitemap ({sitemapCount} URL) và robots.txt tự động. Nếu đã cấu hình
+            `INDEXNOW_KEY` trên Vercel, mỗi lần Xuất bản sẽ tự gửi URL thay đổi cho Bing qua IndexNow.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -182,6 +183,15 @@ export function AdminSeoPage() {
             >
               <ExternalLink className="h-4 w-4" />
               Mở robots.txt
+            </a>
+            <a
+              href={`${baseUrl}/api/indexnow-verify`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Kiểm tra IndexNow key
             </a>
           </div>
           <div className="mt-4">

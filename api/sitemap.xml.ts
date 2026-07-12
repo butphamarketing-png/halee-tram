@@ -1,37 +1,28 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import {
+  buildSitemapXml,
+  collectSitemapEntriesFromPayload,
+  getServerSiteUrl,
+} from "../server/lib/seo-sitemap-server";
 import { getAdminClient } from "../server/lib/supabase-admin";
-
-const STATIC_PATHS = ["/", "/gioi-thieu", "/dich-vu", "/tin-tuc", "/lien-he"];
 
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
-    const base =
-      process.env.SITE_URL?.replace(/\/$/, "") ?? "https://thienhoangkim.vercel.app";
+    let base = getServerSiteUrl();
+    let payload: Record<string, unknown> | null = null;
 
-    const urls = new Set(STATIC_PATHS);
     try {
       const supabase = getAdminClient();
       const { data } = await supabase.from("site_content").select("payload").eq("id", 1).maybeSingle();
-      const articles = (data?.payload as { articles?: Array<{ slug?: string; published?: boolean }> })
-        ?.articles;
-      for (const a of articles ?? []) {
-        if (a.published && a.slug) urls.add(`/tin-tuc/${a.slug}`);
-      }
+      payload = (data?.payload as Record<string, unknown> | null) ?? null;
+      const cmsUrl = (payload?.settings as { seo?: { siteUrl?: string } } | undefined)?.seo?.siteUrl?.trim();
+      if (cmsUrl) base = cmsUrl.replace(/\/$/, "");
     } catch {
-      /* static only */
+      /* static sitemap only */
     }
 
-    const body = [...urls]
-      .map(
-        (path) =>
-          `  <url><loc>${base}${path}</loc><changefreq>weekly</changefreq><priority>${path === "/" ? "1.0" : "0.8"}</priority></url>`,
-      )
-      .join("\n");
-
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${body}
-</urlset>`;
+    const entries = collectSitemapEntriesFromPayload(payload, base);
+    const xml = buildSitemapXml(entries);
 
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");

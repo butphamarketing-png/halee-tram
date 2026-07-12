@@ -11,6 +11,8 @@ export type SitemapEntry = {
 export function getSiteBaseUrl(override?: string): string {
   const fromEnv = override?.trim();
   if (fromEnv) return fromEnv.replace(/\/$/, "");
+  const viteSiteUrl = import.meta.env.VITE_SITE_URL as string | undefined;
+  if (viteSiteUrl?.trim()) return viteSiteUrl.trim().replace(/\/$/, "");
   if (typeof window !== "undefined") return window.location.origin;
   return "https://www.haleetram.com";
 }

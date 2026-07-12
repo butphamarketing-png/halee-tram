@@ -73,7 +73,7 @@ function buildTitle(pageTitle: string, siteName: string, separator = " | "): str
   return `${pageTitle}${separator}${name}`;
 }
 
-function baseFromGlobal(global: SiteSeo, path: string): PageSeoMeta {
+function baseFromGlobal(global: SiteSeo, path: string, robotsOverride?: string): PageSeoMeta {
   const siteName = global.siteName || "Halee Trâm — Nails & Lashes Studio";
   const title = global.title || siteName;
   const description = global.description || "";
@@ -92,9 +92,56 @@ function baseFromGlobal(global: SiteSeo, path: string): PageSeoMeta {
     ogUrl: canonical,
     ogType: "website",
     twitterCard: global.twitterCard || "summary_large_image",
-    robots: global.robots || "index,follow",
+    robots: robotsOverride || global.robots || "index,follow",
     canonical,
   };
+}
+
+function notFoundMeta(global: SiteSeo, path: string): PageSeoMeta {
+  const siteName = global.siteName || "Halee Trâm";
+  const sep = global.titleSeparator || " | ";
+  const base = baseFromGlobal(global, path, "noindex,nofollow");
+  return {
+    ...base,
+    title: buildTitle("Không tìm thấy trang", siteName, sep),
+    ogTitle: buildTitle("Không tìm thấy trang", siteName, sep),
+    ogType: "website",
+  };
+}
+
+export function isKnownPublicPath(path: string, content: SiteContent): boolean {
+  const clean = path.split("#")[0].replace(/\/$/, "") || "/";
+
+  if (
+    clean === "/" ||
+    clean === "/lien-he" ||
+    clean === "/khach-hang" ||
+    clean === "/dich-vu" ||
+    clean === "/lam-dep" ||
+    clean === "/dao-tao" ||
+    clean === "/bang-gia" ||
+    clean === "/tin-tuc" ||
+    clean === "/tin-tuc/kien-thuc" ||
+    clean === "/tin-tuc/tin-tuc" ||
+    clean === "/gioi-thieu/doi-ngu-bac-si"
+  ) {
+    return true;
+  }
+
+  if (getPageContent(content, clean)) return true;
+
+  const articleMatch = clean.match(/^\/tin-tuc\/([^/]+)$/);
+  if (articleMatch) {
+    return content.articles.some((a) => a.slug === articleMatch[1] && a.published);
+  }
+
+  const lamDepMatch = clean.match(/^\/lam-dep\/([^/]+)$/);
+  if (lamDepMatch) return Boolean(getServiceItem(content, "lam-dep", lamDepMatch[1]));
+
+  const daoTaoMatch = clean.match(/^\/dao-tao\/([^/]+)$/);
+  if (daoTaoMatch) return Boolean(getServiceItem(content, "dao-tao", daoTaoMatch[1]));
+
+  return false;
 }
 
 export function resolveArticleSeo(
@@ -135,6 +182,7 @@ export function resolveArticleSeo(
 export function resolveServiceSeo(
   opts: {
     serviceLabel: string;
+    titleSuffix: string;
     description: string;
     image: string;
     path: string;
@@ -147,7 +195,7 @@ export function resolveServiceSeo(
   }
 
   const siteName = opts.global.siteName || "Halee Trâm — Nails & Lashes Studio";
-  const title = buildTitle(`${opts.serviceLabel} — Dịch vụ làm đẹp Quận 7`, siteName, opts.global.titleSeparator);
+  const title = buildTitle(`${opts.serviceLabel} — ${opts.titleSuffix}`, siteName, opts.global.titleSeparator);
   const description = pick(opts.description, opts.global.description);
   const canonical = toAbsoluteUrl(opts.path, opts.global.siteUrl);
 
@@ -193,6 +241,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
   if (articleMatch) {
     const article = content.articles.find((a) => a.slug === articleMatch[1] && a.published);
     if (article) return resolveArticleSeo(article, global, clean);
+    return notFoundMeta(global, clean);
   }
 
   const lamDepMatch = clean.match(/^\/lam-dep\/([^/]+)$/);
@@ -204,6 +253,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         : undefined;
       return resolveServiceSeo({
         serviceLabel: service.label,
+        titleSuffix: "Dịch vụ làm đẹp Quận 7",
         description: service.description || linked?.description || "",
         image: linked?.image || global.ogImage,
         path: clean,
@@ -211,6 +261,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         article: linked,
       });
     }
+    return notFoundMeta(global, clean);
   }
 
   const daoTaoMatch = clean.match(/^\/dao-tao\/([^/]+)$/);
@@ -222,6 +273,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         : undefined;
       return resolveServiceSeo({
         serviceLabel: service.label,
+        titleSuffix: "Khóa học nghề làm đẹp TP.HCM",
         description: service.description || linked?.description || "",
         image: linked?.image || global.ogImage,
         path: clean,
@@ -229,6 +281,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         article: linked,
       });
     }
+    return notFoundMeta(global, clean);
   }
 
   if (clean === "/lam-dep") {
@@ -334,12 +387,19 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     };
   }
 
+  if (!isKnownPublicPath(clean, content)) {
+    return notFoundMeta(global, clean);
+  }
+
   return baseFromGlobal(global, clean === "/" ? "/" : clean);
 }
 
 function setMetaName(name: string, content: string) {
-  if (!content) return;
   let el = document.querySelector(`meta[name="${name}"]`);
+  if (!content) {
+    el?.remove();
+    return;
+  }
   if (!el) {
     el = document.createElement("meta");
     el.setAttribute("name", name);
@@ -349,8 +409,11 @@ function setMetaName(name: string, content: string) {
 }
 
 function setMetaProperty(property: string, content: string) {
-  if (!content) return;
   let el = document.querySelector(`meta[property="${property}"]`);
+  if (!content) {
+    el?.remove();
+    return;
+  }
   if (!el) {
     el = document.createElement("meta");
     el.setAttribute("property", property);
@@ -391,6 +454,7 @@ export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
   const { meta } = ctx;
   const global = content.settings.seo;
   const ogImage = toAbsoluteAssetUrl(meta.ogImage, global.siteUrl);
+  let articlePublished = "";
 
   document.title = meta.title;
   document.documentElement.lang = global.locale?.slice(0, 2) || "vi";
@@ -404,16 +468,31 @@ export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
   setMetaProperty("og:title", meta.ogTitle);
   setMetaProperty("og:description", meta.ogDescription);
   setMetaProperty("og:image", ogImage);
+  if (ogImage) setMetaProperty("og:image:alt", meta.ogTitle || meta.title);
+  setMetaProperty("og:image:secure_url", ogImage.startsWith("https://") ? ogImage : "");
   setMetaProperty("og:url", meta.ogUrl);
   setMetaProperty("og:type", meta.ogType);
   setMetaProperty("og:locale", global.locale || "vi_VN");
 
-  if (global.facebookAppId) setMetaProperty("fb:app_id", global.facebookAppId);
+  if (meta.ogType === "article" && ctx.article) {
+    const published = ctx.article.date.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (published) {
+      const [, d, mo, y] = published;
+      articlePublished = `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    }
+  }
+  setMetaProperty("article:published_time", articlePublished);
+  setMetaProperty("article:modified_time", articlePublished);
+  setMetaProperty("article:section", meta.ogType === "article" ? ctx.article?.category || "" : "");
+  setMetaProperty("article:author", meta.ogType === "article" ? content.settings.clinicName : "");
+
+  setMetaProperty("fb:app_id", global.facebookAppId);
 
   setMetaName("twitter:card", meta.twitterCard);
   setMetaName("twitter:title", meta.ogTitle);
   setMetaName("twitter:description", meta.ogDescription);
-  if (ogImage) setMetaName("twitter:image", ogImage);
+  setMetaName("twitter:image", ogImage);
+  setMetaName("twitter:image:alt", ogImage ? meta.ogTitle || meta.title : "");
 
   setCanonical(meta.canonical);
 

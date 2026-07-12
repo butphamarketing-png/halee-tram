@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(__dirname, "../dist/public");
-const baseUrl = "https://www.haleetram.com";
+const baseUrl = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://www.haleetram.com").replace(/\/$/, "");
 const today = new Date().toISOString().slice(0, 10);
 
 const lamDep = ["nails", "noi-mi", "uon-mi", "dinh-hinh-chan-may", "cha-got-chan", "goi-dau"];
