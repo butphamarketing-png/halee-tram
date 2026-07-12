@@ -8,7 +8,8 @@
     "api/admin/*.ts": { "maxDuration": 30 },
     "api/sitemap.xml.ts": { "maxDuration": 30 },
     "api/robots.txt.ts": { "maxDuration": 30 },
-    "api/indexnow-verify.ts": { "maxDuration": 10 }
+    "api/indexnow-verify.ts": { "maxDuration": 10 },
+    "api/bot-render.ts": { "maxDuration": 30 }
   },
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },

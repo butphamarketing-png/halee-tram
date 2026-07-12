@@ -1,21 +1,19 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { fetchCmsPayload } from "../server/lib/cms-payload-server";
 import {
   buildSitemapXml,
   collectSitemapEntriesFromPayload,
   getServerSiteUrl,
 } from "../server/lib/seo-sitemap-server";
-import { getAdminClient } from "../server/lib/supabase-admin";
 
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
     let base = getServerSiteUrl();
-    let payload: Record<string, unknown> | null = null;
+    let payload = null;
 
     try {
-      const supabase = getAdminClient();
-      const { data } = await supabase.from("site_content").select("payload").eq("id", 1).maybeSingle();
-      payload = (data?.payload as Record<string, unknown> | null) ?? null;
-      const cmsUrl = (payload?.settings as { seo?: { siteUrl?: string } } | undefined)?.seo?.siteUrl?.trim();
+      payload = await fetchCmsPayload();
+      const cmsUrl = payload?.settings?.seo?.siteUrl?.trim();
       if (cmsUrl) base = cmsUrl.replace(/\/$/, "");
     } catch {
       /* static sitemap only */

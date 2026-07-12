@@ -74,6 +74,14 @@ Repo: https://github.com/butphammarketing-png/thienhoangkim
 
 Google Search Console vẫn cần submit sitemap **một lần thủ công**: `https://www.haleetram.com/sitemap.xml`
 
+### Bot preview (Facebook / Zalo / Twitter)
+
+Website là React SPA — meta tag cập nhật bằng JavaScript sau khi load. **Edge Middleware** tự phát hiện bot/crawler và trả HTML có meta đúng theo từng URL (đọc từ CMS Supabase).
+
+- Bot (Facebook, Zalo, Googlebot, Bingbot, …) → `/api/bot-render` inject meta vào `index.html`
+- Người dùng thật → SPA bình thường
+- Kiểm tra: [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) hoặc `curl -A "facebookexternalhit/1.1" https://www.haleetram.com/lam-dep/noi-mi`
+
 ## 5. Cloudflare R2 (kho ảnh — khuyến nghị)
 
 Giúp giảm băng thông Supabase. Ảnh/video admin upload qua `/api/admin/upload` sẽ lên R2 khi đủ 5 biến `R2_*`.

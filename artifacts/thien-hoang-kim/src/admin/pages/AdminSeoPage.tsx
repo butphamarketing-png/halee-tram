@@ -163,7 +163,8 @@ export function AdminSeoPage() {
           <h3 className="mb-4 font-semibold">Sitemap & Robots.txt</h3>
           <p className="mb-3 text-sm text-muted-foreground">
             Sau khi xuất bản, Google/Bing đọc sitemap ({sitemapCount} URL) và robots.txt tự động. Nếu đã cấu hình
-            `INDEXNOW_KEY` trên Vercel, mỗi lần Xuất bản sẽ tự gửi URL thay đổi cho Bing qua IndexNow.
+            `INDEXNOW_KEY` trên Vercel, mỗi lần Xuất bản sẽ tự gửi URL thay đổi cho Bing qua IndexNow. Bot Facebook/Zalo
+            nhận meta đúng theo từng trang qua Edge Middleware (không cần cấu hình thêm).
           </p>
           <div className="flex flex-wrap gap-3">
             <a
