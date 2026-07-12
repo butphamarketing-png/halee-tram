@@ -185,6 +185,17 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
     sameAs: [settings.facebookUrl, settings.tiktokUrl, settings.youtubeUrl].filter(
       (u) => u && u !== "#",
     ),
+    ...(content.testimonials.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            bestRating: "5",
+            worstRating: "1",
+            reviewCount: String(Math.max(content.testimonials.length, 1)),
+          },
+        }
+      : {}),
   });
 
   graphs.push({

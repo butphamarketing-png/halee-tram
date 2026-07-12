@@ -69,6 +69,7 @@ type CmsServiceItem = {
   label?: string;
   description?: string;
   articleSlug?: string;
+  seo?: CmsArticleSeo;
 };
 
 type SeoPayload = CmsPayload & {
@@ -213,7 +214,51 @@ function resolveServiceSeo(opts: {
   path: string;
   global: ReturnType<typeof getGlobalSeo>;
   article?: CmsArticle;
+  serviceSeo?: CmsArticleSeo;
 }): RenderedPageSeo {
+  const seo = opts.serviceSeo;
+  const hasServiceSeo =
+    Boolean(seo) &&
+    Boolean(
+      seo?.metaTitle?.trim() ||
+        seo?.metaDescription?.trim() ||
+        seo?.focusKeyphrase?.trim() ||
+        seo?.ogImage?.trim() ||
+        seo?.canonicalUrl?.trim() ||
+        seo?.noindex ||
+        seo?.nofollow,
+    );
+
+  if (hasServiceSeo && seo) {
+    const title =
+      pick(seo.metaTitle) ||
+      buildTitle(`${opts.serviceLabel} — ${opts.titleSuffix}`, opts.global.siteName, opts.global.titleSeparator);
+    const description = pick(seo.metaDescription, opts.description, opts.article?.description, opts.global.description);
+    const siteUrl = opts.global.siteUrl || getServerSiteUrl();
+    const ogImage = toAbsoluteAssetUrl(pick(seo.ogImage, opts.image, opts.article?.image, opts.global.ogImage), siteUrl);
+    const canonical = seo.canonicalUrl?.trim()
+      ? seo.canonicalUrl.startsWith("http")
+        ? seo.canonicalUrl.trim()
+        : toAbsoluteUrl(seo.canonicalUrl, siteUrl)
+      : toAbsoluteUrl(opts.path, siteUrl);
+
+    return {
+      title,
+      description,
+      keywords: pick(seo.keywords, seo.focusKeyphrase, opts.global.keywords),
+      ogTitle: pick(seo.ogTitle, seo.metaTitle, title),
+      ogDescription: pick(seo.ogDescription, seo.metaDescription, description),
+      ogImage,
+      ogUrl: canonical,
+      ogType: "website",
+      twitterCard: opts.global.twitterCard || "summary_large_image",
+      robots: buildRobotsDirective(seo, opts.global.robots || "index,follow"),
+      canonical,
+      siteName: opts.global.siteName,
+      locale: opts.global.locale || "vi_VN",
+    };
+  }
+
   if (opts.article) return resolveArticleSeo(opts.article, opts.global, opts.path);
 
   const title = buildTitle(`${opts.serviceLabel} — ${opts.titleSuffix}`, opts.global.siteName, opts.global.titleSeparator);
@@ -264,6 +309,7 @@ export function resolveRouteSeoForPayload(path: string, payload: SeoPayload | nu
         path: clean,
         global,
         article: linked,
+        serviceSeo: service.seo,
       });
     }
     return notFoundMeta(global, clean);
@@ -284,6 +330,7 @@ export function resolveRouteSeoForPayload(path: string, payload: SeoPayload | nu
         path: clean,
         global,
         article: linked,
+        serviceSeo: service.seo,
       });
     }
     return notFoundMeta(global, clean);

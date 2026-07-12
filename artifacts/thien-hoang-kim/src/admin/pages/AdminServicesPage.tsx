@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AdminField } from "@/admin/components/AdminField";
 import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
+import { AdminSeoPanel } from "@/admin/components/AdminSeoPanel";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
 import { getServiceHref } from "@/lib/site-cms";
-import type { SitePageBlock, SiteServiceCategoryId } from "@/types/site-content";
+import { getSiteBaseUrl } from "@/lib/seo-sitemap";
+import type { ArticleSeo, SitePageBlock, SiteServiceCategoryId, SiteServiceItem } from "@/types/site-content";
 
 function PageBlocksEditor({
   blocks,
@@ -73,6 +76,7 @@ export function AdminServicesPage() {
   const { content, updateContent } = useSiteContent();
   const catalog = content.serviceCatalog;
   const [activePath, setActivePath] = useState<string | null>(null);
+  const siteUrl = getSiteBaseUrl(content.settings.seo.siteUrl);
 
   const updateCategory = (id: SiteServiceCategoryId, field: "title" | "eyebrow" | "description", value: string) => {
     updateContent((p) => ({
@@ -87,10 +91,23 @@ export function AdminServicesPage() {
     }));
   };
 
-  const updateItem = (id: SiteServiceCategoryId, index: number, patch: Record<string, string>) => {
+  const updateItem = (id: SiteServiceCategoryId, index: number, patch: Partial<SiteServiceItem>) => {
     updateContent((p) => {
       const items = [...p.serviceCatalog.items[id]];
       items[index] = { ...items[index], ...patch };
+      return {
+        ...p,
+        serviceCatalog: { ...p.serviceCatalog, items: { ...p.serviceCatalog.items, [id]: items } },
+      };
+    });
+  };
+
+  const updateItemSeo = (id: SiteServiceCategoryId, index: number, key: keyof ArticleSeo, value: string | boolean) => {
+    updateContent((p) => {
+      const items = [...p.serviceCatalog.items[id]];
+      const current = items[index];
+      const seo = { ...(current.seo ?? DEFAULT_ARTICLE_SEO), [key]: value };
+      items[index] = { ...current, seo };
       return {
         ...p,
         serviceCatalog: { ...p.serviceCatalog, items: { ...p.serviceCatalog.items, [id]: items } },
@@ -117,7 +134,10 @@ export function AdminServicesPage() {
         ...p.serviceCatalog,
         items: {
           ...p.serviceCatalog.items,
-          [id]: [...p.serviceCatalog.items[id], { slug, label: "Dịch vụ mới", description: "" }],
+          [id]: [
+            ...p.serviceCatalog.items[id],
+            { slug, label: "Dịch vụ mới", description: "", seo: { ...DEFAULT_ARTICLE_SEO } },
+          ],
         },
       },
       pages: {
@@ -133,10 +153,19 @@ export function AdminServicesPage() {
     setActivePath(path);
   };
 
+  const bodyFromPage = (path: string) => {
+    const page = content.pages[path];
+    if (!page) return "";
+    return page.blocks.map((b) => [b.title ?? "", ...b.paragraphs].join(" ")).join(" ");
+  };
+
   return (
     <div className="space-y-8">
       <AdminSaveBar />
       <h2 className="font-serif text-2xl font-semibold text-primary">Dịch vụ & khóa học</h2>
+      <p className="max-w-3xl text-sm text-muted-foreground">
+        Mỗi dịch vụ / khóa học có panel SEO riêng (meta title, mô tả, từ khóa, noindex) — giống quản lý bài viết.
+      </p>
 
       {(["lam-dep", "dao-tao"] as SiteServiceCategoryId[]).map((categoryId) => (
         <section key={categoryId} className="rounded-xl border bg-white p-6 shadow-sm">
@@ -158,6 +187,7 @@ export function AdminServicesPage() {
               const path = getServiceHref(catalog, categoryId, item.slug);
               const page = content.pages[path];
               const open = activePath === path;
+              const seo = item.seo ?? DEFAULT_ARTICLE_SEO;
               return (
                 <div key={item.slug} className="rounded-lg border">
                   <button
@@ -165,7 +195,14 @@ export function AdminServicesPage() {
                     className="flex w-full items-center justify-between px-4 py-3 text-left font-medium"
                     onClick={() => setActivePath(open ? null : path)}
                   >
-                    {item.label}
+                    <span>
+                      {item.label}
+                      {seo.noindex ? (
+                        <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold uppercase text-amber-800">
+                          noindex
+                        </span>
+                      ) : null}
+                    </span>
                     <span className="text-xs text-muted-foreground">{path}</span>
                   </button>
                   {open && (
@@ -200,10 +237,31 @@ export function AdminServicesPage() {
                       {page && (
                         <>
                           <AdminField label="Tiêu đề trang" value={page.title} onChange={(v) => updatePage(path, { title: v })} />
-                          <AdminField label="Mô tả SEO" value={page.description} onChange={(v) => updatePage(path, { description: v })} multiline />
+                          <AdminField label="Mô tả trang" value={page.description} onChange={(v) => updatePage(path, { description: v })} multiline />
                           <PageBlocksEditor blocks={page.blocks} onChange={(blocks) => updatePage(path, { blocks })} />
                         </>
                       )}
+                      <AdminSeoPanel
+                        metaTitle={seo.metaTitle}
+                        metaDescription={seo.metaDescription}
+                        focusKeyphrase={seo.focusKeyphrase}
+                        keywords={seo.keywords}
+                        canonicalUrl={seo.canonicalUrl}
+                        ogImage={seo.ogImage}
+                        ogTitle={seo.ogTitle}
+                        ogDescription={seo.ogDescription}
+                        robots={seo.robots}
+                        noindex={seo.noindex}
+                        nofollow={seo.nofollow}
+                        h1={item.label}
+                        bodyText={`${item.description ?? ""} ${bodyFromPage(path)}`}
+                        slug={item.slug}
+                        hasImage={Boolean(seo.ogImage)}
+                        previewPath={path}
+                        previewUrl={`${siteUrl}${path}`}
+                        siteName={content.settings.seo.siteName}
+                        onChange={(key, value) => updateItemSeo(categoryId, i, key as keyof ArticleSeo, value)}
+                      />
                     </div>
                   )}
                 </div>

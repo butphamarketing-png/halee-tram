@@ -188,8 +188,54 @@ export function resolveServiceSeo(
     path: string;
     global: SiteSeo;
     article?: SiteArticle;
+    serviceSeo?: ArticleSeo;
   },
 ): PageSeoMeta {
+  const seo = opts.serviceSeo;
+  const hasServiceSeo =
+    Boolean(seo) &&
+    Boolean(
+      seo?.metaTitle?.trim() ||
+        seo?.metaDescription?.trim() ||
+        seo?.focusKeyphrase?.trim() ||
+        seo?.ogImage?.trim() ||
+        seo?.canonicalUrl?.trim() ||
+        seo?.noindex ||
+        seo?.nofollow,
+    );
+
+  if (hasServiceSeo && seo) {
+    const siteName = opts.global.siteName || "Halee Trâm — Nails & Lashes Studio";
+    const sep = opts.global.titleSeparator || " | ";
+    const title =
+      pick(seo.metaTitle) ||
+      buildTitle(`${opts.serviceLabel} — ${opts.titleSuffix}`, siteName, sep);
+    const description = pick(seo.metaDescription, opts.description, opts.article?.description, opts.global.description);
+    const keywords = pick(seo.keywords, seo.focusKeyphrase, opts.global.keywords);
+    const ogImage = pick(seo.ogImage, opts.image, opts.article?.image, opts.global.ogImage);
+    const ogTitle = pick(seo.ogTitle, seo.metaTitle, title);
+    const ogDescription = pick(seo.ogDescription, seo.metaDescription, description);
+    const canonical = seo.canonicalUrl?.trim()
+      ? seo.canonicalUrl.startsWith("http")
+        ? seo.canonicalUrl.trim()
+        : toAbsoluteUrl(seo.canonicalUrl, opts.global.siteUrl)
+      : toAbsoluteUrl(opts.path, opts.global.siteUrl);
+
+    return {
+      title,
+      description,
+      keywords,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      ogUrl: canonical,
+      ogType: "website",
+      twitterCard: opts.global.twitterCard || "summary_large_image",
+      robots: buildRobotsDirective(seo, opts.global.robots || "index,follow"),
+      canonical,
+    };
+  }
+
   if (opts.article) {
     return resolveArticleSeo(opts.article, opts.global, opts.path);
   }
@@ -259,6 +305,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         path: clean,
         global,
         article: linked,
+        serviceSeo: service.seo,
       });
     }
     return notFoundMeta(global, clean);
@@ -279,6 +326,7 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
         path: clean,
         global,
         article: linked,
+        serviceSeo: service.seo,
       });
     }
     return notFoundMeta(global, clean);
@@ -310,6 +358,36 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
 
   const staticPage = getPageContent(content, clean);
   if (staticPage) {
+    if (staticPage.seo) {
+      const seo = staticPage.seo;
+      const hasSeo =
+        seo.metaTitle?.trim() ||
+        seo.metaDescription?.trim() ||
+        seo.noindex ||
+        seo.nofollow ||
+        seo.focusKeyphrase?.trim();
+      if (hasSeo) {
+        const title = pick(seo.metaTitle) || buildTitle(staticPage.title, global.siteName, sep);
+        const description = pick(seo.metaDescription, staticPage.description, global.description);
+        const canonical = seo.canonicalUrl?.trim()
+          ? seo.canonicalUrl.startsWith("http")
+            ? seo.canonicalUrl.trim()
+            : toAbsoluteUrl(seo.canonicalUrl, global.siteUrl)
+          : toAbsoluteUrl(clean, global.siteUrl);
+        return {
+          ...baseFromGlobal(global, clean),
+          title,
+          description,
+          keywords: pick(seo.keywords, seo.focusKeyphrase, global.keywords),
+          ogTitle: pick(seo.ogTitle, title),
+          ogDescription: pick(seo.ogDescription, description),
+          ogImage: pick(seo.ogImage, global.ogImage),
+          ogUrl: canonical,
+          robots: buildRobotsDirective(seo, global.robots || "index,follow"),
+          canonical,
+        };
+      }
+    }
     const base = baseFromGlobal(global, clean);
     return {
       ...base,

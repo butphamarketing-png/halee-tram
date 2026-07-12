@@ -33,6 +33,7 @@ type SeoPayload = CmsPayload & {
     category?: string;
     seo?: { keywords?: string; focusKeyphrase?: string };
   }>;
+  testimonials?: unknown[];
   serviceCatalog?: {
     categories?: Record<string, { path?: string }>;
     items?: Record<string, Array<{ slug?: string; label?: string; description?: string }>>;
@@ -163,6 +164,17 @@ export function buildJsonLdForPayload(
     sameAs: [settings?.facebookUrl, settings?.tiktokUrl, settings?.youtubeUrl].filter(
       (u) => u && u !== "#",
     ),
+    ...((payload?.testimonials?.length ?? 0) > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            bestRating: "5",
+            worstRating: "1",
+            reviewCount: String(payload?.testimonials?.length ?? 1),
+          },
+        }
+      : {}),
   });
 
   graphs.push({

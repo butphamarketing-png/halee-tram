@@ -95,6 +95,23 @@ export function auditSiteContent(content: SiteContent): SeoAuditSummary {
       }
     }
 
+    const serviceMatch = path.match(/^\/(lam-dep|dao-tao)\/([^/]+)$/);
+    if (!analysis && serviceMatch) {
+      const service = getServiceItem(content, serviceMatch[1] as "lam-dep" | "dao-tao", serviceMatch[2]);
+      if (service) {
+        analysis = analyzeSeo({
+          focusKeyphrase: service.seo?.focusKeyphrase || "",
+          metaTitle: meta.title,
+          metaDescription: meta.description,
+          slug: service.slug,
+          h1: service.label,
+          bodyText: `${service.description || ""} ${service.seo?.metaDescription || ""}`,
+          hasImage: Boolean(meta.ogImage),
+          canonicalUrl: service.seo?.canonicalUrl || meta.canonical,
+        });
+      }
+    }
+
     if (!analysis) {
       analysis = analyzeSeo({
         focusKeyphrase: path === "/" ? content.settings.seo.focusKeyphrase || "" : "",

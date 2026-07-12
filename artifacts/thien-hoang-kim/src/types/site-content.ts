@@ -144,6 +144,8 @@ export type SitePageContent = {
   eyebrow?: string;
   description: string;
   blocks: SitePageBlock[];
+  /** SEO tùy chỉnh cho trang tĩnh / trang dịch vụ */
+  seo?: ArticleSeo;
 };
 
 export type SiteNavLink = {
@@ -164,6 +166,8 @@ export type SiteServiceItem = {
   label: string;
   description?: string;
   articleSlug?: string;
+  /** SEO riêng trang dịch vụ / khóa học — ưu tiên hơn auto-title */
+  seo?: ArticleSeo;
 };
 
 export type SiteServiceCategory = {

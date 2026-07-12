@@ -51,6 +51,7 @@ export function collectSitemapEntries(content: SiteContent, baseUrl: string): Si
   for (const id of ["lam-dep", "dao-tao"] as const) {
     const prefix = catalog.categories[id].path;
     for (const item of catalog.items[id]) {
+      if (item.seo?.noindex) continue;
       add(`${prefix}/${item.slug}`, 0.8);
     }
   }
@@ -58,7 +59,18 @@ export function collectSitemapEntries(content: SiteContent, baseUrl: string): Si
   for (const article of content.articles) {
     if (!article.published) continue;
     if (article.seo?.noindex) continue;
-    add(`/tin-tuc/${article.slug}`, 0.7, "monthly");
+    const lastmod = (() => {
+      const m = article.date?.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      if (!m) return today;
+      const [, d, mo, y] = m;
+      return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    })();
+    entries.push({
+      loc: `${base}/tin-tuc/${article.slug}`,
+      lastmod,
+      changefreq: "monthly",
+      priority: 0.7,
+    });
   }
 
   const seen = new Set<string>();

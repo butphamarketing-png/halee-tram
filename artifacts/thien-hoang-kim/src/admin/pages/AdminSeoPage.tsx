@@ -6,6 +6,7 @@ import { AdminSaveBar } from "@/admin/components/AdminSaveBar";
 import { AdminSeoPanel } from "@/admin/components/AdminSeoPanel";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { auditSiteContent, scoreColor, scoreLabel } from "@/lib/seo-audit";
+import { findOrphanArticleSlugs } from "@/lib/seo-internal-links";
 import { buildRobotsTxt, collectSitemapEntries, getSiteBaseUrl } from "@/lib/seo-sitemap";
 import type { SiteSeo } from "@/types/site-content";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,7 @@ export function AdminSeoPage() {
   );
   const audit = useMemo(() => auditSiteContent(content), [content]);
   const weakRows = audit.rows.filter((row) => row.score < 80).slice(0, 12);
+  const orphanSlugs = useMemo(() => findOrphanArticleSlugs(content), [content]);
 
   return (
     <div>
@@ -124,6 +126,13 @@ export function AdminSeoPage() {
             <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
               Tiêu đề trùng: {audit.duplicateTitles.slice(0, 3).join(" · ")}
               {audit.duplicateTitles.length > 3 ? " …" : ""}
+            </p>
+          )}
+          {orphanSlugs.length > 0 && (
+            <p className="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+              Bài viết ít liên kết nội bộ ({orphanSlugs.length}):{" "}
+              {orphanSlugs.slice(0, 5).map((s) => `/tin-tuc/${s}`).join(" · ")}
+              {orphanSlugs.length > 5 ? " …" : ""} — dùng gợi ý link trong trang Bài viết.
             </p>
           )}
           <div className="overflow-x-auto rounded-lg border">

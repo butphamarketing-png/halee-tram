@@ -11,6 +11,7 @@ import { useSiteContent } from "@/context/SiteContentContext";
 import { AdminSeoPanel } from "@/admin/components/AdminSeoPanel";
 import { getSiteBaseUrl } from "@/lib/seo-sitemap";
 import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
+import { suggestInternalLinks } from "@/lib/seo-internal-links";
 import { slugify } from "@/lib/slug";
 import type { ArticleSeo, SiteArticle } from "@/types/site-content";
 
@@ -224,6 +225,54 @@ export function AdminArticlesPage() {
                         siteName={content.settings.seo.siteName}
                         onChange={(key, value) => updateArticleSeo(i, key as keyof ArticleSeo, value)}
                       />
+                      {(() => {
+                        const links = suggestInternalLinks(a, content, 5);
+                        if (!links.length) return null;
+                        return (
+                          <div className="mt-4 rounded-xl border border-primary/15 bg-white p-4">
+                            <p className="mb-2 text-sm font-semibold text-primary">Gợi ý liên kết nội bộ</p>
+                            <p className="mb-3 text-xs text-muted-foreground">
+                              Chèn link vào nội dung bài để tăng topical authority (copy markdown).
+                            </p>
+                            <ul className="space-y-2">
+                              {links.map((link) => (
+                                <li key={link.href} className="flex flex-wrap items-center justify-between gap-2 text-sm">
+                                  <div>
+                                    <span className="font-medium">{link.label}</span>
+                                    <span className="ml-2 text-xs text-muted-foreground">
+                                      {link.kind === "service" ? "Dịch vụ" : "Bài viết"} · {link.reason}
+                                    </span>
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={async () => {
+                                      const md = `[${link.label}](${link.href})`;
+                                      try {
+                                        await navigator.clipboard.writeText(md);
+                                      } catch {
+                                        /* ignore */
+                                      }
+                                      const el = bodyRefs.current[a.id];
+                                      if (el) {
+                                        const start = el.selectionStart ?? el.value.length;
+                                        const end = el.selectionEnd ?? start;
+                                        const next = `${el.value.slice(0, start)}${md}${el.value.slice(end)}`;
+                                        updateArticle(i, { body: next });
+                                      } else {
+                                        updateArticle(i, { body: `${a.body}\n\n${md}` });
+                                      }
+                                    }}
+                                  >
+                                    Chèn link
+                                  </Button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })()}
                     </div>
                     <div className="md:col-span-2">
                       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">

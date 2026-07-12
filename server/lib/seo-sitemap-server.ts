@@ -13,6 +13,7 @@ type CmsArticle = {
   title?: string;
   description?: string;
   body?: string;
+  date?: string;
   seo?: {
     noindex?: boolean;
     metaTitle?: string;
@@ -25,6 +26,9 @@ type CmsServiceItem = {
   label?: string;
   description?: string;
   articleSlug?: string;
+  seo?: {
+    noindex?: boolean;
+  };
 };
 
 export type CmsPayload = {
@@ -41,12 +45,27 @@ export type CmsPayload = {
     items?: Record<string, CmsServiceItem[]>;
   };
   settings?: {
+    clinicName?: string;
+    phone?: string;
+    email?: string;
+    address?: string;
     seo?: {
       siteUrl?: string;
       robotsTxtExtra?: string;
+      llmsTxtEnabled?: boolean;
+      siteName?: string;
+      description?: string;
     };
   };
 };
+
+function parseArticleLastmod(dateStr?: string): string | undefined {
+  if (!dateStr) return undefined;
+  const m = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (!m) return undefined;
+  const [, d, mo, y] = m;
+  return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+}
 
 function sectionChanged(before: unknown, after: unknown): boolean {
   return JSON.stringify(before) !== JSON.stringify(after);
@@ -78,10 +97,15 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
   const today = new Date().toISOString().slice(0, 10);
   const entries: SitemapEntry[] = [];
 
-  const add = (path: string, priority: number, changefreq: SitemapEntry["changefreq"] = "weekly") => {
+  const add = (
+    path: string,
+    priority: number,
+    changefreq: SitemapEntry["changefreq"] = "weekly",
+    lastmod = today,
+  ) => {
     entries.push({
       loc: `${base}${path.startsWith("/") ? path : `/${path}`}`,
-      lastmod: today,
+      lastmod,
       changefreq,
       priority,
     });
@@ -109,7 +133,9 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
       const items = catalog.items[id];
       if (!prefix || !items) continue;
       for (const item of items) {
-        if (item.slug) add(`${prefix}/${item.slug}`, 0.8);
+        if (!item.slug) continue;
+        if (item.seo?.noindex) continue;
+        add(`${prefix}/${item.slug}`, 0.8);
       }
     }
   }
@@ -117,7 +143,7 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
   for (const article of payload?.articles ?? []) {
     if (!article.published || !article.slug) continue;
     if (article.seo?.noindex) continue;
-    add(`/tin-tuc/${article.slug}`, 0.7, "monthly");
+    add(`/tin-tuc/${article.slug}`, 0.7, "monthly", parseArticleLastmod(article.date) || today);
   }
 
   const seen = new Set<string>();

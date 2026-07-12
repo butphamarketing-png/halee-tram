@@ -119,8 +119,14 @@ export function mergeSiteContent(partial: Partial<SiteContent>): SiteContent {
             "dao-tao": { ...base.serviceCatalog.categories["dao-tao"], ...partial.serviceCatalog.categories?.["dao-tao"] },
           },
           items: {
-            "lam-dep": partial.serviceCatalog.items?.["lam-dep"] ?? base.serviceCatalog.items["lam-dep"],
-            "dao-tao": partial.serviceCatalog.items?.["dao-tao"] ?? base.serviceCatalog.items["dao-tao"],
+            "lam-dep": (partial.serviceCatalog.items?.["lam-dep"] ?? base.serviceCatalog.items["lam-dep"]).map((item) => ({
+              ...item,
+              seo: item.seo ? normalizeArticleSeo(item.seo) : item.seo,
+            })),
+            "dao-tao": (partial.serviceCatalog.items?.["dao-tao"] ?? base.serviceCatalog.items["dao-tao"]).map((item) => ({
+              ...item,
+              seo: item.seo ? normalizeArticleSeo(item.seo) : item.seo,
+            })),
           },
         }
       : base.serviceCatalog,
