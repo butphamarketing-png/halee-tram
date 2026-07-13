@@ -26,7 +26,7 @@ const LAM_DEP_ITEMS: ServiceCatalogItem[] = [
     description: "Tạo dáng, tô viền và định hình chân mày hài hòa với khuôn mặt.",
     articleSlug: "dinh-hinh-chan-may-chon-dang-nao",
   },
-  { slug: "cha-got-chan", label: "Chà Gót Chân", description: "Chà gót, dưỡng da chân mềm mịn và thư giãn.", articleSlug: "cham-soc-da-chan-tai-nha" },
+  { slug: "cha-got-chan", label: "Chà Gót Chân", description: "Chà gót, dưỡng da chân mềm mịn và thư giãn.", articleSlug: "cha-got-chan-dinh-ky" },
   { slug: "goi-dau", label: "Gội Đầu", description: "Gội đầu thư giãn, chăm sóc tóc và da đầu tại salon.", articleSlug: "goi-dau-thu-gian-quan-7" },
 ];
 

@@ -12,6 +12,13 @@
     "api/bot-render.ts": { "maxDuration": 30 },
     "api/llms.txt.ts": { "maxDuration": 15 }
   },
+  "redirects": [
+    {
+      "source": "/tin-tuc/cham-soc-da-chan-tai-nha",
+      "destination": "/tin-tuc/cha-got-chan-dinh-ky",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/api/robots.txt" },

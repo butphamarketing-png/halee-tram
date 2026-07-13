@@ -1,5 +1,5 @@
 import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
-import type { SiteArticle } from "@/types/site-content";
+import type { ArticleSeo, SiteArticle } from "@/types/site-content";
 
 const publicAsset = (file: string) =>
   `${import.meta.env.BASE_URL}${encodeURI(file)}`.replace(/([^:]\/)\/+/g, "$1");
@@ -7,6 +7,132 @@ const publicAsset = (file: string) =>
 const handbookImg = publicAsset("gioithieu.1.png");
 const slide = handbookImg;
 const intro = handbookImg;
+
+type ArticleSeoFields = Pick<ArticleSeo, "metaTitle" | "metaDescription" | "focusKeyphrase">;
+
+/** Meta title ≤60 ký tự, meta description 120–160 ký tự, focus keyphrase theo kế hoạch SEO */
+const ARTICLE_SEO: Record<string, ArticleSeoFields> = {
+  a1: {
+    focusKeyphrase: "nối mi classic hay volume",
+    metaTitle: "Nối mi Classic hay Volume — nên chọn loại nào? | Halee Trâm",
+    metaDescription:
+      "So sánh nối mi classic, volume và hybrid — ưu nhược điểm, form mắt phù hợp từng dáng. Tư vấn miễn phí tại Halee Trâm Quận 7. Gọi 0938 162 662 đặt lịch.",
+  },
+  a2: {
+    focusKeyphrase: "sơn gel bền bao lâu",
+    metaTitle: "Sơn gel bền bao lâu? Mẹo giữ móng đẹp | Halee Trâm",
+    metaDescription:
+      "Sơn gel giữ màu 2–3 tuần với chăm sóc đúng cách. Bí quyết giữ móng bền, tránh bong gel và gỡ gel an toàn tại salon nails Quận 7 Halee Trâm. Đặt lịch ngay.",
+  },
+  a3: {
+    focusKeyphrase: "uốn mi có đau không",
+    metaTitle: "Uốn mi có đau không? Ai nên uốn mi? | Halee Trâm",
+    metaDescription:
+      "Uốn mi (lash lift) êm nhẹ, giữ cong 6–8 tuần — phù hợp mi thật dài, thích vẻ tự nhiên. Quy trình và chăm sóc sau uốn tại Halee Trâm Quận 7. Gọi 0938 162 662.",
+  },
+  a4: {
+    focusKeyphrase: "định hình chân mày",
+    metaTitle: "Định hình chân mày — chọn dáng hợp mặt | Halee Trâm",
+    metaDescription:
+      "Bí quyết chọn dáng chân mày ngang, cong hay sắc nét theo khuôn mặt tròn, dài, vuông. Wax, tô viền, shading tại Halee Trâm Quận 7. Đặt lịch 0938 162 662.",
+  },
+  a5: {
+    focusKeyphrase: "khóa nối mi salon",
+    metaTitle: "Khóa nối mi salon học gì? Lộ trình ra nghề | Halee Trâm",
+    metaDescription:
+      "Khóa nối mi salon: classic, volume, vệ sinh, remo, chăm sóc khách. Thực hành model thật, cấp chứng nhận, hỗ trợ mở tiệm tại Halee Trâm Quận 7. Gọi 0938 162 662.",
+  },
+  a6: {
+    focusKeyphrase: "chà gót chân Quận 7",
+    metaTitle: "Chà gót chân định kỳ — vì sao nên làm? | Halee Trâm",
+    metaDescription:
+      "Chà gót chân chuyên nghiệp giúp da gót mềm, hạn chế nứt nẻ và đau chân. Spa chân tại Halee Trâm Quận 7 — nên duy trì 3–4 tuần/lần. Đặt lịch 0938 162 662.",
+  },
+  a7: {
+    focusKeyphrase: "gội đầu thư giãn Quận 7",
+    metaTitle: "Gội đầu thư giãn Quận 7 — massage da đầu | Halee Trâm",
+    metaDescription:
+      "Gội đầu kết hợp massage da đầu giúp giảm căng thẳng, tóc bồng óng hơn. Dịch vụ thư giãn sau giờ làm tại Halee Trâm 793/62 Trần Xuân Soạn. Đặt lịch 0938 162 662.",
+  },
+  a8: {
+    focusKeyphrase: "khóa nail chuyên nghiệp",
+    metaTitle: "Khóa nail chuyên nghiệp — bao lâu ra nghề? | Halee Trâm",
+    metaDescription:
+      "Học nail cơ bản đến nâng cao: sơn gel, ombre, nail art. Trung bình 4–8 tuần tự tin nhận khách. Lớp nhỏ, thực hành model tại Halee Trâm Quận 7. Gọi 0938 162 662.",
+  },
+  a9: {
+    focusKeyphrase: "khóa nối mi định cư",
+    metaTitle: "Khóa nối mi định cư — chuẩn quốc tế | Halee Trâm",
+    metaDescription:
+      "Khóa nối mi định cư chuẩn quốc tế — volume, mega volume, portfolio, mock test. Halee Trâm Quận 7 giảng trực tiếp, hỗ trợ hồ sơ nghề. Gọi 0938 162 662.",
+  },
+  a10: {
+    focusKeyphrase: "khóa chăm sóc móng",
+    metaTitle: "Khóa chăm sóc móng — ai nên học? | Halee Trâm",
+    metaDescription:
+      "Học dưỡng móng, cuticle, phục hồi móng yếu và tư vấn liệu trình 4–6 tuần. Bổ trợ hoàn hảo cho thợ nails và chủ spa. Halee Trâm Quận 7 — đăng ký 0938 162 662.",
+  },
+  a11: {
+    focusKeyphrase: "khóa định hình chân mày",
+    metaTitle: "Khóa định hình chân mày — lộ trình thực hành | Halee Trâm",
+    metaDescription:
+      "Học đo tỷ lệ vàng, wax/chỉ tạo dáng, shading và phun nhẹ trên model thật. Lớp nhỏ, cấp chứng nhận, hỗ trợ portfolio. Halee Trâm Academy Quận 7 — 0938 162 662.",
+  },
+  a12: {
+    focusKeyphrase: "khóa uốn mi",
+    metaTitle: "Khóa uốn mi — mở dịch vụ salon nhanh | Halee Trâm",
+    metaDescription:
+      "Học lash lift an toàn: chọn pad, thuốc uốn, nhuộm mi và xử lý lỗi. Triển khai dịch vụ ngay tại tiệm sau khóa học. Khóa uốn mi Halee Trâm Quận 7 — 0938 162 662.",
+  },
+  a13: {
+    focusKeyphrase: "xu hướng nail art 2026",
+    metaTitle: "Xu hướng nail art 2026 — 5 style hot | Halee Trâm",
+    metaDescription:
+      "5 xu hướng nail 2026: clean girl, aura gradient, chrome, french đen, đá tinh tế. Đặt lịch nail art Halee Trâm Quận 7 — tư vấn design miễn phí. Gọi 0938 162 662.",
+  },
+  a14: {
+    focusKeyphrase: "chăm sóc mi sau nối",
+    metaTitle: "Chăm sóc mi sau nối — 5 điều cần nhớ | Halee Trâm",
+    metaDescription:
+      "Giữ mi nối bền 3–4 tuần: tránh nước 48h đầu, chải mi đúng cách, tẩy trang không dầu và remo an toàn. Mẹo từ chuyên viên Halee Trâm Quận 7. Bảo hành 7 ngày.",
+  },
+  a15: {
+    focusKeyphrase: "salon nối mi uy tín Quận 7",
+    metaTitle: "Chọn salon nối mi uy tín Quận 7 | Halee Trâm",
+    metaDescription:
+      "Checklist chọn salon nối mi: vệ sinh dụng cụ, mi keo chính hãng, ảnh khách thật, bảo hành và remo an toàn. Halee Trâm Quận 7 — đặt lịch 0938 162 662.",
+  },
+  a16: {
+    focusKeyphrase: "combo nails nối mi",
+    metaTitle: "Combo nails + nối mi — tiết kiệm thời gian | Halee Trâm",
+    metaDescription:
+      "Làm nails và nối mi (hoặc uốn mi) trong cùng một buổi tại Halee Trâm Quận 7. Gợi ý lịch trình 2–3 giờ và combo phổ biến. Gọi 0938 162 662 đặt lịch cuối tuần.",
+  },
+  a17: {
+    focusKeyphrase: "uốn mi hay nối mi",
+    metaTitle: "Uốn mi hay nối mi — nên chọn gì? | Halee Trâm",
+    metaDescription:
+      "So sánh uốn mi và nối mi: chi phí, thời gian bảo trì, vẻ ngoài tự nhiên vs đậm. Tư vấn miễn phí theo form mắt tại Halee Trâm Quận 7. Hotline 0938 162 662.",
+  },
+  a18: {
+    focusKeyphrase: "mở tiệm nail tại nhà",
+    metaTitle: "Mở tiệm nail tại nhà — cần chuẩn bị gì? | Halee Trâm",
+    metaDescription:
+      "Checklist mở tiệm nail nhỏ: dụng cụ tối thiểu, tiệt trùng, pháp lý, marketing TikTok/Instagram. Tư vấn miễn phí cho học viên Halee Trâm Quận 7 sau tốt nghiệp.",
+  },
+  a19: {
+    focusKeyphrase: "nail ombre",
+    metaTitle: "Nail ombre — gợi ý phối màu đẹp | Halee Trâm",
+    metaDescription:
+      "Gợi ý phối màu nail ombre gel: nude, hồng baby, đen bóng và cam đào. Kỹ thuật gradient chuẩn salon, 60–75 phút. Đặt lịch nails Halee Trâm Quận 7 — 0938 162 662.",
+  },
+  a20: {
+    focusKeyphrase: "đặt lịch Halee Trâm",
+    metaTitle: "Đặt lịch Halee Trâm — 3 cách nhanh nhất | Halee Trâm",
+    metaDescription:
+      "Hướng dẫn đặt lịch online qua form website, hotline 0938 162 662 hoặc nhắn tin Facebook/TikTok. Xác nhận trong 15 phút. 793/62 Trần Xuân Soạn, Quận 7, TP.HCM.",
+  },
+};
 
 function article(
   id: string,
@@ -18,6 +144,7 @@ function article(
   image = slide,
   category = "Kiến thức",
 ): SiteArticle {
+  const seoFields = ARTICLE_SEO[id];
   return {
     id,
     slug,
@@ -28,7 +155,7 @@ function article(
     description,
     body,
     published: true,
-    seo: { ...DEFAULT_ARTICLE_SEO },
+    seo: { ...DEFAULT_ARTICLE_SEO, ...seoFields },
   };
 }
 
@@ -105,7 +232,7 @@ Lịch học linh hoạt, lớp ghép nhỏ để sát sao từng học viên. L
   ),
   article(
     "a6",
-    "cham-soc-da-chan-tai-nha",
+    "cha-got-chan-dinh-ky",
     "Chà gót chân định kỳ — vì sao nên làm mỗi tháng?",
     "22/04/2026",
     "Gót khô, nứt nẻ không chỉ mất thẩm mỹ mà còn dễ đau khi đi lại. Spa chân giúp phục hồi mềm mại.",

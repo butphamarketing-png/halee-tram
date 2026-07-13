@@ -22,7 +22,7 @@ const articles = [
   "uon-mi-co-dau-khong",
   "dinh-hinh-chan-may-chon-dang-nao",
   "khoa-noi-mi-salon-co-gi",
-  "cham-soc-da-chan-tai-nha",
+  "cha-got-chan-dinh-ky",
   "goi-dau-thu-gian-quan-7",
   "khoa-nail-chuyen-nghiep-ra-nghe",
   "khoa-noi-mi-dinh-cu-hoc-gi",
