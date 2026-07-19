@@ -1,4 +1,5 @@
 import { SERVICE_PAGE_COPY } from "@/data/service-pages.defaults";
+import { getServiceSeoDefault } from "@/data/service-seo.defaults";
 import {
   SERVICE_CATEGORIES,
   SERVICE_ITEMS,
@@ -47,8 +48,14 @@ export const DEFAULT_SERVICE_CATALOG: SiteServiceCatalog = {
     "dao-tao": { ...SERVICE_CATEGORIES["dao-tao"] },
   },
   items: {
-    "lam-dep": SERVICE_ITEMS["lam-dep"].map((item) => ({ ...item })),
-    "dao-tao": SERVICE_ITEMS["dao-tao"].map((item) => ({ ...item })),
+    "lam-dep": SERVICE_ITEMS["lam-dep"].map((item) => ({
+      ...item,
+      seo: getServiceSeoDefault(getServiceHref("lam-dep", item.slug)),
+    })),
+    "dao-tao": SERVICE_ITEMS["dao-tao"].map((item) => ({
+      ...item,
+      seo: getServiceSeoDefault(getServiceHref("dao-tao", item.slug)),
+    })),
   },
 };
 

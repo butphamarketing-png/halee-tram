@@ -430,31 +430,207 @@ function buildPageList() {
   return pages;
 }
 
+const SERVICE_COPY = {
+  "/lam-dep/nails":
+    "Dịch vụ Nails tại Halee Trâm mang đến bộ móng bền màu, thiết kế tinh tế và quy trình vệ sinh chuẩn salon. Sơn gel nhập chính hãng, giữ màu 2–3 tuần. Cập nhật ombre, đá, chrome và móng clean girl phù hợp công sở lẫn dự tiệc.",
+  "/lam-dep/noi-mi":
+    "Nối mi classic, volume và hybrid tại Halee Trâm. Phân tích form mắt và phong cách makeup để chọn độ dày, độ cong phù hợp. Mi cao cấp, keo không cay, bảo hành chỉnh mi 7 ngày đầu. Thời gian làm khoảng 90–120 phút.",
+  "/lam-dep/uon-mi":
+    "Uốn mi (lash lift) giữ cong 6–8 tuần trên mi thật — phù hợp ai muốn mắt to, sáng mà không nối sợi. Có thể kết hợp nhuộm đen mi. Tránh ướt mi và xông hơi 24 giờ đầu.",
+  "/lam-dep/dinh-hinh-chan-may":
+    "Định hình chân mày theo tỷ lệ vàng khuôn mặt: wax/chỉ, tô viền, shading. Sản phẩm an toàn, không kích ứng. Giúp khuôn mặt cân đối và trẻ trung hơn.",
+  "/lam-dep/cha-got-chan":
+    "Chà gót chân loại bỏ da già, ngăn nứt nẻ, ngâm thảo dược và massage thư giãn. Dụng cụ riêng, tiệt trùng sau mỗi khách. Nên duy trì 3–4 tuần/lần.",
+  "/lam-dep/goi-dau":
+    "Gội đầu kết hợp massage da đầu giảm căng thẳng, kích thích tuần hoàn. Có thể combo cùng nails hoặc nối mi trong một buổi tại Quận 7.",
+  "/dao-tao/khoa-noi-mi-salon":
+    "Khóa nối mi salon: classic, volume, vệ sinh, remo, chăm sóc khách. Thực hành model thật, cấp chứng nhận, hỗ trợ mở tiệm. Lớp nhỏ tại Halee Trâm Quận 7.",
+  "/dao-tao/khoa-noi-mi-dinh-cu":
+    "Khóa nối mi định cư chuẩn quốc tế — volume, mega volume, portfolio và mock test. Phù hợp học viên hướng thị trường nước ngoài hoặc salon cao cấp.",
+  "/dao-tao/khoa-nail-chuyen-nghiep":
+    "Học nail cơ bản đến nâng cao: sơn gel, ombre, nail art. Trung bình 4–8 tuần ra nghề. Tư vấn dụng cụ, định giá và portfolio.",
+  "/dao-tao/khoa-cham-soc-mong":
+    "Chuyên sâu dưỡng móng, cuticle, phục hồi móng yếu — bổ trợ thợ nails và chủ spa muốn thêm dịch vụ chăm sóc.",
+  "/dao-tao/khoa-dinh-hinh-chan-may":
+    "Học đo tỷ lệ vàng, wax/chỉ, shading trên model thật. Lớp nhỏ, cấp chứng nhận tại Halee Trâm Academy.",
+  "/dao-tao/khoa-hoc-uon-mi":
+    "Học lash lift an toàn: chọn pad, thuốc uốn, nhuộm mi. Mở thêm dịch vụ salon nhanh với vốn đầu tư thấp.",
+};
+
+function relatedLinks(path) {
+  const links = [
+    { href: "/lam-dep", label: "Dịch vụ làm đẹp" },
+    { href: "/dao-tao", label: "Khóa đào tạo" },
+    { href: "/bang-gia", label: "Bảng giá" },
+    { href: "/tin-tuc", label: "Tin tức & kiến thức" },
+    { href: "/lien-he", label: "Đặt lịch" },
+  ];
+  if (path.startsWith("/lam-dep/") && path !== "/lam-dep") {
+    links.unshift({ href: "/lam-dep/noi-mi", label: "Nối mi" });
+    links.unshift({ href: "/lam-dep/nails", label: "Nails" });
+  }
+  if (path.startsWith("/dao-tao/") && path !== "/dao-tao") {
+    links.unshift({ href: "/dao-tao/khoa-noi-mi-salon", label: "Khóa nối mi salon" });
+    links.unshift({ href: "/dao-tao/khoa-nail-chuyen-nghiep", label: "Khóa nail" });
+  }
+  if (path.startsWith("/tin-tuc/")) {
+    links.unshift({ href: "/lam-dep/noi-mi", label: "Dịch vụ nối mi" });
+    links.unshift({ href: "/lam-dep/nails", label: "Dịch vụ nails" });
+  }
+  const seen = new Set();
+  return links.filter((l) => {
+    if (l.href === path || seen.has(l.href)) return false;
+    seen.add(l.href);
+    return true;
+  }).slice(0, 6);
+}
+
+function buildBreadcrumbs(path, h1) {
+  const crumbs = [{ name: "Trang chủ", url: `${baseUrl}/` }];
+  if (path === "/") return crumbs;
+  if (path.startsWith("/lam-dep")) {
+    crumbs.push({ name: "Làm đẹp", url: `${baseUrl}/lam-dep` });
+  } else if (path.startsWith("/dao-tao")) {
+    crumbs.push({ name: "Đào tạo", url: `${baseUrl}/dao-tao` });
+  } else if (path.startsWith("/tin-tuc")) {
+    crumbs.push({ name: "Tin tức", url: `${baseUrl}/tin-tuc` });
+  } else if (path.startsWith("/gioi-thieu")) {
+    crumbs.push({ name: "Giới thiệu", url: `${baseUrl}/gioi-thieu` });
+  }
+  if (path !== "/lam-dep" && path !== "/dao-tao" && path !== "/tin-tuc" && path !== "/gioi-thieu") {
+    crumbs.push({ name: h1, url: `${baseUrl}${path}` });
+  }
+  return crumbs;
+}
+
+function buildJsonLd(page, canonical) {
+  const orgId = `${baseUrl}/#organization`;
+  const siteId = `${baseUrl}/#website`;
+  const graphs = [];
+
+  graphs.push({
+    "@type": ["BeautySalon", "LocalBusiness"],
+    "@id": orgId,
+    name: "Halee Trâm",
+    alternateName: siteName,
+    description:
+      "Eyelash / Nail / Academy tại Quận 7 — nails, nối mi, uốn mi, định hình chân mày và đào tạo nghề.",
+    url: baseUrl,
+    image: defaultOg,
+    telephone: "+84938162662",
+    email: "haleetram@gmail.com",
+    priceRange: "$$",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "793/62 Trần Xuân Soạn, Phường Tân Hưng",
+      addressLocality: "Quận 7",
+      addressRegion: "TP. Hồ Chí Minh",
+      postalCode: "700000",
+      addressCountry: "VN",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 10.7415,
+      longitude: 106.702,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "09:00",
+        closes: "20:00",
+      },
+    ],
+    areaServed: {
+      "@type": "City",
+      name: "Quận 7, TP. Hồ Chí Minh",
+    },
+  });
+
+  graphs.push({
+    "@type": "WebSite",
+    "@id": siteId,
+    url: baseUrl,
+    name: siteName,
+    publisher: { "@id": orgId },
+    inLanguage: "vi-VN",
+  });
+
+  const crumbs = buildBreadcrumbs(page.path, page.h1);
+  if (crumbs.length > 1) {
+    graphs.push({
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: crumbs.map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: c.name,
+        item: c.url,
+      })),
+    });
+  }
+
+  if (page.ogType === "article") {
+    graphs.push({
+      "@type": "Article",
+      "@id": `${canonical}#article`,
+      headline: page.h1,
+      description: page.description,
+      url: canonical,
+      image: defaultOg,
+      inLanguage: "vi-VN",
+      isPartOf: { "@id": siteId },
+      publisher: { "@id": orgId },
+      mainEntityOfPage: canonical,
+    });
+  } else if (page.path.startsWith("/dao-tao/") && page.path !== "/dao-tao") {
+    graphs.push({
+      "@type": "Course",
+      "@id": `${canonical}#course`,
+      name: page.h1,
+      description: page.description,
+      url: canonical,
+      provider: { "@id": orgId },
+      inLanguage: "vi-VN",
+    });
+  } else if (page.path.startsWith("/lam-dep/") && page.path !== "/lam-dep") {
+    graphs.push({
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: page.h1,
+      description: page.description,
+      url: canonical,
+      provider: { "@id": orgId },
+      areaServed: "Quận 7, TP. Hồ Chí Minh",
+    });
+  }
+
+  graphs.push({
+    "@type": "WebPage",
+    "@id": `${canonical}#webpage`,
+    url: canonical,
+    name: page.title,
+    description: page.description,
+    isPartOf: { "@id": siteId },
+    about: page.path === "/" ? { "@id": orgId } : undefined,
+    breadcrumb: crumbs.length > 1 ? { "@id": `${canonical}#breadcrumb` } : undefined,
+    inLanguage: "vi-VN",
+  });
+
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": graphs,
+  });
+}
+
 function injectSeo(html, page) {
   const canonical = `${baseUrl}${page.path === "/" ? "/" : page.path}`;
   const ogType = page.ogType || "website";
-  const jsonLd = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": page.ogType === "article" ? "Article" : "WebPage",
-    name: page.h1,
-    headline: page.h1,
-    description: page.description,
-    url: canonical,
-    isPartOf: { "@type": "WebSite", name: siteName, url: baseUrl },
-    publisher: {
-      "@type": "BeautySalon",
-      name: "Halee Trâm",
-      url: baseUrl,
-      telephone: "+84938162662",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "793/62 Trần Xuân Soạn",
-        addressLocality: "Quận 7",
-        addressRegion: "TP. Hồ Chí Minh",
-        addressCountry: "VN",
-      },
-    },
-  });
+  const jsonLd = buildJsonLd(page, canonical);
+  const longBody = SERVICE_COPY[page.path] || page.body;
+  const links = relatedLinks(page.path)
+    .map((l) => `<li><a href="${baseUrl}${l.href}">${escapeHtml(l.label)}</a></li>`)
+    .join("");
 
   let out = html
     .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(page.title)}</title>`)
@@ -470,6 +646,8 @@ function injectSeo(html, page) {
   const tags = [
     `<meta name="description" content="${escapeHtml(page.description)}" />`,
     `<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />`,
+    `<meta name="geo.region" content="VN-SG" />`,
+    `<meta name="geo.placename" content="Quận 7, TP. Hồ Chí Minh" />`,
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
     `<meta property="og:site_name" content="${escapeHtml(siteName)}" />`,
     `<meta property="og:title" content="${escapeHtml(page.title)}" />`,
@@ -477,6 +655,7 @@ function injectSeo(html, page) {
     `<meta property="og:type" content="${escapeHtml(ogType)}" />`,
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
     `<meta property="og:image" content="${escapeHtml(defaultOg)}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(page.h1)}" />`,
     `<meta property="og:locale" content="vi_VN" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(page.title)}" />`,
@@ -487,7 +666,14 @@ function injectSeo(html, page) {
 
   out = out.replace(/<\/head>/i, `    ${tags}\n  </head>`);
 
-  const ssr = `<main id="thk-ssr-content"><h1>${escapeHtml(page.h1)}</h1><p>${escapeHtml(page.body)}</p><p><a href="${baseUrl}/lien-he">Đặt lịch Halee Trâm</a> — Hotline 0938 162 662</p></main>`;
+  const ssr = `<main id="thk-ssr-content">
+      <h1>${escapeHtml(page.h1)}</h1>
+      <p>${escapeHtml(longBody)}</p>
+      <p>${escapeHtml(page.body)}</p>
+      <p><strong>Địa chỉ:</strong> 793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP.HCM — <strong>Hotline:</strong> <a href="tel:0938162662">0938 162 662</a></p>
+      <nav aria-label="Liên kết liên quan"><ul>${links}</ul></nav>
+      <p><a href="${baseUrl}/lien-he">Đặt lịch Halee Trâm ngay</a></p>
+    </main>`;
   if (/<div id="root"><\/div>/i.test(out)) {
     out = out.replace(/<div id="root"><\/div>/i, `<div id="root"></div>\n    ${ssr}`);
   } else {

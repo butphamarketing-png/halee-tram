@@ -472,10 +472,10 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
   return baseFromGlobal(global, clean === "/" ? "/" : clean);
 }
 
-function setMetaName(name: string, content: string) {
+function setMetaName(name: string, content: string, clearIfEmpty = false) {
   let el = document.querySelector(`meta[name="${name}"]`);
   if (!content) {
-    el?.remove();
+    if (clearIfEmpty) el?.remove();
     return;
   }
   if (!el) {
@@ -486,10 +486,10 @@ function setMetaName(name: string, content: string) {
   el.setAttribute("content", content);
 }
 
-function setMetaProperty(property: string, content: string) {
+function setMetaProperty(property: string, content: string, clearIfEmpty = false) {
   let el = document.querySelector(`meta[property="${property}"]`);
   if (!content) {
-    el?.remove();
+    if (clearIfEmpty) el?.remove();
     return;
   }
   if (!el) {
@@ -559,12 +559,12 @@ export function applyPageSeo(ctx: SchemaContext, content: SiteContent) {
       articlePublished = `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
     }
   }
-  setMetaProperty("article:published_time", articlePublished);
-  setMetaProperty("article:modified_time", articlePublished);
-  setMetaProperty("article:section", meta.ogType === "article" ? ctx.article?.category || "" : "");
-  setMetaProperty("article:author", meta.ogType === "article" ? content.settings.clinicName : "");
+  setMetaProperty("article:published_time", articlePublished, true);
+  setMetaProperty("article:modified_time", articlePublished, true);
+  setMetaProperty("article:section", meta.ogType === "article" ? ctx.article?.category || "" : "", true);
+  setMetaProperty("article:author", meta.ogType === "article" ? content.settings.clinicName : "", true);
 
-  setMetaProperty("fb:app_id", global.facebookAppId);
+  setMetaProperty("fb:app_id", global.facebookAppId, true);
 
   setMetaName("twitter:card", meta.twitterCard);
   setMetaName("twitter:title", meta.ogTitle);
