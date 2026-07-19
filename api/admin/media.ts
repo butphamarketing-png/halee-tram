@@ -1,9 +1,10 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "../_lib/http";
+import { readJsonBody } from "../_lib/http";
 import { isAllowedMedia, safeMediaFilename } from "../../server/lib/media-utils";
 import { listMedia, removeMedia } from "../../server/lib/media-storage";
 import { isAdminAuthed } from "../../server/lib/verify-auth";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (!isAdminAuthed(req)) {
     res.status(401).json({ error: "Unauthorized" });
     return;
@@ -12,19 +13,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === "GET") {
       const items = (await listMedia()).filter((item) => isAllowedMedia(item.name));
-      res.status(200).json(
-        items.map(({ name, url, type }) => ({ name, url, type })),
-      );
+      res.status(200).json(items.map(({ name, url, type }) => ({ name, url, type })));
       return;
     }
 
     if (req.method === "DELETE") {
+      const body = readJsonBody<{ name?: string }>(req);
       const name =
-        typeof req.query.name === "string"
-          ? req.query.name
-          : typeof req.body === "object" && req.body?.name
-            ? String(req.body.name)
-            : "";
+        typeof req.query?.name === "string" ? req.query.name : body?.name ? String(body.name) : "";
 
       const safeName = safeMediaFilename(name);
       if (!safeName || !isAllowedMedia(safeName)) {

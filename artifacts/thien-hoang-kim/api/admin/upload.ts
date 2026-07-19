@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "../_lib/http";
+import { readJsonBody } from "../_lib/http";
 import { isAllowedMedia, safeMediaFilename } from "../../server/lib/media-utils";
 import { storeMedia } from "../../server/lib/media-storage";
 import { isAdminAuthed } from "../../server/lib/verify-auth";
@@ -11,7 +12,7 @@ export const config = {
   },
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -23,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const body = readJsonBody<{ filename?: string; data?: string }>(req);
     const filename = safeMediaFilename(String(body.filename ?? "file"));
     const data = String(body.data ?? "");
 

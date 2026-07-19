@@ -1,8 +1,9 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "../_lib/http";
+import { readJsonBody } from "../_lib/http";
 import { getAdminClient } from "../../server/lib/supabase-admin";
 import { isAdminAuthed } from "../../server/lib/verify-auth";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (!isAdminAuthed(req)) {
     res.status(401).json({ error: "Unauthorized" });
     return;
@@ -26,18 +27,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === "PUT") {
-      const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-      const bookings = body as Array<{
-        id: string;
-        name: string;
-        phone: string;
-        service: string;
-        date: string;
-        notes?: string;
-        status: string;
-        created_at?: string;
-        createdAt?: string;
-      }>;
+      const bookings = readJsonBody<
+        Array<{
+          id: string;
+          name: string;
+          phone: string;
+          service: string;
+          date: string;
+          notes?: string;
+          status: string;
+          created_at?: string;
+          createdAt?: string;
+        }>
+      >(req);
 
       for (const b of bookings) {
         await supabase.from("bookings").upsert({
@@ -57,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === "PATCH") {
-      const { id, status } = req.body as { id: string; status: string };
+      const { id, status } = readJsonBody<{ id: string; status: string }>(req);
       const { error } = await supabase.from("bookings").update({ status }).eq("id", id);
       if (error) {
         res.status(500).json({ error: error.message });
@@ -68,7 +70,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === "DELETE") {
-      const id = (req.query.id as string) ?? req.body?.id;
+      const body = readJsonBody<{ id?: string }>(req);
+      const id = (typeof req.query?.id === "string" ? req.query.id : undefined) ?? body?.id;
       const { error } = await supabase.from("bookings").delete().eq("id", id);
       if (error) {
         res.status(500).json({ error: error.message });

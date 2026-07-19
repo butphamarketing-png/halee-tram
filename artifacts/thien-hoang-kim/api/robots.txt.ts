@@ -1,15 +1,13 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
 import { buildRobotsTxt, getServerSiteUrl } from "../server/lib/seo-sitemap-server";
-import { getAdminClient } from "../server/lib/supabase-admin";
+import { fetchCmsPayload } from "../server/lib/cms-payload-server";
 
-export default async function handler(_req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: ApiRequest, res: ApiResponse) {
   let base = getServerSiteUrl();
   let extra = "";
 
   try {
-    const supabase = getAdminClient();
-    const { data } = await supabase.from("site_content").select("payload").eq("id", 1).maybeSingle();
-    const payload = data?.payload as { settings?: { seo?: { siteUrl?: string; robotsTxtExtra?: string } } } | null;
+    const payload = await fetchCmsPayload();
     const cmsUrl = payload?.settings?.seo?.siteUrl?.trim();
     if (cmsUrl) base = cmsUrl.replace(/\/$/, "");
     extra = payload?.settings?.seo?.robotsTxtExtra?.trim() ?? "";

@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
+import { readJsonBody } from "./_lib/http";
 import { getAdminClient } from "../server/lib/supabase-admin";
 import { isEmailConfigured, sendBookingNotification } from "../server/lib/send-email";
 
@@ -16,14 +17,14 @@ function cleanText(value: unknown, maxLen: number): string {
     .slice(0, maxLen);
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
 
   try {
-    const body = (typeof req.body === "string" ? JSON.parse(req.body) : req.body) as BookingBody;
+    const body = readJsonBody<BookingBody>(req);
 
     const name = cleanText(body.name, 120);
     const phone = cleanText(body.phone, 20);

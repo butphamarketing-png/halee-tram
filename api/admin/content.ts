@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "../_lib/http";
+import { readJsonBody } from "../_lib/http";
 import { pingGoogleSitemap } from "../../server/lib/google-sitemap-ping";
 import { submitIndexNow } from "../../server/lib/indexnow";
 import {
@@ -9,7 +10,7 @@ import {
 import { getAdminClient } from "../../server/lib/supabase-admin";
 import { isAdminAuthed } from "../../server/lib/verify-auth";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   try {
     const supabase = getAdminClient();
 
@@ -35,10 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return;
       }
 
-      const payload =
-        typeof req.body === "string"
-          ? (JSON.parse(req.body) as CmsPayload)
-          : (req.body as CmsPayload);
+      const payload = readJsonBody<CmsPayload>(req);
 
       const { data: existing } = await supabase
         .from("site_content")

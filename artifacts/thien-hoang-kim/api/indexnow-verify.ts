@@ -1,6 +1,6 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
 
-export default async function handler(_req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: ApiRequest, res: ApiResponse) {
   try {
     const key = process.env.INDEXNOW_KEY?.trim();
     if (!key) {

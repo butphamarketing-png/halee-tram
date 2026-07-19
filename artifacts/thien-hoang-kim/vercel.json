@@ -1,16 +1,14 @@
 {
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --shamefully-hoist",
   "buildCommand": "cd ../.. && pnpm --filter @workspace/thien-hoang-kim build",
   "outputDirectory": "dist/public",
   "framework": null,
   "functions": {
-    "api/bookings.ts": { "maxDuration": 30 },
-    "api/admin/*.ts": { "maxDuration": 30 },
-    "api/sitemap.xml.ts": { "maxDuration": 30 },
-    "api/robots.txt.ts": { "maxDuration": 30 },
-    "api/indexnow-verify.ts": { "maxDuration": 10 },
-    "api/bot-render.ts": { "maxDuration": 30 },
-    "api/llms.txt.ts": { "maxDuration": 15 }
+    "api/**/*.ts": {
+      "maxDuration": 30,
+      "memory": 1024,
+      "includeFiles": "server/**"
+    }
   },
   "redirects": [
     {

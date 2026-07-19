@@ -1,4 +1,4 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
 import { fetchCmsPayload } from "../server/lib/cms-payload-server";
 import {
   buildSitemapXml,
@@ -6,7 +6,7 @@ import {
   getServerSiteUrl,
 } from "../server/lib/seo-sitemap-server";
 
-export default async function handler(_req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: ApiRequest, res: ApiResponse) {
   try {
     let base = getServerSiteUrl();
     let payload = null;
@@ -26,7 +26,6 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
     res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
     res.status(200).send(xml);
   } catch (err) {
-    // Never leave Google without a sitemap — fall back to static entries.
     const base = getServerSiteUrl();
     const xml = buildSitemapXml(collectSitemapEntriesFromPayload(null, base));
     res.setHeader("Content-Type", "application/xml; charset=utf-8");

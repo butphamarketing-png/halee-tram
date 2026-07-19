@@ -1,16 +1,14 @@
 {
-  "installCommand": "pnpm install",
+  "installCommand": "pnpm install --shamefully-hoist",
   "buildCommand": "node scripts/sync-vercel-api.mjs && pnpm --filter @workspace/thien-hoang-kim build",
   "outputDirectory": "artifacts/thien-hoang-kim/dist/public",
   "framework": null,
   "functions": {
-    "api/bookings.ts": { "maxDuration": 30 },
-    "api/admin/*.ts": { "maxDuration": 30 },
-    "api/sitemap.xml.ts": { "maxDuration": 30 },
-    "api/robots.txt.ts": { "maxDuration": 30 },
-    "api/indexnow-verify.ts": { "maxDuration": 10 },
-    "api/bot-render.ts": { "maxDuration": 30 },
-    "api/llms.txt.ts": { "maxDuration": 15 }
+    "api/**/*.ts": {
+      "maxDuration": 30,
+      "memory": 1024,
+      "includeFiles": "{api/**,server/**,artifacts/thien-hoang-kim/server/**}"
+    }
   },
   "redirects": [
     {

@@ -1,8 +1,8 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
 import { fetchCmsPayload } from "../server/lib/cms-payload-server";
 import { buildLlmsTxt, getLlmsTxtBaseUrl } from "../server/lib/llms-txt-server";
 
-export default async function handler(_req: VercelRequest, res: VercelResponse) {
+export default async function handler(_req: ApiRequest, res: ApiResponse) {
   try {
     const payload = await fetchCmsPayload();
     const enabled = payload?.settings?.seo?.llmsTxtEnabled !== false;

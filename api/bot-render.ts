@@ -1,12 +1,12 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { ApiRequest, ApiResponse } from "./_lib/http";
 import { fetchCmsPayload } from "../server/lib/cms-payload-server";
 import { buildJsonLdForPayload } from "../server/lib/seo-schema-server";
 import { injectMetaIntoHtml, resolveRouteSeoForPayload } from "../server/lib/seo-render-server";
 import { getServerSiteUrl } from "../server/lib/seo-sitemap-server";
 
-function getRequestOrigin(req: VercelRequest): string {
-  const proto = (req.headers["x-forwarded-proto"] as string) || "https";
-  const host = (req.headers["x-forwarded-host"] as string) || (req.headers.host as string);
+function getRequestOrigin(req: ApiRequest): string {
+  const proto = String(req.headers["x-forwarded-proto"] || "https");
+  const host = String(req.headers["x-forwarded-host"] || req.headers.host || "www.haleetram.com");
   return `${proto}://${host}`;
 }
 
@@ -94,9 +94,9 @@ function injectCrawlableBody(html: string, title: string, bodyHtml: string): str
   return `${html}\n${block}`;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   try {
-    const rawPath = typeof req.query.path === "string" ? req.query.path : "/";
+    const rawPath = typeof req.query?.path === "string" ? req.query.path : "/";
     const path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
 
     if (path.startsWith("/adminbp")) {
