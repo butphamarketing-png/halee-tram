@@ -1,12 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
-  "compilerOptions": {
-    "lib": ["ES2022", "WebWorker"],
-    "noEmit": true,
-    "moduleResolution": "bundler"
-  },
-  "include": ["middleware.ts"],
+  "files": [],
   "references": [
     {
       "path": "./lib/db"

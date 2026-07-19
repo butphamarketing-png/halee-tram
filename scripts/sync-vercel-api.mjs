@@ -13,6 +13,13 @@ function copyRecursive(src, dest) {
 
 copyRecursive(path.join(artifactRoot, "api"), path.join(repoRoot, "api"));
 copyRecursive(path.join(artifactRoot, "server"), path.join(repoRoot, "server"));
-fs.copyFileSync(path.join(artifactRoot, "middleware.ts"), path.join(repoRoot, "middleware.ts"));
+
+const mwSrc = path.join(artifactRoot, "middleware.ts");
+const mwDest = path.join(repoRoot, "middleware.ts");
+if (fs.existsSync(mwSrc)) {
+  fs.copyFileSync(mwSrc, mwDest);
+} else if (fs.existsSync(mwDest)) {
+  fs.rmSync(mwDest);
+}
 
 console.log("Synced Vercel API from artifacts/thien-hoang-kim to repo root.");
