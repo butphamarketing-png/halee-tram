@@ -60,7 +60,10 @@ type CmsArticle = {
   published?: boolean;
   title?: string;
   description?: string;
+  body?: string;
+  category?: string;
   image?: string;
+  date?: string;
   seo?: CmsArticleSeo;
 };
 
@@ -70,6 +73,53 @@ type CmsServiceItem = {
   description?: string;
   articleSlug?: string;
   seo?: CmsArticleSeo;
+};
+
+const FALLBACK_SERVICES: Record<string, Record<string, CmsServiceItem>> = {
+  "lam-dep": {
+    nails: { slug: "nails", label: "Nails", description: "Làm móng, sơn gel, thiết kế nail art theo xu hướng tại Halee Trâm Quận 7." },
+    "noi-mi": { slug: "noi-mi", label: "Nối Mi", description: "Nối mi classic, volume, hybrid — tự nhiên, bền và đẹp tại Quận 7." },
+    "uon-mi": { slug: "uon-mi", label: "Uốn Mi", description: "Uốn mi (lash lift) tự nhiên, giữ cong lâu tại Halee Trâm Quận 7." },
+    "dinh-hinh-chan-may": {
+      slug: "dinh-hinh-chan-may",
+      label: "Định Hình Chân Mày",
+      description: "Tạo dáng, tô viền và định hình chân mày hài hòa khuôn mặt.",
+    },
+    "cha-got-chan": { slug: "cha-got-chan", label: "Chà Gót Chân", description: "Chà gót, dưỡng da chân mềm mịn và thư giãn tại Quận 7." },
+    "goi-dau": { slug: "goi-dau", label: "Gội Đầu", description: "Gội đầu thư giãn, massage da đầu tại Halee Trâm Quận 7." },
+  },
+  "dao-tao": {
+    "khoa-noi-mi-salon": {
+      slug: "khoa-noi-mi-salon",
+      label: "Khóa Nối Mi Salon",
+      description: "Đào tạo nối mi chuyên nghiệp cho môi trường salon tại TP.HCM.",
+    },
+    "khoa-noi-mi-dinh-cu": {
+      slug: "khoa-noi-mi-dinh-cu",
+      label: "Khóa Nối Mi Định Cư",
+      description: "Khóa nối mi định cư — kỹ năng và chứng chỉ theo chuẩn quốc tế.",
+    },
+    "khoa-nail-chuyen-nghiep": {
+      slug: "khoa-nail-chuyen-nghiep",
+      label: "Khóa Nail Chuyên Nghiệp",
+      description: "Học nail từ cơ bản đến nâng cao, thực hành trên model thật.",
+    },
+    "khoa-cham-soc-mong": {
+      slug: "khoa-cham-soc-mong",
+      label: "Khóa Chăm Sóc Móng",
+      description: "Kỹ thuật chăm sóc, dưỡng và phục hồi móng tay chuyên nghiệp.",
+    },
+    "khoa-dinh-hinh-chan-may": {
+      slug: "khoa-dinh-hinh-chan-may",
+      label: "Khóa Định Hình Chân Mày",
+      description: "Đào tạo kỹ thuật định hình, phun và tô chân mày chuẩn tỷ lệ.",
+    },
+    "khoa-hoc-uon-mi": {
+      slug: "khoa-hoc-uon-mi",
+      label: "Khóa Học Uốn Mi",
+      description: "Uốn mi an toàn, giữ nếp bền — phù hợp mở dịch vụ hoặc nâng tay nghề.",
+    },
+  },
 };
 
 type SeoPayload = CmsPayload & {
@@ -170,8 +220,11 @@ function notFoundMeta(global: ReturnType<typeof getGlobalSeo>, path: string): Re
   return { ...base, title, ogTitle: title };
 }
 
-function getServiceItem(payload: SeoPayload, categoryId: string, slug: string): CmsServiceItem | undefined {
-  return payload.serviceCatalog?.items?.[categoryId]?.find((item) => item.slug === slug);
+function getServiceItem(payload: SeoPayload | null | undefined, categoryId: string, slug: string): CmsServiceItem | undefined {
+  return (
+    payload?.serviceCatalog?.items?.[categoryId]?.find((item) => item.slug === slug) ??
+    FALLBACK_SERVICES[categoryId]?.[slug]
+  );
 }
 
 function resolveArticleSeo(article: CmsArticle, global: ReturnType<typeof getGlobalSeo>, path: string): RenderedPageSeo {
@@ -296,7 +349,7 @@ export function resolveRouteSeoForPayload(path: string, payload: SeoPayload | nu
 
   const lamDepMatch = clean.match(/^\/lam-dep\/([^/]+)$/);
   if (lamDepMatch) {
-    const service = payload ? getServiceItem(payload, "lam-dep", lamDepMatch[1]) : undefined;
+    const service = getServiceItem(payload, "lam-dep", lamDepMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? payload?.articles?.find((item) => item.slug === service.articleSlug && item.published)
@@ -317,7 +370,7 @@ export function resolveRouteSeoForPayload(path: string, payload: SeoPayload | nu
 
   const daoTaoMatch = clean.match(/^\/dao-tao\/([^/]+)$/);
   if (daoTaoMatch) {
-    const service = payload ? getServiceItem(payload, "dao-tao", daoTaoMatch[1]) : undefined;
+    const service = getServiceItem(payload, "dao-tao", daoTaoMatch[1]);
     if (service) {
       const linked = service.articleSlug
         ? payload?.articles?.find((item) => item.slug === service.articleSlug && item.published)

@@ -13,13 +13,56 @@ type CmsArticle = {
   title?: string;
   description?: string;
   body?: string;
+  category?: string;
   date?: string;
+  image?: string;
   seo?: {
     noindex?: boolean;
     metaTitle?: string;
     metaDescription?: string;
+    focusKeyphrase?: string;
+    keywords?: string;
   };
 };
+
+/** Fallback when CMS unavailable — keeps sitemap & bot-render useful. */
+const DEFAULT_SERVICE_PATHS = [
+  "/lam-dep/nails",
+  "/lam-dep/noi-mi",
+  "/lam-dep/uon-mi",
+  "/lam-dep/dinh-hinh-chan-may",
+  "/lam-dep/cha-got-chan",
+  "/lam-dep/goi-dau",
+  "/dao-tao/khoa-noi-mi-salon",
+  "/dao-tao/khoa-noi-mi-dinh-cu",
+  "/dao-tao/khoa-nail-chuyen-nghiep",
+  "/dao-tao/khoa-cham-soc-mong",
+  "/dao-tao/khoa-dinh-hinh-chan-may",
+  "/dao-tao/khoa-hoc-uon-mi",
+];
+
+const DEFAULT_ARTICLE_SLUGS = [
+  "noi-mi-classic-hay-volume",
+  "son-gel-bao-lau-va-cach-giu-mau",
+  "uon-mi-co-dau-khong",
+  "dinh-hinh-chan-may-chon-dang-nao",
+  "khoa-noi-mi-salon-co-gi",
+  "cha-got-chan-dinh-ky",
+  "goi-dau-thu-gian-quan-7",
+  "khoa-nail-chuyen-nghiep-ra-nghe",
+  "khoa-noi-mi-dinh-cu-hoc-gi",
+  "khoa-cham-soc-mong-ai-nen-hoc",
+  "khoa-dinh-hinh-chan-may-lo-trinh",
+  "khoa-hoc-uon-mi-mo-dich-vu",
+  "xu-huong-nail-art-2026",
+  "cham-soc-mi-sau-noi",
+  "chon-salon-noi-mi-quan-7",
+  "combo-nail-noi-mi-tiet-kiem",
+  "uon-mi-hay-noi-mi-nen-chon",
+  "mo-tiem-nail-can-chuan-bi-gi",
+  "nail-ombre-huong-dan-mau",
+  "huong-dan-dat-lich-halee-tram",
+];
 
 type CmsServiceItem = {
   slug?: string;
@@ -37,9 +80,9 @@ export type CmsPayload = {
   home?: unknown;
   navigation?: unknown;
   footer?: unknown;
-  priceList?: unknown;
+  priceList?: { title?: string; description?: string };
   customers?: unknown;
-  testimonials?: unknown;
+  testimonials?: unknown[];
   serviceCatalog?: {
     categories?: Record<string, { path?: string; title?: string; description?: string }>;
     items?: Record<string, CmsServiceItem[]>;
@@ -55,6 +98,23 @@ export type CmsPayload = {
       llmsTxtEnabled?: boolean;
       siteName?: string;
       description?: string;
+      googleSiteVerification?: string;
+      bingSiteVerification?: string;
+      facebookAppId?: string;
+      ogImage?: string;
+      ogTitle?: string;
+      ogDescription?: string;
+      keywords?: string;
+      title?: string;
+      titleSeparator?: string;
+      twitterCard?: string;
+      robots?: string;
+      locale?: string;
+      schemaEnabled?: boolean;
+      breadcrumbsEnabled?: boolean;
+      organizationLogo?: string;
+      organizationType?: string;
+      priceRange?: string;
     };
   };
 };
@@ -127,6 +187,7 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
   }
 
   const catalog = payload?.serviceCatalog;
+  let addedServices = 0;
   if (catalog?.categories && catalog?.items) {
     for (const id of ["lam-dep", "dao-tao"]) {
       const prefix = catalog.categories[id]?.path;
@@ -136,14 +197,25 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
         if (!item.slug) continue;
         if (item.seo?.noindex) continue;
         add(`${prefix}/${item.slug}`, 0.8);
+        addedServices += 1;
       }
     }
   }
+  if (addedServices === 0) {
+    for (const path of DEFAULT_SERVICE_PATHS) add(path, 0.8);
+  }
 
+  let addedArticles = 0;
   for (const article of payload?.articles ?? []) {
     if (!article.published || !article.slug) continue;
     if (article.seo?.noindex) continue;
     add(`/tin-tuc/${article.slug}`, 0.7, "monthly", parseArticleLastmod(article.date) || today);
+    addedArticles += 1;
+  }
+  if (addedArticles === 0) {
+    for (const slug of DEFAULT_ARTICLE_SLUGS) {
+      add(`/tin-tuc/${slug}`, 0.7, "monthly");
+    }
   }
 
   const seen = new Set<string>();
