@@ -427,6 +427,25 @@ function buildPageList() {
       ogType: "article",
     });
   }
+
+  // 100 bài SEO bổ sung (từ khóa dịch vụ)
+  try {
+    const batchPath = path.join(__dirname, "articles-batch-100.json");
+    const batch = JSON.parse(fs.readFileSync(batchPath, "utf8"));
+    for (const a of batch) {
+      pages.push({
+        path: `/tin-tuc/${a.slug}`,
+        title: a.title,
+        description: a.description,
+        h1: a.h1,
+        body: a.body,
+        ogType: "article",
+      });
+    }
+  } catch (err) {
+    console.warn("articles-batch-100.json missing — run generate-100-articles.mjs", err);
+  }
+
   return pages;
 }
 
