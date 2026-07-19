@@ -3,6 +3,7 @@ import {
   ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
+  type _Object,
 } from "@aws-sdk/client-s3";
 import { mediaContentType } from "./media-utils";
 
@@ -11,7 +12,12 @@ export type StoredMediaItem = {
   url: string;
 };
 
-let client: S3Client | null = null;
+/** Narrow client surface — avoids TS2339 on `.send` under CommonJS API tsconfig. */
+type S3Sender = {
+  send: (command: PutObjectCommand | ListObjectsV2Command | DeleteObjectCommand) => Promise<unknown>;
+};
+
+let client: S3Sender | null = null;
 
 export function isR2Configured(): boolean {
   return Boolean(
@@ -23,7 +29,7 @@ export function isR2Configured(): boolean {
   );
 }
 
-function getR2Client(): S3Client {
+function getR2Client(): S3Sender {
   if (client) return client;
 
   const accountId = process.env.R2_ACCOUNT_ID;
@@ -38,7 +44,7 @@ function getR2Client(): S3Client {
     region: "auto",
     endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId, secretAccessKey },
-  });
+  }) as unknown as S3Sender;
 
   return client;
 }
@@ -86,27 +92,27 @@ export async function listFromR2(): Promise<StoredMediaItem[]> {
   const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
   const listPrefix = normalizedPrefix ? `${normalizedPrefix}/` : "";
 
-  const response = await s3.send(
+  const response = (await s3.send(
     new ListObjectsV2Command({
       Bucket: bucketName(),
       Prefix: listPrefix,
       MaxKeys: 500,
     }),
-  );
+  )) as { Contents?: _Object[] };
 
   const stripPrefix = listPrefix.length;
 
   return (response.Contents ?? [])
-    .filter((item) => item.Key && item.Key !== listPrefix)
-    .map((item) => {
-      const key = item.Key!;
+    .filter((item: _Object) => Boolean(item.Key) && item.Key !== listPrefix)
+    .map((item: _Object) => {
+      const key = item.Key as string;
       const name = stripPrefix > 0 ? key.slice(stripPrefix) : key;
       return {
         name,
         url: `${process.env.R2_PUBLIC_URL?.replace(/\/$/, "")}/${key}`,
       };
     })
-    .sort((a, b) => b.name.localeCompare(a.name));
+    .sort((a: StoredMediaItem, b: StoredMediaItem) => b.name.localeCompare(a.name));
 }
 
 export async function deleteFromR2(name: string): Promise<void> {

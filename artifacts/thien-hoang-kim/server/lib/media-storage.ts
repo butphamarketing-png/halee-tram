@@ -57,9 +57,11 @@ export async function listMedia(): Promise<MediaRecord[]> {
 
   if (error) throw new Error(error.message);
 
-  return (files ?? [])
-    .filter((f) => f.id != null)
-    .map((f) => {
+  type StorageListedFile = { id?: string | null; name: string };
+
+  return ((files ?? []) as StorageListedFile[])
+    .filter((f: StorageListedFile) => f.id != null)
+    .map((f: StorageListedFile) => {
       const { data } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(f.name);
       return {
         name: f.name,
