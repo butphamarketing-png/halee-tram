@@ -19,12 +19,12 @@
       "permanent": true
     }
   ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/api/robots.txt" },
-    { "source": "/llms.txt", "destination": "/api/llms.txt" },
     { "source": "/favicon.ico", "destination": "/favicon.svg" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/adminbp", "destination": "/index.html" },
+    { "source": "/adminbp/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
