@@ -1,5 +1,5 @@
 import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
-import type { ArticleSeo, SiteArticle } from "@/types/site-content";
+import type { ArticleFaq, ArticleSeo, SiteArticle } from "@/types/site-content";
 import { BATCH_100_ARTICLES } from "@/data/articles.batch-100";
 
 const publicAsset = (file: string) =>
@@ -10,6 +10,57 @@ const slide = handbookImg;
 const intro = handbookImg;
 
 type ArticleSeoFields = Pick<ArticleSeo, "metaTitle" | "metaDescription" | "focusKeyphrase">;
+
+type ArticleHub = {
+  href: string;
+  label: string;
+  related: string;
+  relatedLabel: string;
+};
+
+/** Internal hub links for original 20 articles */
+const ARTICLE_HUB: Record<string, ArticleHub> = {
+  a1: { href: "/lam-dep/noi-mi", label: "dịch vụ nối mi Quận 7", related: "cham-soc-mi-sau-noi", relatedLabel: "chăm sóc mi sau nối" },
+  a2: { href: "/lam-dep/nails", label: "dịch vụ nails Quận 7", related: "xu-huong-nail-art-2026", relatedLabel: "xu hướng nail art 2026" },
+  a3: { href: "/lam-dep/uon-mi", label: "dịch vụ uốn mi Quận 7", related: "uon-mi-hay-noi-mi-nen-chon", relatedLabel: "uốn mi hay nối mi" },
+  a4: { href: "/lam-dep/dinh-hinh-chan-may", label: "định hình chân mày Quận 7", related: "khoa-dinh-hinh-chan-may-lo-trinh", relatedLabel: "khóa định hình chân mày" },
+  a5: { href: "/dao-tao/khoa-noi-mi-salon", label: "khóa nối mi salon", related: "khoa-noi-mi-dinh-cu-hoc-gi", relatedLabel: "khóa nối mi định cư" },
+  a6: { href: "/lam-dep/cha-got-chan", label: "chà gót chân Quận 7", related: "goi-dau-thu-gian-quan-7", relatedLabel: "gội đầu thư giãn Quận 7" },
+  a7: { href: "/lam-dep/goi-dau", label: "gội đầu thư giãn Quận 7", related: "combo-nail-noi-mi-tiet-kiem", relatedLabel: "combo nails + nối mi" },
+  a8: { href: "/dao-tao/khoa-nail-chuyen-nghiep", label: "khóa nail chuyên nghiệp", related: "mo-tiem-nail-can-chuan-bi-gi", relatedLabel: "mở tiệm nail tại nhà" },
+  a9: { href: "/dao-tao/khoa-noi-mi-dinh-cu", label: "khóa nối mi định cư", related: "khoa-noi-mi-salon-co-gi", relatedLabel: "khóa nối mi salon" },
+  a10: { href: "/dao-tao/khoa-cham-soc-mong", label: "khóa chăm sóc móng", related: "son-gel-bao-lau-va-cach-giu-mau", relatedLabel: "sơn gel bền bao lâu" },
+  a11: { href: "/dao-tao/khoa-dinh-hinh-chan-may", label: "khóa định hình chân mày", related: "dinh-hinh-chan-may-chon-dang-nao", relatedLabel: "chọn dáng chân mày" },
+  a12: { href: "/dao-tao/khoa-hoc-uon-mi", label: "khóa học uốn mi", related: "uon-mi-co-dau-khong", relatedLabel: "uốn mi có đau không" },
+  a13: { href: "/lam-dep/nails", label: "nails Quận 7", related: "nail-ombre-huong-dan-mau", relatedLabel: "nail ombre phối màu" },
+  a14: { href: "/lam-dep/noi-mi", label: "nối mi Quận 7", related: "noi-mi-classic-hay-volume", relatedLabel: "classic hay volume" },
+  a15: { href: "/lam-dep/noi-mi", label: "salon nối mi Quận 7", related: "huong-dan-dat-lich-halee-tram", relatedLabel: "hướng dẫn đặt lịch" },
+  a16: { href: "/lam-dep", label: "dịch vụ làm đẹp Quận 7", related: "uon-mi-hay-noi-mi-nen-chon", relatedLabel: "uốn mi hay nối mi" },
+  a17: { href: "/lam-dep/uon-mi", label: "uốn mi Quận 7", related: "noi-mi-classic-hay-volume", relatedLabel: "nối mi classic hay volume" },
+  a18: { href: "/dao-tao/khoa-nail-chuyen-nghiep", label: "khóa nail chuyên nghiệp", related: "khoa-cham-soc-mong-ai-nen-hoc", relatedLabel: "khóa chăm sóc móng" },
+  a19: { href: "/lam-dep/nails", label: "nails Quận 7", related: "xu-huong-nail-art-2026", relatedLabel: "xu hướng nail art 2026" },
+  a20: { href: "/lien-he", label: "trang liên hệ Halee Trâm", related: "chon-salon-noi-mi-quan-7", relatedLabel: "chọn salon nối mi Quận 7" },
+};
+
+function makeFaqs(kp: string): ArticleFaq[] {
+  return [
+    {
+      question: `${kp} — nên đặt lịch trước không?`,
+      answer:
+        "Nên đặt trước, đặc biệt cuối tuần và khung 17h–20h. Gọi 0938 162 662 hoặc dùng form trên website — Halee Trâm tại 793/62 Trần Xuân Soạn, Quận 7.",
+    },
+    {
+      question: `Làm dịch vụ liên quan “${kp}” mất bao lâu?`,
+      answer:
+        "Tùy hạng mục: uốn mi khoảng 45–60 phút, gel cơ bản 45–60 phút, nối mi classic/volume thường 90–150 phút. Chuyên viên báo thời gian khi tư vấn.",
+    },
+    {
+      question: `Người lần đầu quan tâm “${kp}” nên bắt đầu thế nào?`,
+      answer:
+        "Halee Trâm ưu tiên tư vấn nhẹ – an toàn cho khách mới: giải thích quy trình, chọn dáng phù hợp và hướng dẫn chăm sóc sau làm trước khi thực hiện.",
+    },
+  ];
+}
 
 /** Meta title ≤60 ký tự, meta description 120–160 ký tự, focus keyphrase theo kế hoạch SEO */
 const ARTICLE_SEO: Record<string, ArticleSeoFields> = {
@@ -146,6 +197,13 @@ function article(
   category = "Kiến thức",
 ): SiteArticle {
   const seoFields = ARTICLE_SEO[id];
+  const hub = ARTICLE_HUB[id];
+  let finalBody = body;
+  if (hub) {
+    finalBody = `${body}
+
+Xem thêm [${hub.label}](${hub.href}). Đọc tiếp: [${hub.relatedLabel}](/tin-tuc/${hub.related}). Đặt lịch qua [form liên hệ](/lien-he#dat-lich) hoặc gọi 0938 162 662.`;
+  }
   return {
     id,
     slug,
@@ -154,8 +212,9 @@ function article(
     title,
     date,
     description,
-    body,
+    body: finalBody,
     published: true,
+    faqs: seoFields ? makeFaqs(seoFields.focusKeyphrase) : undefined,
     seo: { ...DEFAULT_ARTICLE_SEO, ...seoFields },
   };
 }

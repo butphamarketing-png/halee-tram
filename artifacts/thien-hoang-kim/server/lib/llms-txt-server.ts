@@ -14,8 +14,11 @@ export function buildLlmsTxt(payload: CmsPayload | null | undefined, baseUrl: st
     .slice(0, 60);
 
   const articlePaths = entries
-    .filter((entry) => entry.loc.includes("/tin-tuc/"))
-    .slice(0, 20)
+    .filter((entry) => {
+      const path = entry.loc.replace(siteUrl, "");
+      return path.startsWith("/tin-tuc/") && path !== "/tin-tuc/kien-thuc" && path !== "/tin-tuc/tin-tuc";
+    })
+    .slice(0, 120)
     .map((entry) => entry.loc);
 
   const lines = [

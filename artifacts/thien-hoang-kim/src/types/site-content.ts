@@ -52,6 +52,11 @@ export type ArticleSeo = {
   nofollow: boolean;
 };
 
+export type ArticleFaq = {
+  question: string;
+  answer: string;
+};
+
 export type SiteArticle = {
   id: string;
   slug: string;
@@ -63,6 +68,8 @@ export type SiteArticle = {
   body: string;
   published: boolean;
   seo: ArticleSeo;
+  /** FAQ cho FAQPage JSON-LD + hiển thị trên trang bài */
+  faqs?: ArticleFaq[];
 };
 
 export type SiteLink = {

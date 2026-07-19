@@ -94,6 +94,40 @@ export function suggestInternalLinks(
   return out;
 }
 
+/** Gợi ý bài viết liên quan cho trang dịch vụ / khóa học. */
+export function suggestServiceArticleLinks(
+  opts: { label: string; description?: string; articleSlug?: string; focusKeyphrase?: string },
+  content: SiteContent,
+  limit = 6,
+): InternalLinkSuggestion[] {
+  const haystack = [opts.label, opts.description, opts.focusKeyphrase, opts.articleSlug]
+    .filter(Boolean)
+    .join(" ");
+
+  const suggestions: Array<InternalLinkSuggestion & { score: number }> = [];
+
+  for (const other of content.articles) {
+    if (!other.published || other.seo?.noindex) continue;
+    let score = scoreOverlap(
+      haystack,
+      `${other.title} ${other.description} ${other.seo?.focusKeyphrase ?? ""} ${other.category}`,
+    );
+    if (opts.articleSlug && other.slug === opts.articleSlug) score += 10;
+    if (score > 0) {
+      suggestions.push({
+        href: `/tin-tuc/${other.slug}`,
+        label: other.title,
+        reason: other.slug === opts.articleSlug ? "Bài gắn với dịch vụ" : "Chủ đề liên quan",
+        kind: "article",
+        score,
+      });
+    }
+  }
+
+  suggestions.sort((a, b) => b.score - a.score);
+  return suggestions.slice(0, limit).map(({ score: _s, ...rest }) => rest);
+}
+
 /** Trang / bài không được bài nào khác đề cập (orphan soft-check qua articleSlug + body). */
 export function findOrphanArticleSlugs(content: SiteContent): string[] {
   const linked = new Set<string>();

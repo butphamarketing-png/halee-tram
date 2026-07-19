@@ -41,30 +41,8 @@ const DEFAULT_SERVICE_PATHS = [
   "/dao-tao/khoa-hoc-uon-mi",
 ];
 
-const DEFAULT_ARTICLE_SLUGS = [
-  "noi-mi-classic-hay-volume",
-  "son-gel-bao-lau-va-cach-giu-mau",
-  "uon-mi-co-dau-khong",
-  "dinh-hinh-chan-may-chon-dang-nao",
-  "khoa-noi-mi-salon-co-gi",
-  "cha-got-chan-dinh-ky",
-  "goi-dau-thu-gian-quan-7",
-  "khoa-nail-chuyen-nghiep-ra-nghe",
-  "khoa-noi-mi-dinh-cu-hoc-gi",
-  "khoa-cham-soc-mong-ai-nen-hoc",
-  "khoa-dinh-hinh-chan-may-lo-trinh",
-  "khoa-hoc-uon-mi-mo-dich-vu",
-  "xu-huong-nail-art-2026",
-  "cham-soc-mi-sau-noi",
-  "chon-salon-noi-mi-quan-7",
-  "combo-nail-noi-mi-tiet-kiem",
-  "uon-mi-hay-noi-mi-nen-chon",
-  "mo-tiem-nail-can-chuan-bi-gi",
-  "nail-ombre-huong-dan-mau",
-  "huong-dan-dat-lich-halee-tram",
-];
-
-type CmsServiceItem = {
+/** Synced by scripts/generate-100-articles.mjs — originals + batch 100 */
+import { DEFAULT_ARTICLE_SLUGS } from "./article-slugs-fallback";type CmsServiceItem = {
   slug?: string;
   label?: string;
   description?: string;
@@ -179,6 +157,8 @@ export function collectSitemapEntriesFromPayload(payload: CmsPayload | null | un
   add("/khach-hang", 0.8);
   add("/bang-gia", 0.8);
   add("/tin-tuc", 0.85);
+  add("/tin-tuc/kien-thuc", 0.8);
+  add("/tin-tuc/tin-tuc", 0.75);
   add("/lien-he", 0.85);
   add("/gioi-thieu/doi-ngu-bac-si", 0.75);
 

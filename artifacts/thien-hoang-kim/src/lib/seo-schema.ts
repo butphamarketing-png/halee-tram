@@ -292,6 +292,59 @@ export function buildJsonLdGraph(ctx: SchemaContext, content: SiteContent): obje
       inLanguage: seo.locale?.replace("_", "-") || "vi-VN",
       keywords: ctx.article.seo?.keywords || ctx.article.seo?.focusKeyphrase || undefined,
     });
+
+    if (ctx.article.faqs && ctx.article.faqs.length > 0) {
+      graphs.push({
+        "@type": "FAQPage",
+        "@id": `${ctx.meta.canonical}#faq`,
+        mainEntity: ctx.article.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      });
+    }
+  }
+
+  if (
+    ctx.path === "/tin-tuc" ||
+    ctx.path === "/tin-tuc/kien-thuc" ||
+    ctx.path === "/tin-tuc/tin-tuc"
+  ) {
+    const categoryFilter =
+      ctx.path === "/tin-tuc/kien-thuc"
+        ? "Kiến thức"
+        : ctx.path === "/tin-tuc/tin-tuc"
+          ? "Tin tức"
+          : undefined;
+    const list = content.articles
+      .filter((a) => a.published && !a.seo?.noindex && (!categoryFilter || a.category === categoryFilter))
+      .slice(0, 40);
+    if (list.length > 0) {
+      graphs.push({
+        "@type": "CollectionPage",
+        "@id": `${ctx.meta.canonical}#collection`,
+        name: ctx.meta.title,
+        description: ctx.meta.description,
+        url: ctx.meta.canonical,
+        isPartOf: { "@id": siteId },
+        inLanguage: seo.locale?.replace("_", "-") || "vi-VN",
+      });
+      graphs.push({
+        "@type": "ItemList",
+        "@id": `${ctx.meta.canonical}#itemlist`,
+        numberOfItems: list.length,
+        itemListElement: list.map((a, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: a.title,
+          url: `${siteUrl}/tin-tuc/${a.slug}`,
+        })),
+      });
+    }
   }
 
   return graphs;

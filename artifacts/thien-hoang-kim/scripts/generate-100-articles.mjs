@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-/** @typedef {{ slug: string, kp: string, title: string, h1: string, desc: string, metaTitle: string, metaDesc: string, category: string, body: string[] }} Spec */
+/** @typedef {{ slug: string, kp: string, title: string, h1: string, desc: string, metaTitle: string, metaDesc: string, category: string, body: string[], faqs?: { question: string, answer: string }[] }} Spec */
 
 /** @type {Spec[]} */
 const specs = [];
@@ -42,6 +42,80 @@ function body(...paras) {
 }
 
 const CTA = "Halee Trâm tại 793/62 Trần Xuân Soạn, Quận 7 — hotline 0938 162 662.";
+
+/** @type {Record<string, { href: string, label: string, tip: string }>} */
+const CAT_HUB = {
+  "Nối mi": {
+    href: "/lam-dep/noi-mi",
+    label: "dịch vụ nối mi Quận 7",
+    tip: "Classic, hybrid hay volume đều gắn cách chân mi; keo ít cay, chỉnh mi trong 7 ngày đầu nếu lệch kỹ thuật.",
+  },
+  Nails: {
+    href: "/lam-dep/nails",
+    label: "dịch vụ nails Quận 7",
+    tip: "Gel chính hãng, base–màu–top hấp LED; tránh bóc gel tay để không làm yếu móng.",
+  },
+  "Uốn mi": {
+    href: "/lam-dep/uon-mi",
+    label: "dịch vụ uốn mi Quận 7",
+    tip: "Pad theo form mắt, 24 giờ đầu tránh nước/xông hơi để nếp cong ổn định.",
+  },
+  "Chân mày": {
+    href: "/lam-dep/dinh-hinh-chan-may",
+    label: "định hình chân mày Quận 7",
+    tip: "Đo tỷ lệ đầu–đỉnh–đuôi trước khi wax/chỉ; tô viền hoặc shading khi mày thưa.",
+  },
+  "Spa chân": {
+    href: "/lam-dep/cha-got-chan",
+    label: "chà gót chân Quận 7",
+    tip: "Ngâm thảo dược + chà gót định kỳ 3–4 tuần giúp giảm nứt nẻ hiệu quả hơn làm một lần.",
+  },
+  "Gội đầu": {
+    href: "/lam-dep/goi-dau",
+    label: "gội đầu thư giãn Quận 7",
+    tip: "Massage da đầu kích thích tuần hoàn; có thể combo cùng nails hoặc mi trong một buổi.",
+  },
+  "Đào tạo": {
+    href: "/dao-tao",
+    label: "khóa đào tạo nghề Halee Trâm",
+    tip: "Lớp sĩ số nhỏ, thực hành model thật; hỗ trợ chứng nhận và tư vấn mở tiệm sau khóa.",
+  },
+  "Kiến thức": {
+    href: "/lam-dep",
+    label: "dịch vụ làm đẹp Quận 7",
+    tip: "Nails, nối mi, uốn mi, chân mày, spa chân và gội đầu — đặt lịch trước để tránh chờ.",
+  },
+};
+
+function enrichBodiesAndFaqs() {
+  const slugs = specs.map((s) => s.slug);
+  specs.forEach((s, i) => {
+    const hub = CAT_HUB[s.category] || CAT_HUB["Kiến thức"];
+    const sib1 = slugs[(i + 11) % slugs.length];
+    const sib2 = slugs[(i + 37) % slugs.length];
+    const topic = s.h1.replace(/\?$/, "");
+    s.body = [
+      `${topic} là chủ đề nhiều khách tìm khi quan tâm **${s.kp}** tại Quận 7. Halee Trâm tư vấn theo nhu cầu thực tế (đi làm, dự tiệc, lần đầu) trước khi thực hiện.`,
+      `Xem thêm [${hub.label}](${hub.href}) để biết quy trình và đặt lịch. Bài liên quan: [${s.kp}](/tin-tuc/${sib1}).`,
+      hub.tip,
+      `Muốn so sánh thêm góc nhìn khác, đọc [bài viết cùng chủ đề](/tin-tuc/${sib2}). ${CTA}`,
+    ];
+    s.faqs = [
+      {
+        question: `${s.kp} tại Halee Trâm có cần đặt lịch trước không?`,
+        answer: `Nên đặt trước, đặc biệt cuối tuần. Gọi hoặc nhắn 0938 162 662 — salon tại 793/62 Trần Xuân Soạn, Quận 7.`,
+      },
+      {
+        question: `Làm dịch vụ liên quan ${s.kp} mất bao lâu?`,
+        answer: `Tùy hạng mục: uốn mi khoảng 45–60 phút, gel cơ bản 45–60 phút, nối mi classic/volume thường 90–150 phút. Chuyên viên báo thời gian khi tư vấn.`,
+      },
+      {
+        question: `${topic} có phù hợp người lần đầu không?`,
+        answer: `Có. Halee Trâm ưu tiên tư vấn nhẹ – an toàn cho khách mới, giải thích quy trình và cách chăm sóc sau làm trước khi bắt đầu.`,
+      },
+    ];
+  });
+}
 
 // ——— NỐI MI (22) ———
 const noiMi = [
@@ -303,6 +377,8 @@ if (specs.length !== 100) {
   process.exit(1);
 }
 
+enrichBodiesAndFaqs();
+
 const slugs = new Set();
 for (const s of specs) {
   if (slugs.has(s.slug)) {
@@ -319,6 +395,39 @@ for (const s of specs) {
 function esc(s) {
   return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$/g, "\\$");
 }
+
+function faqsTs(faqs) {
+  if (!faqs?.length) return "undefined";
+  return `[${faqs
+    .map(
+      (f) =>
+        `{ question: \`${esc(f.question)}\`, answer: \`${esc(f.answer)}\` }`,
+    )
+    .join(", ")}]`;
+}
+
+const ORIGINAL_FALLBACK_SLUGS = [
+  "noi-mi-classic-hay-volume",
+  "son-gel-bao-lau-va-cach-giu-mau",
+  "uon-mi-co-dau-khong",
+  "dinh-hinh-chan-may-chon-dang-nao",
+  "khoa-noi-mi-salon-co-gi",
+  "cha-got-chan-dinh-ky",
+  "goi-dau-thu-gian-quan-7",
+  "khoa-nail-chuyen-nghiep-ra-nghe",
+  "khoa-noi-mi-dinh-cu-hoc-gi",
+  "khoa-cham-soc-mong-ai-nen-hoc",
+  "khoa-dinh-hinh-chan-may-lo-trinh",
+  "khoa-hoc-uon-mi-mo-dich-vu",
+  "xu-huong-nail-art-2026",
+  "cham-soc-mi-sau-noi",
+  "chon-salon-noi-mi-quan-7",
+  "combo-nail-noi-mi-tiet-kiem",
+  "uon-mi-hay-noi-mi-nen-chon",
+  "mo-tiem-nail-can-chuan-bi-gi",
+  "nail-ombre-huong-dan-mau",
+  "huong-dan-dat-lich-halee-tram",
+];
 
 const ts = `/* Auto-generated by scripts/generate-100-articles.mjs — do not edit by hand */
 import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
@@ -349,6 +458,7 @@ ${specs
     description: \`${esc(s.desc)}\`,
     body: \`${body}\`,
     published: true,
+    faqs: ${faqsTs(s.faqs)},
     seo: {
       ...DEFAULT_ARTICLE_SEO,
       focusKeyphrase: \`${esc(s.kp)}\`,
@@ -362,15 +472,36 @@ ${specs
 ];
 `;
 
-const json = specs.map((s) => ({
+function dayOffsetIso(i) {
+  const d = new Date(2026, 5, 20);
+  d.setDate(d.getDate() - i);
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${d.getFullYear()}-${mm}-${dd}`;
+}
+
+const json = specs.map((s, i) => ({
   slug: s.slug,
   title: s.metaTitle,
   h1: s.h1,
   description: s.metaDesc,
   body: s.body.join(" "),
+  date: dayOffsetIso(i),
+  faqs: s.faqs,
   ogType: "article",
 }));
 
+const allFallbackSlugs = [...ORIGINAL_FALLBACK_SLUGS, ...specs.map((s) => s.slug)];
+
 fs.writeFileSync(path.join(root, "src/data/articles.batch-100.ts"), ts, "utf8");
 fs.writeFileSync(path.join(root, "scripts/articles-batch-100.json"), JSON.stringify(json, null, 2), "utf8");
-console.log(`Wrote ${specs.length} articles.`);
+fs.writeFileSync(
+  path.join(root, "scripts/article-slugs-fallback.json"),
+  JSON.stringify(allFallbackSlugs, null, 2),
+  "utf8",
+);
+const slugTs = `/* Auto-generated by scripts/generate-100-articles.mjs — do not edit by hand */
+export const DEFAULT_ARTICLE_SLUGS: string[] = ${JSON.stringify(allFallbackSlugs, null, 2)};
+`;
+fs.writeFileSync(path.join(root, "server/lib/article-slugs-fallback.ts"), slugTs, "utf8");
+console.log(`Wrote ${specs.length} articles + ${allFallbackSlugs.length} fallback slugs.`);

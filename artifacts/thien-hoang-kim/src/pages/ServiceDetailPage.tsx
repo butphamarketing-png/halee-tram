@@ -1,8 +1,12 @@
 import { Link, useRoute } from "wouter";
 import { Calendar } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
+import { RelatedLinks } from "@/components/RelatedLinks";
+import { RichParagraph } from "@/components/RichParagraph";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import { Button } from "@/components/ui/button";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { suggestServiceArticleLinks } from "@/lib/seo-internal-links";
 import { getPageContent, getServiceCatalog, getServiceItem } from "@/lib/site-cms";
 import type { SiteServiceCategoryId } from "@/types/site-content";
 import { DEFAULT_HERO_IMAGE } from "@/data/pages.defaults";
@@ -46,9 +50,30 @@ export default function ServiceDetailPage({ categoryId }: ServiceDetailPageProps
           `Đặt lịch trước để được phục vụ đúng giờ — liên hệ ${brand}.`,
         ]);
 
+  const related = suggestServiceArticleLinks(
+    {
+      label: service.label,
+      description: service.description,
+      articleSlug: service.articleSlug,
+      focusKeyphrase: service.seo?.focusKeyphrase,
+    },
+    content,
+    6,
+  );
+
   return (
     <SiteLayout>
       <article className="container mx-auto max-w-3xl px-4 py-10 md:px-8 md:py-14">
+        <SeoBreadcrumbs
+          items={[
+            { label: "Trang chủ", href: "/" },
+            {
+              label: categoryId === "lam-dep" ? "Làm đẹp" : "Đào tạo",
+              href: category.path,
+            },
+            { label: service.label },
+          ]}
+        />
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
           {pageContent?.eyebrow ?? category.eyebrow}
         </p>
@@ -64,10 +89,11 @@ export default function ServiceDetailPage({ categoryId }: ServiceDetailPageProps
         <img src={image} alt={title} className="mt-8 aspect-[16/9] w-full rounded-2xl object-cover object-top shadow-lg" />
         <p className="mt-8 text-lg font-medium leading-relaxed text-foreground/90">{description}</p>
         <div className="mt-8 space-y-4 text-base leading-relaxed text-foreground/85">
-          {paragraphs.map((para) => (
-            <p key={para.slice(0, 40)}>{para}</p>
+          {paragraphs.map((para, idx) => (
+            <RichParagraph key={`p-${idx}-${para.slice(0, 40)}`} text={para} />
           ))}
         </div>
+        <RelatedLinks title="Bài viết liên quan" items={related} />
         <div className="mt-12 flex flex-wrap gap-3">
           <Link href="/lien-he#dat-lich">
             <Button className="rounded-full bg-primary font-bold">Đặt lịch tư vấn</Button>

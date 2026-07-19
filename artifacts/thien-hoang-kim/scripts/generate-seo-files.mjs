@@ -119,6 +119,49 @@ const daoTao = [
 ];
 
 /** Synced with articles.defaults.ts ARTICLE_SEO */
+const ARTICLE_DATES = {
+  "noi-mi-classic-hay-volume": "2026-05-15",
+  "son-gel-bao-lau-va-cach-giu-mau": "2026-05-12",
+  "uon-mi-co-dau-khong": "2026-05-08",
+  "dinh-hinh-chan-may-chon-dang-nao": "2026-05-05",
+  "khoa-noi-mi-salon-co-gi": "2026-04-28",
+  "cha-got-chan-dinh-ky": "2026-04-22",
+  "goi-dau-thu-gian-quan-7": "2026-04-18",
+  "khoa-nail-chuyen-nghiep-ra-nghe": "2026-04-10",
+  "khoa-noi-mi-dinh-cu-hoc-gi": "2026-06-02",
+  "khoa-cham-soc-mong-ai-nen-hoc": "2026-05-28",
+  "khoa-dinh-hinh-chan-may-lo-trinh": "2026-05-25",
+  "khoa-hoc-uon-mi-mo-dich-vu": "2026-05-20",
+  "xu-huong-nail-art-2026": "2026-05-18",
+  "cham-soc-mi-sau-noi": "2026-05-16",
+  "chon-salon-noi-mi-quan-7": "2026-05-14",
+  "combo-nail-noi-mi-tiet-kiem": "2026-05-11",
+  "uon-mi-hay-noi-mi-nen-chon": "2026-05-09",
+  "mo-tiem-nail-can-chuan-bi-gi": "2026-05-06",
+  "nail-ombre-huong-dan-mau": "2026-05-03",
+  "huong-dan-dat-lich-halee-tram": "2026-05-01",
+};
+
+function defaultArticleFaqs(topic) {
+  return [
+    {
+      question: `${topic} — nên đặt lịch trước không?`,
+      answer:
+        "Nên đặt trước, đặc biệt cuối tuần. Gọi 0938 162 662 hoặc form website — Halee Trâm, 793/62 Trần Xuân Soạn, Quận 7.",
+    },
+    {
+      question: `Thời gian làm liên quan “${topic}” khoảng bao lâu?`,
+      answer:
+        "Uốn mi 45–60 phút, gel cơ bản 45–60 phút, nối mi classic/volume thường 90–150 phút. Chuyên viên báo cụ thể khi tư vấn.",
+    },
+    {
+      question: `Người lần đầu quan tâm “${topic}” nên bắt đầu thế nào?`,
+      answer:
+        "Halee Trâm tư vấn nhẹ – an toàn cho khách mới: chọn dáng phù hợp và hướng dẫn chăm sóc sau làm trước khi thực hiện.",
+    },
+  ];
+}
+
 const articlePages = [
   {
     slug: "noi-mi-classic-hay-volume",
@@ -423,7 +466,9 @@ function buildPageList() {
       title: a.title,
       description: a.description,
       h1: a.h1,
-      body: a.body,
+      body: `${a.body} Đặt lịch tại /lien-he hoặc gọi 0938 162 662.`,
+      date: ARTICLE_DATES[a.slug],
+      faqs: defaultArticleFaqs(a.h1.replace(/\?.*$/, "")),
       ogType: "article",
     });
   }
@@ -439,6 +484,8 @@ function buildPageList() {
         description: a.description,
         h1: a.h1,
         body: a.body,
+        date: a.date,
+        faqs: a.faqs,
         ogType: "article",
       });
     }
@@ -597,11 +644,27 @@ function buildJsonLd(page, canonical) {
       description: page.description,
       url: canonical,
       image: defaultOg,
+      datePublished: page.date || undefined,
+      dateModified: page.date || undefined,
       inLanguage: "vi-VN",
       isPartOf: { "@id": siteId },
       publisher: { "@id": orgId },
       mainEntityOfPage: canonical,
     });
+    if (Array.isArray(page.faqs) && page.faqs.length > 0) {
+      graphs.push({
+        "@type": "FAQPage",
+        "@id": `${canonical}#faq`,
+        mainEntity: page.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      });
+    }
   } else if (page.path.startsWith("/dao-tao/") && page.path !== "/dao-tao") {
     graphs.push({
       "@type": "Course",
@@ -642,6 +705,13 @@ function buildJsonLd(page, canonical) {
   });
 }
 
+function mdLinksToHtml(text) {
+  return escapeHtml(text).replace(
+    /\[([^\]]+)\]\((\/[^)]+)\)/g,
+    (_, label, href) => `<a href="${baseUrl}${href}">${label}</a>`,
+  );
+}
+
 function injectSeo(html, page) {
   const canonical = `${baseUrl}${page.path === "/" ? "/" : page.path}`;
   const ogType = page.ogType || "website";
@@ -650,6 +720,15 @@ function injectSeo(html, page) {
   const links = relatedLinks(page.path)
     .map((l) => `<li><a href="${baseUrl}${l.href}">${escapeHtml(l.label)}</a></li>`)
     .join("");
+  const faqHtml =
+    Array.isArray(page.faqs) && page.faqs.length
+      ? `<section aria-label="FAQ"><h2>Câu hỏi thường gặp</h2>${page.faqs
+          .map(
+            (f) =>
+              `<div><h3>${escapeHtml(f.question)}</h3><p>${escapeHtml(f.answer)}</p></div>`,
+          )
+          .join("")}</section>`
+      : "";
 
   let out = html
     .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(page.title)}</title>`)
@@ -676,19 +755,28 @@ function injectSeo(html, page) {
     `<meta property="og:image" content="${escapeHtml(defaultOg)}" />`,
     `<meta property="og:image:alt" content="${escapeHtml(page.h1)}" />`,
     `<meta property="og:locale" content="vi_VN" />`,
+    page.date && ogType === "article"
+      ? `<meta property="article:published_time" content="${escapeHtml(page.date)}" />`
+      : "",
+    page.date && ogType === "article"
+      ? `<meta property="article:modified_time" content="${escapeHtml(page.date)}" />`
+      : "",
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(page.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(page.description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(defaultOg)}" />`,
     `<script id="thk-json-ld" type="application/ld+json">${jsonLd}</script>`,
-  ].join("\n    ");
+  ]
+    .filter(Boolean)
+    .join("\n    ");
 
   out = out.replace(/<\/head>/i, `    ${tags}\n  </head>`);
 
   const ssr = `<main id="thk-ssr-content">
       <h1>${escapeHtml(page.h1)}</h1>
-      <p>${escapeHtml(longBody)}</p>
-      <p>${escapeHtml(page.body)}</p>
+      <p>${mdLinksToHtml(longBody || "")}</p>
+      <p>${mdLinksToHtml(page.body || "")}</p>
+      ${faqHtml}
       <p><strong>Địa chỉ:</strong> 793/62 Trần Xuân Soạn, Phường Tân Hưng, Quận 7, TP.HCM — <strong>Hotline:</strong> <a href="tel:0938162662">0938 162 662</a></p>
       <nav aria-label="Liên kết liên quan"><ul>${links}</ul></nav>
       <p><a href="${baseUrl}/lien-he">Đặt lịch Halee Trâm ngay</a></p>

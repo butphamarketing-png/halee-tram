@@ -53,7 +53,24 @@ export function BeautyHandbookSection({
   viewAllLabel,
   viewAllHref,
 }: BeautyHandbookSectionProps) {
-  const visible = articles.filter((a) => a.published).slice(0, 6);
+  /** Prefer one article per category so homepage links cover more money topics. */
+  const visible = (() => {
+    const published = articles.filter((a) => a.published);
+    const byCat = new Map<string, (typeof published)[0]>();
+    for (const a of published) {
+      if (!byCat.has(a.category)) byCat.set(a.category, a);
+      if (byCat.size >= 6) break;
+    }
+    const picked = [...byCat.values()];
+    if (picked.length < 6) {
+      for (const a of published) {
+        if (picked.some((p) => p.id === a.id)) continue;
+        picked.push(a);
+        if (picked.length >= 6) break;
+      }
+    }
+    return picked.slice(0, 6);
+  })();
 
   const viewAllButton = (
     <Link href={viewAllHref}>

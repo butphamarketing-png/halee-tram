@@ -414,12 +414,42 @@ export function resolveRouteSeo(path: string, content: SiteContent): PageSeoMeta
     };
   }
 
-  if (clean === "/tin-tuc" || clean === "/tin-tuc/kien-thuc" || clean === "/tin-tuc/tin-tuc") {
+  if (clean === "/tin-tuc") {
     const base = baseFromGlobal(global, clean);
     return {
       ...base,
       title: buildTitle("Tin tức & Kiến thức làm đẹp", global.siteName, sep),
-      description: pick("Cẩm nang nails, mi và mẹo chăm sóc từ Halee Trâm.", global.description),
+      description: pick(
+        "Cẩm nang nails, nối mi, uốn mi và đào tạo nghề từ Halee Trâm Quận 7 — mẹo chăm sóc và cập nhật xu hướng.",
+        global.description,
+      ),
+      keywords: pick("tin tức làm đẹp Quận 7, kiến thức nails, nối mi, Halee Trâm", global.keywords),
+    };
+  }
+
+  if (clean === "/tin-tuc/kien-thuc") {
+    const base = baseFromGlobal(global, clean);
+    return {
+      ...base,
+      title: buildTitle("Kiến thức làm đẹp", global.siteName, sep),
+      description: pick(
+        "Kiến thức chăm sóc nails, mi, chân mày và spa chân từ chuyên viên Halee Trâm Quận 7.",
+        global.description,
+      ),
+      keywords: pick("kiến thức làm đẹp, mẹo chăm sóc móng, chăm sóc mi nối", global.keywords),
+    };
+  }
+
+  if (clean === "/tin-tuc/tin-tuc") {
+    const base = baseFromGlobal(global, clean);
+    return {
+      ...base,
+      title: buildTitle("Tin tức Halee Trâm", global.siteName, sep),
+      description: pick(
+        "Tin tức và cập nhật dịch vụ, ưu đãi, sự kiện tại Halee Trâm Eyelash / Nail / Academy Quận 7.",
+        global.description,
+      ),
+      keywords: pick("tin tức Halee Trâm, salon Quận 7, ưu đãi nails nối mi", global.keywords),
     };
   }
 

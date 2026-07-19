@@ -39,6 +39,8 @@ export function collectSitemapEntries(content: SiteContent, baseUrl: string): Si
   add("/khach-hang", 0.8);
   add("/bang-gia", 0.8);
   add("/tin-tuc", 0.85);
+  add("/tin-tuc/kien-thuc", 0.8);
+  add("/tin-tuc/tin-tuc", 0.75);
   add("/lien-he", 0.85);
 
   for (const path of listEditableStaticPagePaths()) {
