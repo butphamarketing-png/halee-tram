@@ -41,8 +41,10 @@ const DEFAULT_SERVICE_PATHS = [
   "/dao-tao/khoa-hoc-uon-mi",
 ];
 
-/** Synced by scripts/generate-100-articles.mjs — originals + batch 100 */
-import { DEFAULT_ARTICLE_SLUGS } from "./article-slugs-fallback";type CmsServiceItem = {
+/** Synced by generate-100-local-q7.mjs — originals + batch 100 + batch 200 */
+import { DEFAULT_ARTICLE_SLUGS } from "./article-slugs-fallback";
+
+type CmsServiceItem = {
   slug?: string;
   label?: string;
   description?: string;

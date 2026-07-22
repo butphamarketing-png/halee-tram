@@ -1,6 +1,7 @@
-import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo-defaults";
 import type { ArticleFaq, ArticleSeo, SiteArticle } from "@/types/site-content";
 import { BATCH_100_ARTICLES } from "@/data/articles.batch-100";
+import { BATCH_200_ARTICLES } from "@/data/articles.batch-200";
 
 const publicAsset = (file: string) =>
   `${import.meta.env.BASE_URL}${encodeURI(file)}`.replace(/([^:]\/)\/+/g, "$1");
@@ -539,4 +540,5 @@ Kỹ thuật ombre gel cần sponge hoặc cọ chuyên dụng và lớp base m�
     "Kiến thức",
   ),
   ...BATCH_100_ARTICLES,
+  ...BATCH_200_ARTICLES,
 ];

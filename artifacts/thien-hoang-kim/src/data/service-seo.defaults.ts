@@ -1,5 +1,5 @@
 import type { ArticleSeo } from "@/types/site-content";
-import { DEFAULT_ARTICLE_SEO } from "@/lib/seo";
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo-defaults";
 
 /** Per-service SEO — keeps SPA resolveServiceSeo aligned with prerender meta */
 export const SERVICE_SEO_DEFAULTS: Record<string, Partial<ArticleSeo>> = {

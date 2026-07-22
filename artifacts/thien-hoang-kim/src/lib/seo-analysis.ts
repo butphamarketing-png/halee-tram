@@ -1,4 +1,4 @@
-import { SEO_DESCRIPTION_MAX, SEO_TITLE_MAX } from "@/lib/seo";
+import { SEO_DESCRIPTION_MAX, SEO_TITLE_MAX } from "@/lib/seo-defaults";
 
 export type SeoCheckStatus = "good" | "ok" | "bad";
 

@@ -1,9 +1,15 @@
 import { getPageContent, getServiceCatalog, getServiceItem } from "@/lib/site-cms";
 import { buildBreadcrumbs, buildJsonLdGraph, jsonLdScript, type SchemaContext } from "@/lib/seo-schema";
+import { DEFAULT_ARTICLE_SEO } from "@/lib/seo-defaults";
 import { getSiteBaseUrl } from "@/lib/seo-sitemap";
 import type { ArticleSeo, SiteArticle, SiteContent, SiteSeo } from "@/types/site-content";
 
 export type { SchemaContext } from "@/lib/seo-schema";
+export {
+  DEFAULT_ARTICLE_SEO,
+  SEO_DESCRIPTION_MAX,
+  SEO_TITLE_MAX,
+} from "@/lib/seo-defaults";
 
 export type PageSeoMeta = {
   title: string;
@@ -17,23 +23,6 @@ export type PageSeoMeta = {
   twitterCard: string;
   robots: string;
   canonical: string;
-};
-
-export const SEO_TITLE_MAX = 60;
-export const SEO_DESCRIPTION_MAX = 160;
-
-export const DEFAULT_ARTICLE_SEO: ArticleSeo = {
-  metaTitle: "",
-  metaDescription: "",
-  focusKeyphrase: "",
-  keywords: "",
-  canonicalUrl: "",
-  ogImage: "",
-  ogTitle: "",
-  ogDescription: "",
-  robots: "index,follow",
-  noindex: false,
-  nofollow: false,
 };
 
 export function buildRobotsDirective(seo: Pick<ArticleSeo, "noindex" | "nofollow" | "robots">, fallback: string) {
