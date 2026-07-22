@@ -493,6 +493,26 @@ function buildPageList() {
     console.warn("articles-batch-100.json missing — run generate-100-articles.mjs", err);
   }
 
+  // 100 bài SEO local ngắn Quận 7
+  try {
+    const batchPath = path.join(__dirname, "articles-batch-200.json");
+    const batch = JSON.parse(fs.readFileSync(batchPath, "utf8"));
+    for (const a of batch) {
+      pages.push({
+        path: `/tin-tuc/${a.slug}`,
+        title: a.title,
+        description: a.description,
+        h1: a.h1,
+        body: a.body,
+        date: a.date,
+        faqs: a.faqs,
+        ogType: "article",
+      });
+    }
+  } catch (err) {
+    console.warn("articles-batch-200.json missing — run generate-100-local-q7.mjs", err);
+  }
+
   return pages;
 }
 
@@ -844,4 +864,47 @@ for (const page of pages) {
   writePrerender(shellHtml, page);
 }
 
-console.log(`SEO prerender: ${pages.length} HTML pages + sitemap/robots → ${outDir}`);
+/** SPA shells for admin — Vercel cleanUrls needs real HTML files (rewrites to /index.html break). */
+const ADMIN_SPA_ROUTES = [
+  "",
+  "login",
+  "settings",
+  "home",
+  "navigation",
+  "services",
+  "pages",
+  "articles",
+  "doctors",
+  "testimonials",
+  "customers",
+  "price-list",
+  "process",
+  "bookings",
+  "media",
+  "footer",
+  "seo",
+  "account",
+  "lucky-wheel",
+];
+let adminShell = shellHtml.replace(/<title>[^<]*<\/title>/i, "<title>Admin | Halee Trâm</title>");
+if (/name=["']robots["']/i.test(adminShell)) {
+  adminShell = adminShell.replace(
+    /<meta\s+name=["']robots["'][^>]*>/i,
+    '<meta name="robots" content="noindex,nofollow" />',
+  );
+} else {
+  adminShell = adminShell.replace(
+    /<head[^>]*>/i,
+    (m) => `${m}\n    <meta name="robots" content="noindex,nofollow" />`,
+  );
+}
+
+for (const route of ADMIN_SPA_ROUTES) {
+  const dir = route ? path.join(outDir, "adminbp", route) : path.join(outDir, "adminbp");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "index.html"), adminShell, "utf8");
+}
+
+console.log(
+  `SEO prerender: ${pages.length} HTML pages + ${ADMIN_SPA_ROUTES.length} admin shells + sitemap/robots → ${outDir}`,
+);

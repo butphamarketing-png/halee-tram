@@ -21,8 +21,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.svg" },
-    { "source": "/adminbp", "destination": "/index.html" },
-    { "source": "/adminbp/(.*)", "destination": "/index.html" }
+    { "source": "/adminbp", "destination": "/" },
+    { "source": "/adminbp/:path*", "destination": "/" }
   ],
   "headers": [
     {
