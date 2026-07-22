@@ -23,6 +23,10 @@ import {
 import { getAdminToken } from "@/lib/admin-auth";
 import type { SiteContent } from "@/types/site-content";
 
+/** Splash tối đa — không giữ visitor vì Supabase/API chậm hoặc fail. */
+const SPLASH_MAX_MS = 900;
+const SPLASH_MIN_MS = 280;
+
 export function SiteContentProvider({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const isAdmin = isAdminLocation(location);
@@ -33,16 +37,34 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
+    const started = Date.now();
+
+    const finishSplash = () => {
+      if (!active) return;
+      const elapsed = Date.now() - started;
+      const wait = Math.max(0, SPLASH_MIN_MS - elapsed);
+      window.setTimeout(() => {
+        if (active) setLoading(false);
+      }, wait);
+    };
+
+    // Không bao giờ kẹt splash quá SPLASH_MAX_MS dù network treo
+    const maxTimer = window.setTimeout(() => {
+      if (active) setLoading(false);
+    }, SPLASH_MAX_MS);
+
     loadSiteContent({ preferLocal: isAdmin }).then((data) => {
-      if (active) {
-        setContent(data);
-        savedSnapshot.current = JSON.stringify(data);
-        setIsDirty(false);
-        setLoading(false);
-      }
+      if (!active) return;
+      setContent(data);
+      savedSnapshot.current = JSON.stringify(data);
+      setIsDirty(false);
+      window.clearTimeout(maxTimer);
+      finishSplash();
     });
+
     return () => {
       active = false;
+      window.clearTimeout(maxTimer);
     };
   }, [isAdmin]);
 

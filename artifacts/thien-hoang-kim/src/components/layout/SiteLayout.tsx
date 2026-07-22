@@ -42,8 +42,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       setShowContent(false);
       return;
     }
-    const timer = setTimeout(() => setShowContent(true), 350);
-    return () => clearTimeout(timer);
+    // Hiện nội dung ngay khi hết splash (không cộng thêm delay)
+    setShowContent(true);
   }, [loading]);
 
   useBookingWelcome(showContent && !loading);

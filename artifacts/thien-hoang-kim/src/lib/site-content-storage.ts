@@ -5,6 +5,33 @@ import type { PublishContentResult } from "@/context/site-content-store";
 import type { SiteContent } from "@/types/site-content";
 
 const STORAGE_KEY = "thk_site_content_v2";
+const FETCH_TIMEOUT_MS = 2500;
+
+async function fetchWithTimeout(input: string, init?: RequestInit): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(input, { ...init, signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<null>((resolve) => {
+        timer = setTimeout(() => resolve(null), ms);
+      }),
+    ]);
+  } catch {
+    return null;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
 
 export function loadContentFromStorage(): SiteContent | null {
   try {
@@ -27,7 +54,7 @@ export function clearContentStorage(): void {
 export async function fetchPublishedContent(): Promise<SiteContent | null> {
   try {
     const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-    const res = await fetch(`${base}/api/admin/content`, { cache: "no-store" });
+    const res = await fetchWithTimeout(`${base}/api/admin/content`, { cache: "no-store" });
     if (!res.ok) return null;
     const data = (await res.json()) as Partial<SiteContent> | null;
     if (!data || !data.version) return null;
@@ -43,7 +70,7 @@ export async function loadSiteContent(options?: { preferLocal?: boolean }): Prom
     if (stored) return stored;
   }
 
-  const fromSupabase = await fetchContentFromSupabase();
+  const fromSupabase = await withTimeout(fetchContentFromSupabase(), FETCH_TIMEOUT_MS);
   if (fromSupabase) return fromSupabase;
 
   const fromApi = await fetchPublishedContent();
@@ -51,7 +78,7 @@ export async function loadSiteContent(options?: { preferLocal?: boolean }): Prom
 
   try {
     const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-    const res = await fetch(`${base}/data/site-content.json`, { cache: "no-store" });
+    const res = await fetchWithTimeout(`${base}/data/site-content.json`, { cache: "no-store" });
     if (res.ok) {
       const data = (await res.json()) as Partial<SiteContent>;
       if (data.version && data.settings) return mergeSiteContent(data);
